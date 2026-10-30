@@ -1,0 +1,122 @@
+{
+  "metadata": {
+    "camera_contract": {
+      "version": "3.0",
+      "fixed": [
+        "workspace_oblique",
+        "workspace_top",
+        "room_overview"
+      ],
+      "mounted": "query get_camera_specs(); only physical embodiment sensors",
+      "observation_key": "images",
+      "default_resolution": [
+        640,
+        480
+      ],
+      "room_and_debug_opt_in": true,
+      "policy_cameras": [
+        "robot0_head_camera",
+        "robot0_wrist_right",
+        "robot0_wrist_left"
+      ],
+      "policy_mounting": "robot_main_and_wrists"
+    },
+    "geometry_version": "2.1",
+    "default_robot": "mobile_dual_piperx",
+    "score_max": 100
+  },
+  "api_version": "2.0",
+  "task_id": "laptop_into_drawer",
+  "task_version": "2.2",
+  "task_type": "one_shot",
+  "required_arms": 1,
+  "required_gripper": "parallel",
+  "supported_robots": [
+    "mobile_dual_piperx"
+  ],
+  "horizon_sec": 120,
+  "control_hz": 20,
+  "success": {
+    "min_occupancy": 0,
+    "max_failures": null,
+    "require_terminal_success": true
+  },
+  "observation": {
+    "modalities": [
+      "proprio",
+      "visual",
+      "geometry"
+    ],
+    "default_policy_view": [
+      "proprio",
+      "visual"
+    ],
+    "geometry_view": "internal",
+    "fields": {
+      "proprio": [
+        "joint_pos",
+        "joint_vel",
+        "eef_pose",
+        "gripper_state"
+      ],
+      "visual": [
+        "robot0_head_camera",
+        "robot0_wrist_right",
+        "robot0_wrist_left"
+      ],
+      "geometry": [
+        "laptop.pose",
+        "drawer.slide_position",
+        "drawer.inner_bounds",
+        "handle.pose",
+        "eef_to_handle",
+        "laptop_to_drawer"
+      ]
+    },
+    "visibility": {
+      "policy": "proprio+visual",
+      "oracle": "all",
+      "benchmark_log": "all"
+    }
+  },
+  "action": {
+    "type": "eef_delta",
+    "shape": [
+      7
+    ],
+    "bounds": [
+      -1,
+      1
+    ],
+    "frame": "world",
+    "fields": [
+      "position_delta_3d",
+      "rotation_delta_3d",
+      "gripper"
+    ]
+  },
+  "feedback": {
+    "events": [
+      "handle_contact",
+      "drawer_started_moving",
+      "grasp",
+      "drop",
+      "task_success"
+    ],
+    "success_signals": [
+      "success_state",
+      "terminal_success"
+    ],
+    "fields": [
+      "accepted_action",
+      "ik_status",
+      "contacts",
+      "peak_force_N",
+      "failure_reason",
+      "total_score"
+    ]
+  },
+  "evaluation": {
+    "config": "evaluation.json"
+  }
+}

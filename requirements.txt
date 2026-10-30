@@ -1,0 +1,33 @@
+# ReAct-Manip complete environment dependencies. Use Python 3.10.
+# One command installs simulation, asset builders, visualization, Pygame,
+# and the optional HarnessVLA API adapter:
+#   python -m pip install -r requirements.txt
+
+# Core simulator runtime.
+numpy==1.26.4
+mujoco==3.3.1
+robosuite==1.5.2
+scipy==1.15.3
+numba==0.67.0
+
+# Robot and scene asset builders.
+trimesh==5.1.1
+pycollada==0.9.3
+lxml==6.1.3
+python-dateutil==2.9.0.post0
+six==1.17.0
+coacd==1.0.7
+rtree==1.4.1
+networkx==3.4.2
+
+# Pygame/manual control and evaluation video output.
+pygame==2.6.1
+imageio==2.37.2
+imageio-ffmpeg==0.6.0
+
+# YAML specs and HarnessVLA API adapter.
+PyYAML
+jsonschema
+pydantic-ai-slim[anthropic,openai,cli]==2.53.0
+pydantic-ai-harness==0.53.0
+tomli; python_version < '3.11'

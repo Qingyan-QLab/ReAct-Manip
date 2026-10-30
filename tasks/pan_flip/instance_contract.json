@@ -1,0 +1,185 @@
+{
+  "schema_version": "cl-manip.instance-contract.v1",
+  "status": "pilot",
+  "robot_id": "piperx",
+  "time": {
+    "clock": "synchronous_simulation",
+    "policy_wait_advances_physics": false
+  },
+  "observation": {
+    "public": [
+      "proprio",
+      "visual",
+      "current_instruction",
+      "task_feedback"
+    ],
+    "private": [
+      "resolved_parameters",
+      "initial_state_file",
+      "future_round_plan"
+    ]
+  },
+  "action": {
+    "frame": "world",
+    "bounds": [
+      -1,
+      1
+    ],
+    "layout": "runtime.action_layout",
+    "invalid_action": "invalid_run",
+    "left_arm": "not_present",
+    "layout_note": "piperx has 7 arm/gripper controls; runtime.action_layout is authoritative."
+  },
+  "reset": {
+    "format": "mujoco.integration.v1",
+    "time": 0,
+    "task_counters": "zero",
+    "initialization_noise": null,
+    "state_restore_during_step": false,
+    "variation": "none; seed is provenance only, not a reset randomization input",
+    "round_plan": null
+  },
+  "evaluation": {
+    "practice": 10,
+    "exam": 5,
+    "primary": "mean_exam_task_score",
+    "invalid": "abort_group_without_official_score",
+    "exam_adaptation": "online",
+    "score_key": "total_score"
+  },
+  "task_id": "pan_flip",
+  "contract_version": "1.0",
+  "control_hz": 50,
+  "horizon_sec": 10,
+  "ownership": {
+    "spec": [
+      "fixed tool attachment; single rigid pie face A up; pan radius .15, friction .45, pie start XY(.065,0)",
+      "50Hz/10s; fixed robot initialization, sampling domains and scoring/contact rules"
+    ],
+    "task_instance": [
+      "pie.radius_m/thickness_m/mass_kg/mass_uniformity/density_direction_deg",
+      "pan.handle_length_m/grip_fraction/mass_kg",
+      "room textures and lighting"
+    ],
+    "derived": [
+      "pie center of mass and inertia from linear in-plane density; COM offset=(1-u)*R/4",
+      "pan COM/inertia and tool mounting geometry from handle length/grip fraction/mass"
+    ],
+    "episode_instance": [
+      "episode_id; same integration initial state for15 episodes; round_plan=null"
+    ]
+  },
+  "rules": {
+    "armed": "continuous bottom support>=.10s latches armed",
+    "airborne": "optional process milestone: armed, no pan contact>=.04s and lowest-envelope clearance>=.015; save initial separation position/velocity when observed",
+    "flip": "after armed, the pie's world face-A normal crosses Z<-.5; pan contact is permitted and airborne flight is optional",
+    "landed": "pan bottom support after the face transition; rim contact alone is not stable support",
+    "stable": "armed and flipped, bottom contact, radial center distance+pie radius<=pan radius-.003; pan-frame faceA Z<-cos20deg; world pan-normal Z>cos20deg; abs(envelope clearance)<.004; relative linear speed<.08 and angular speed<.5; continuous .5s else timer resets",
+    "contact": "pie contacts counted at distance<=.0005; non-exempt moving robot/tool collisions only at distance<-.0001; preserve fixed handle/gripper and wheel-floor exemptions",
+    "failure": "foreign pie contact; non-exempt robot/tool collision; pie worldZ<.15 or norm(pie center in pan)>1.5; nonfinite state invalid in unified evaluation",
+    "score": "100 iff success else0; single pie_flipped_and_settled then terminate; milestones do not score; timeout500 steps/10s; last-step success takes precedence",
+    "profiles": "formal sampling profile_default, not fixed demonstration profile_reference",
+    "feasibility": "no grasp/tool attachment or ALOHA flip demonstration recertification"
+  },
+  "sampling_profile": {
+    "schema_version": "1.0",
+    "profile_id": "default",
+    "task_id": "pan_flip",
+    "fixed": {
+      "pan": {
+        "radius_m": 0.15
+      },
+      "pie": {
+        "start_xy_m": [
+          0.065,
+          0
+        ]
+      },
+      "contact": {
+        "friction": 0.45
+      }
+    },
+    "appearance": {
+      "room.floor_texture": {
+        "distribution": "choice",
+        "values": [
+          "oak-wood-realistic",
+          "ceramic-realistic",
+          "concrete-realistic"
+        ]
+      },
+      "room.wall_texture": {
+        "distribution": "choice",
+        "values": [
+          "cream-plaster-realistic",
+          "white-brick-realistic"
+        ]
+      }
+    },
+    "runtime": {
+      "lighting.layout": {
+        "distribution": "choice",
+        "values": [
+          "overcast",
+          "warm_indoor",
+          "daylight_side"
+        ]
+      },
+      "lighting.intensity_scale": {
+        "distribution": "uniform",
+        "low": 0.8,
+        "high": 1.2
+      },
+      "lighting.azimuth_deg": {
+        "distribution": "uniform",
+        "low": -30,
+        "high": 30
+      }
+    },
+    "geometry": {
+      "pie.radius_m": {
+        "distribution": "uniform",
+        "low": 0.05,
+        "high": 0.07
+      },
+      "pie.thickness_m": {
+        "distribution": "uniform",
+        "low": 0.014,
+        "high": 0.022
+      },
+      "pan.handle_length_m": {
+        "distribution": "uniform",
+        "low": 0.14,
+        "high": 0.2
+      },
+      "pan.grip_fraction": {
+        "distribution": "uniform",
+        "low": 0.5,
+        "high": 0.75
+      }
+    },
+    "physics": {
+      "pie.mass_kg": {
+        "distribution": "uniform",
+        "low": 0.05,
+        "high": 0.12
+      },
+      "pie.mass_uniformity": {
+        "distribution": "uniform",
+        "low": 0.3,
+        "high": 1.0
+      },
+      "pie.density_direction_deg": {
+        "distribution": "uniform",
+        "low": 0.0,
+        "high": 360.0
+      },
+      "pan.mass_kg": {
+        "distribution": "uniform",
+        "low": 0.25,
+        "high": 0.45
+      }
+    }
+  },
+  "publication_status": "development_only"
+}

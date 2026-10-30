@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0",
+  "source": {
+    "name": "Google Scanned Objects via Gazebo Fuel",
+    "catalog_url": "https://fuel.gazebosim.org/1.0/GoogleResearch/models",
+    "download_url_template": "https://fuel.gazebosim.org/1.0/GoogleResearch/models/{asset_id}/tip/{asset_id}.zip",
+    "license": "Creative Commons Attribution 4.0 International",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "copyright": "Copyright 2020 Google LLC. Individual archives include metadata.pbtxt and model.sdf attribution."
+  },
+  "categories": {
+    "footwear": [
+      "Womens_Teva_Capistrano_Bootie_ldjRT9yZ5Ht",
+      "Womens_Hikerfish_Boot_in_Linen_Leather_Sparkle_Suede_imlP8VkwqIH",
+      "Reef_Star_Cushion_Flipflops_Size_8_Black",
+      "REEF_ZENFUN",
+      "REEF_BRAIDED_CUSHION",
+      "REEF_BANTU",
+      "adizero_F50_TRX_FG_LEA",
+      "adizero_5Tool_25",
+      "adistar_boost_m",
+      "ZigKick_Hoops"
+    ],
+    "drinkware": [
+      "Utana_5_Porcelain_Ramekin_Large",
+      "Top_Paw_Dog_Bowl_Blue_Paw_Bone_Ceramic_25_fl_oz_total",
+      "Threshold_Ramekin_White_Porcelain",
+      "Threshold_Porcelain_Serving_Bowl_Coupe_White",
+      "Threshold_Porcelain_Coffee_Mug_All_Over_Bead_White",
+      "Threshold_Bead_Cereal_Bowl_White",
+      "Sea_to_Summit_Xl_Bowl",
+      "Room_Essentials_Mug_White_Yellow",
+      "Room_Essentials_Bowl_Turquiose",
+      "Cole_Hardware_Mug_Classic_Blue"
+    ],
+    "electronics": [
+      "Razer_Taipan_White_Ambidextrous_Gaming_Mouse",
+      "Razer_Naga_MMO_Gaming_Mouse",
+      "Razer_Kraken_Pro_headset_Full_size_Black",
+      "Razer_Blackwidow_Tournament_Edition_Keyboard",
+      "Kanex_MultiSync_Wireless_Keyboard",
+      "Logitech_Ultimate_Ears_Boom_Wireless_Speaker_Night_Black",
+      "JBL_Charge_Speaker_portable_wireless_wired_Green",
+      "Deskstar_Desk_Top_Hard_Drive_1_TB",
+      "Crosley_Alarm_Clock_Vintage_Metal",
+      "Gigabyte_GA78LMTUSB3_50_Motherboard_Micro_ATX_Socket_AM3"
+    ],
+    "toys": [
+      "Vtech_Cruise_Learn_Car_25_Years",
+      "Toysmith_Windem_Up_Flippin_Animals_Dog",
+      "Schleich_Spinosaurus_Action_Figure",
+      "Schleich_Lion_Action_Figure",
+      "Great_Dinos_Triceratops_Toy",
+      "FARM_ANIMAL_9GyfdcPyESK",
+      "Android_Lego",
+      "Android_Figure_Panda",
+      "Nintendo_Yoshi_Action_Figure",
+      "Nintendo_Mario_Action_Figure"
+    ],
+    "kitchen_tools": [
+      "Progressive_Rubber_Spatulas_3_count",
+      "OXO_Soft_Works_Can_Opener_SnapLock",
+      "OXO_Cookie_Spatula",
+      "Nordic_Ware_Original_Bundt_Pan",
+      "Focus_8643_Lime_Squeezer_10x35x188_Enamelled_Aluminum_Light",
+      "Diamond_Visions_Scissors_Red",
+      "Craftsman_Grip_Screwdriver_Phillips_Cushion",
+      "Cole_Hardware_Hammer_Black",
+      "Cole_Hardware_Mini_Honey_Dipper",
+      "Aroma_Stainless_Steel_Milk_Frother_2_Cup"
+    ],
+    "office_supplies": [
+      "Victor_Reversible_Bookend",
+      "Poppin_File_Sorter_White",
+      "Poppin_File_Sorter_Pink",
+      "Poppin_File_Sorter_Blue",
+      "Markings_Letter_Holder",
+      "Markings_Desk_Caddy",
+      "Magnifying_Glassassrt",
+      "Shurtape_Tape_Purple_CP28",
+      "Brother_Printing_Cartridge_PC501",
+      "Design_Ideas_Drawer_Store_Organizer"
+    ],
+    "personal_care": [
+      "Remington_TStudio_Hair_Dryer",
+      "Circo_Fish_Toothbrush_Holder_14995988",
+      "Perricone_MD_Vitamin_C_Ester_Serum",
+      "Perricone_MD_The_Crease_Cure_Duo",
+      "Perricone_MD_The_Cold_Plasma_Face_Eyes_Duo",
+      "Perricone_MD_Nutritive_Cleanser",
+      "Perricone_MD_No_Mascara_Mascara",
+      "Perricone_MD_No_Lipstick_Lipstick",
+      "Perricone_MD_Photo_Plasma",
+      "Perricone_MD_Face_Finishing_Moisturizer"
+    ],
+    "planters": [
+      "Sapota_Threshold_4_Ceramic_Round_Planter_Red",
+      "Down_To_Earth_Orchid_Pot_Ceramic_Red",
+      "Down_To_Earth_Orchid_Pot_Ceramic_Lime",
+      "Ecoforms_Planter_Pot_QP6Ebony",
+      "Ecoforms_Plant_Pot_GP9_SAND",
+      "Ecoforms_Plant_Pot_GP9AAvocado",
+      "Ecoforms_Plant_Container_Urn_55_Mocha",
+      "Ecoforms_Plant_Container_Urn_55_Avocado",
+      "Ecoforms_Plant_Container_QP6CORAL",
+      "Central_Garden_Flower_Pot_Goo_425"
+    ]
+  }
+}

@@ -1,0 +1,245 @@
+{
+  "schema_version": "cl-manip.instance-contract.v1",
+  "status": "pilot",
+  "robot_id": "mobile_dual_piperx",
+  "time": {
+    "clock": "synchronous_simulation",
+    "policy_wait_advances_physics": false
+  },
+  "observation": {
+    "public": [
+      "proprio",
+      "visual",
+      "current_instruction",
+      "task_feedback"
+    ],
+    "private": [
+      "resolved_parameters",
+      "initial_state_file",
+      "future_round_plan"
+    ]
+  },
+  "action": {
+    "frame": "world",
+    "bounds": [
+      -1,
+      1
+    ],
+    "layout": "runtime.action_layout",
+    "invalid_action": "invalid_run",
+    "left_arm": "allowed_by_existing_task_controller",
+    "layout_note": "mobile_dual_piperx has 14 arm/gripper controls; runtime.action_layout is authoritative."
+  },
+  "reset": {
+    "format": "mujoco.integration.v1",
+    "time": 0,
+    "task_counters": "zero",
+    "initialization_noise": null,
+    "state_restore_during_step": false,
+    "variation": "laptop XY and yaw only",
+    "round_plan": null
+  },
+  "evaluation": {
+    "practice": 10,
+    "exam": 5,
+    "primary": "mean_exam_task_score",
+    "invalid": "abort_group_without_official_score",
+    "exam_adaptation": "online",
+    "score_key": "total_score"
+  },
+  "task_id": "laptop_into_drawer",
+  "contract_version": "1.0",
+  "control_hz": 20,
+  "horizon_sec": 120,
+  "ownership": {
+    "spec": [
+      "task geometry constraints, scoring and deadline; fixed ALOHA initialization"
+    ],
+    "task_instance": [
+      "all resolved sampling_profile parameters"
+    ],
+    "episode_instance": [
+      "x U[.24,.29], y U[-.13,.13], yaw U[-pi,pi]; z from dimensions and desk; explicit scene + integration state"
+    ],
+    "derived": []
+  },
+  "rules": {
+    "score": "100 iff task_success, else0; 120s; unchanged closed/contained/released/stable .5s predicate"
+  },
+  "sampling_profile": {
+    "schema_version": "1.0",
+    "profile_id": "laptop_constrained_opening_v2_1_lightweight_roomier",
+    "task_id": "laptop_into_drawer",
+    "fixed": {
+      "room.size_m": [
+        10,
+        10,
+        3.2
+      ],
+      "physics.gravity_m_s2": [
+        0,
+        0,
+        -9.81
+      ],
+      "appearance.palette": "light_lab",
+      "lighting.layout": "ceiling_pair"
+    },
+    "geometry": {
+      "drawer.width_m": {
+        "distribution": "uniform",
+        "low": 0.375,
+        "high": 0.475
+      },
+      "drawer.depth_m": {
+        "distribution": "uniform",
+        "low": 0.315,
+        "high": 0.415
+      },
+      "drawer.height_m": {
+        "distribution": "uniform",
+        "low": 0.09,
+        "high": 0.13
+      },
+      "drawer.opening_ratio": {
+        "distribution": "choice",
+        "values": [
+          1.04,
+          0.98,
+          0.94
+        ]
+      },
+      "laptop.width_gap_m": {
+        "distribution": "uniform",
+        "low": 0.05,
+        "high": 0.07
+      },
+      "laptop.depth_gap_m": {
+        "distribution": "uniform",
+        "low": 0.05,
+        "high": 0.07
+      },
+      "laptop.thickness_m": {
+        "distribution": "uniform",
+        "low": 0.026,
+        "high": 0.034
+      },
+      "laptop.mass_kg": {
+        "distribution": "uniform",
+        "low": 0.35,
+        "high": 0.65
+      }
+    },
+    "physics": {
+      "drawer.slide_friction_n": {
+        "distribution": "uniform",
+        "low": 0.08,
+        "high": 0.12
+      }
+    },
+    "appearance": {
+      "room.floor_texture": {
+        "distribution": "choice",
+        "values": [
+          "light-gray-floor-tile",
+          "wood-tiles",
+          "light-wood-parquet",
+          "dark-wood-parquet",
+          "slate-stone",
+          "sandstone",
+          "terrazzo",
+          "rubber-mat",
+          "blue-carpet",
+          "cream-linoleum",
+          "realistic-tiles",
+          "realistic-wood",
+          "oak-wood-realistic",
+          "walnut-wood-realistic",
+          "gray-woodgrain-realistic",
+          "varnished-wood-realistic",
+          "ceramic-realistic",
+          "concrete-realistic",
+          "gray-carpet-realistic"
+        ]
+      },
+      "room.wall_texture": {
+        "distribution": "choice",
+        "values": [
+          "white-plaster",
+          "cool-white-paint",
+          "gray-plaster",
+          "industrial-concrete",
+          "blue-plaster",
+          "sage-plaster",
+          "warm-plaster",
+          "sand-plaster",
+          "muted-yellow-paint",
+          "soft-pink-paint",
+          "brick-accent",
+          "realistic-tile-wall",
+          "realistic-wood-panel",
+          "white-brick-realistic",
+          "cream-plaster-realistic",
+          "concrete-realistic"
+        ]
+      },
+      "desk.texture": {
+        "distribution": "choice",
+        "values": [
+          "light-wood",
+          "dark-wood",
+          "maple-wood",
+          "walnut-wood",
+          "white-laminate",
+          "black-laminate",
+          "brushed-metal",
+          "oak-wood-realistic",
+          "walnut-wood-realistic",
+          "gray-woodgrain-realistic",
+          "varnished-wood-realistic",
+          "brushed-steel-realistic"
+        ]
+      },
+      "drawer.texture": {
+        "distribution": "choice",
+        "values": [
+          "drawer-light-metal",
+          "drawer-dark-metal",
+          "drawer-white-laminate",
+          "drawer-blue-metal",
+          "drawer-walnut",
+          "brushed-metal",
+          "scratched-steel-realistic",
+          "walnut-wood-realistic"
+        ]
+      }
+    },
+    "runtime": {
+      "lighting.layout": {
+        "distribution": "choice",
+        "values": [
+          "overcast",
+          "warm_indoor",
+          "daylight_side",
+          "cool_office",
+          "hard_sun",
+          "backlit",
+          "mixed_daylight"
+        ]
+      },
+      "lighting.intensity_scale": {
+        "distribution": "uniform",
+        "low": 0.8,
+        "high": 1.6
+      },
+      "lighting.azimuth_deg": {
+        "distribution": "uniform",
+        "low": -180,
+        "high": 180
+      }
+    },
+    "assets": {
+      "texture_source": "ambientCG-CC0+robosuite-1.5.2"
+    }
+  },
+  "publication_status": "development_only"
+}

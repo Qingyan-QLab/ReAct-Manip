@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "turntable_gamble1_v3_push_coast",
+  "task_id": "turntable_gamble1",
+  "fixed": {
+    "turntable": {
+      "sector_count": 16,
+      "score_values": [
+        0,
+        8,
+        12,
+        20,
+        32,
+        48,
+        80,
+        100,
+        80,
+        48,
+        32,
+        20,
+        12,
+        8,
+        8,
+        4
+      ],
+      "success_score": 100
+    },
+    "task": {
+      "required_action": "push_handle_then_release",
+      "success": "released free coast of at least 60 degrees, then settled on 100",
+      "minimum_free_coast_deg": 60.0,
+      "minimum_free_coast_sec": 1.0,
+      "scoring_mode": "single_settlement_per_episode",
+      "timeout_score": 0
+    },
+    "controller": {
+      "translation_delta_max_m": 0.06,
+      "rotation_delta_max_rad": 0.08
+    }
+  },
+  "physics": {
+    "turntable.inertia": {
+      "distribution": "uniform",
+      "low": 0.08,
+      "high": 0.15
+    },
+    "turntable.frictionloss": {
+      "distribution": "uniform",
+      "low": 0.002,
+      "high": 0.004
+    },
+    "turntable.damping": {
+      "distribution": "uniform",
+      "low": 0.002,
+      "high": 0.004
+    }
+  },
+  "geometry": {
+    "turntable.radius_m": {
+      "distribution": "uniform",
+      "low": 0.42,
+      "high": 0.45
+    }
+  },
+  "assets": {
+    "scene": "tasks/turntable_gamble1/assets/turntable_gamble_arena.xml",
+    "asset_version": "turntable_gamble1_runtime_v3"
+  },
+  "implementation_status": {
+    "runtime_profile_loaded": true,
+    "random_draws": [
+      "base_inertia",
+      "frictionloss",
+      "damping",
+      "turntable.radius_m",
+      "initial_score",
+      "initial_sector",
+      "initial_sector_fraction"
+    ],
+    "note": "Initial sector depends on selected score. Geometry uses uniform XY scale. Actual inertia = base inertia * scale squared. Score ring rotates; pointer starts facing unchanged arm."
+  },
+  "initialization": {
+    "pointer_angle_rad": -1.5707963267948966,
+    "allowed_scores": [
+      0,
+      4,
+      8,
+      12
+    ],
+    "sector_fraction_range": [
+      0.2,
+      0.8
+    ],
+    "selection": "uniform score, then uniform matching sector, then uniform position within sector"
+  }
+}

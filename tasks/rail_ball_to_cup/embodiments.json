@@ -1,0 +1,470 @@
+{
+  "panda": {},
+  "sawyer": {
+    "base_pos": [
+      -0.12,
+      -0.18,
+      0
+    ],
+    "controller": {
+      "grasp_tolerance": 0.015,
+      "close_seconds": 1.0,
+      "position_limit": 0.05,
+      "rotation_limit": 0.05,
+      "clearance": 0.15,
+      "grasp_orientation": [
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          -1
+        ]
+      ],
+      "place_orientation": [
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          -1
+        ]
+      ],
+      "position_gain": 3.0,
+      "track_ball": true,
+      "place_tolerance": 0.008
+    },
+    "init_qpos": [
+      0.12010809941164977,
+      -0.18510243271296556,
+      0.522123028381569,
+      0.7708151814263705,
+      -0.5854563689543598,
+      1.0910475173495258,
+      -0.8737005895921737
+    ],
+    "grasp_condim": 6
+  },
+  "piperx": {
+    "base_pos": [
+      0.1,
+      0,
+      0
+    ],
+    "release_x": 0.40,
+    "controller": {
+      "grasp_orientation": [
+        [
+          0.0,
+          0.573576436351046,
+          0.8191520442889919
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.8191520442889919,
+          -0.573576436351046
+        ]
+      ],
+      "grasp_offset": [
+        0,
+        0.0,
+        0
+      ],
+      "place_orientation": [
+        [0.0, 0.573576436351046, 0.8191520442889919],
+        [1.0, 0.0, 0.0],
+        [0.0, 0.8191520442889919, -0.573576436351046]
+      ],
+      "lift_target": [
+        0.48,
+        0.22,
+        1.1
+      ],
+      "clearance": 0.1,
+      "close_seconds": 1.0,
+      "grasp_tolerance": 0.01,
+      "position_limit": 0.05,
+      "rotation_limit": 0.08,
+      "retreat_axis": [
+        0,
+        0,
+        1
+      ],
+      "lift_tolerance": 0.02,
+      "position_gain": 3.0,
+      "track_ball": true,
+      "place_tolerance": 0.012,
+      "place_clearance": 0.004,
+      "release_x": 0.40
+    },
+    "grasp_condim": 6
+  },
+  "dual_piperx": {
+    "base_pos": [
+      -0.13875,
+      0.3,
+      0
+    ],
+    "controller": {
+      "grasp_orientation": [
+        [
+          0.0,
+          0.573576436351046,
+          0.8191520442889919
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.8191520442889919,
+          -0.573576436351046
+        ]
+      ],
+      "grasp_offset": [
+        0,
+        -0.045,
+        0
+      ],
+      "place_orientation": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ]
+      ],
+      "lift_target": [
+        0.48,
+        0.22,
+        1.1
+      ],
+      "clearance": 0.1,
+      "close_seconds": 1.0,
+      "grasp_tolerance": 0.01,
+      "position_limit": 0.05,
+      "rotation_limit": 0.08,
+      "retreat_axis": [
+        0,
+        0,
+        1
+      ],
+      "lift_tolerance": 0.02,
+      "position_gain": 3.0,
+      "track_ball": true,
+      "place_tolerance": 0.006,
+      "place_clearance": 0.023
+    },
+    "grasp_condim": 6,
+    "release_x": 0.34
+  },
+  "mobile_dual_piperx": {
+    "base_pos": [
+      -0.13875,
+      0.3,
+      0
+    ],
+    "controller": {
+      "grasp_orientation": [
+        [
+          0.0,
+          0.573576436351046,
+          0.8191520442889919
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.8191520442889919,
+          -0.573576436351046
+        ]
+      ],
+      "grasp_offset": [
+        0,
+        -0.045,
+        0
+      ],
+      "place_orientation": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ]
+      ],
+      "lift_target": [
+        0.48,
+        0.22,
+        1.1
+      ],
+      "clearance": 0.1,
+      "close_seconds": 1.0,
+      "grasp_tolerance": 0.021,
+      "position_limit": 0.05,
+      "rotation_limit": 0.08,
+      "retreat_axis": [
+        0,
+        0,
+        1
+      ],
+      "lift_tolerance": 0.02,
+      "position_gain": 3.0
+    },
+    "grasp_condim": 6
+  },
+  "legacy_piperx": {
+    "base_pos": [
+      0.1,
+      0,
+      0
+    ],
+    "controller": {
+      "grasp_orientation": [
+        [
+          0.0,
+          0.573576436351046,
+          0.8191520442889919
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.8191520442889919,
+          -0.573576436351046
+        ]
+      ],
+      "grasp_offset": [
+        0,
+        -0.045,
+        0
+      ],
+      "place_orientation": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ]
+      ],
+      "lift_target": [
+        0.48,
+        0.22,
+        1.1
+      ],
+      "clearance": 0.1,
+      "close_seconds": 1.0,
+      "grasp_tolerance": 0.01,
+      "position_limit": 0.05,
+      "rotation_limit": 0.08,
+      "retreat_axis": [
+        0,
+        0,
+        1
+      ],
+      "lift_tolerance": 0.02,
+      "position_gain": 3.0
+    },
+    "init_qpos": [
+      0.5737731363429762,
+      2.2868715082427773,
+      -1.451041575170631,
+      -1.6783494102881182,
+      0.4636505950605262,
+      2.045930706616096
+    ],
+    "grasp_condim": 6
+  },
+  "aloha": {
+    "base_pos": [
+      -0.13875,
+      0.3,
+      0
+    ],
+    "controller": {
+      "grasp_orientation": [
+        [
+          0.0,
+          0.573576436351046,
+          0.8191520442889919
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.8191520442889919,
+          -0.573576436351046
+        ]
+      ],
+      "grasp_offset": [
+        0,
+        -0.045,
+        0
+      ],
+      "place_orientation": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ]
+      ],
+      "lift_target": [
+        0.48,
+        0.22,
+        1.1
+      ],
+      "clearance": 0.1,
+      "close_seconds": 1.0,
+      "grasp_tolerance": 0.01,
+      "position_limit": 0.05,
+      "rotation_limit": 0.08,
+      "retreat_axis": [
+        0,
+        0,
+        1
+      ],
+      "lift_tolerance": 0.02,
+      "position_gain": 3.0,
+      "track_ball": true,
+      "place_tolerance": 0.006,
+      "place_clearance": 0.023
+    },
+    "grasp_condim": 6,
+    "release_x": 0.34
+  },
+  "aloha_mobile": {
+    "base_pos": [
+      -0.13875,
+      0.3,
+      0
+    ],
+    "controller": {
+      "grasp_orientation": [
+        [
+          0.0,
+          0.573576436351046,
+          0.8191520442889919
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.8191520442889919,
+          -0.573576436351046
+        ]
+      ],
+      "grasp_offset": [
+        0,
+        -0.045,
+        0
+      ],
+      "place_orientation": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ]
+      ],
+      "lift_target": [
+        0.48,
+        0.22,
+        1.1
+      ],
+      "clearance": 0.1,
+      "close_seconds": 1.0,
+      "grasp_tolerance": 0.021,
+      "position_limit": 0.05,
+      "rotation_limit": 0.08,
+      "retreat_axis": [
+        0,
+        0,
+        1
+      ],
+      "lift_tolerance": 0.02,
+      "position_gain": 3.0
+    },
+    "grasp_condim": 6
+  },
+  "panda_libero": {}
+}

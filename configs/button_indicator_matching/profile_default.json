@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "button_indicator_matching_default",
+  "task_id": "button_indicator_matching",
+  "fixed": {"button_count": 4, "label_mode": "numeric"},
+  "geometry": {
+    "button_count": {"distribution": "choice", "values": [3, 4, 5, 6]},
+    "label_mode": {"distribution": "choice", "values": ["numeric", "letters", "colors"]}
+  },
+  "appearance": {
+    "room.floor_texture": {"distribution": "choice", "values": ["light-gray-floor-tile", "oak-wood-realistic", "ceramic-realistic", "gray-carpet-realistic", "walnut-wood-realistic"]},
+    "room.wall_texture": {"distribution": "choice", "values": ["white-plaster", "cool-white-paint", "gray-plaster", "brick-accent", "cream-plaster-realistic"]},
+    "desk.texture": {"distribution": "choice", "values": ["oak-wood-realistic", "walnut-wood-realistic", "gray-woodgrain-realistic", "varnished-wood-realistic", "white-laminate", "brushed-steel-realistic"]},
+    "button.style": {"distribution": "choice", "values": ["round", "mushroom", "square", "dome"]},
+    "button.material": {"distribution": "choice", "values": ["black_rubber", "blue_polymer", "red_polymer", "yellow_polymer", "ivory_plastic", "brushed_steel"]},
+    "indicator.style": {"distribution": "choice", "values": ["beacon", "ring", "square_panel", "dome"]},
+    "indicator.material": {"distribution": "choice", "values": ["black_housing", "white_housing", "steel_housing", "blue_housing"]}
+  },
+  "runtime": {
+    "lighting.layout": {"distribution": "choice", "values": ["overcast", "warm_indoor", "daylight_side", "cool_office", "backlit", "mixed_daylight"]},
+    "lighting.intensity_scale": {"distribution": "uniform", "low": 1.0, "high": 1.35},
+    "lighting.azimuth_deg": {"distribution": "uniform", "low": -180, "high": 180}
+  }
+}

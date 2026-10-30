@@ -1,0 +1,136 @@
+{
+  "api_version": "2.0",
+  "task_id": "leveling_board1",
+  "task_version": "0.3",
+  "task_type": "event",
+  "required_arms": 2,
+  "required_gripper": "parallel",
+  "supported_robots": [
+    "dual_piperx"
+  ],
+  "horizon_sec": 180,
+  "control_hz": 20,
+  "done_behavior": "stop",
+  "success": {
+    "min_occupancy": 0,
+    "min_events": 1,
+    "max_failures": 0,
+    "require_terminal_success": true
+  },
+  "observation": {
+    "modalities": [
+      "state",
+      "visual"
+    ],
+    "fields": {
+      "state": [
+        "board_angle_deg"
+      ],
+      "visual": [
+        "robot0_head_camera",
+        "robot0_wrist_right",
+        "robot0_wrist_left"
+      ]
+    }
+  },
+  "action": {
+    "type": "dual_cartesian_gripper",
+    "shape": [
+      14
+    ],
+    "fields": [
+      "right_dx",
+      "right_dy",
+      "right_dz",
+      "right_droll",
+      "right_dpitch",
+      "right_dyaw",
+      "left_dx",
+      "left_dy",
+      "left_dz",
+      "left_droll",
+      "left_dpitch",
+      "left_dyaw",
+      "right_gripper",
+      "left_gripper"
+    ]
+  },
+  "feedback": {
+    "success_signals": [
+      "success_state",
+      "terminal_success"
+    ],
+    "fields": [
+      "board_angle_deg",
+      "level_error_deg",
+      "angle_score",
+      "score",
+      "total_score",
+      "released",
+      "independently_supported",
+      "stable",
+      "stable_window_sec",
+      "score_multiplier"
+    ]
+  },
+  "metadata": {
+    "evaluation": {
+      "success": "released, independently shim-supported and physically stable for 5 seconds; abs(angle)<=0.5 degrees throughout the window",
+      "score": "base=clip(100-10*max(0,abs(angle)-0.5),0,100); 0 if unreleased or unsupported; otherwise base if stable, else 0.6*base; successful terminal=100"
+    },
+    "score_max": 100.0,
+    "stability": {
+      "sampling_hz": 20,
+      "endpoints": 101,
+      "board_speed_rad_s": 0.01,
+      "board_angle_range_deg": 0.1,
+      "support_shim_linear_speed_m_s": 0.005,
+      "support_shim_angular_speed_rad_s": 0.05,
+      "support_shim_drift_m": 0.005,
+      "min_normal_contact_force_N": 0.0001,
+      "contact_normal_vertical_component_min": 0.5
+    },
+    "camera_contract": {
+      "version": "3.0",
+      "policy_cameras": [
+        "robot0_head_camera",
+        "robot0_wrist_right",
+        "robot0_wrist_left"
+      ],
+      "policy_mounting": "robot_main_and_wrists",
+      "default_resolution": [
+        640,
+        480
+      ]
+    },
+    "episode_randomization": {
+      "version": 1,
+      "domains": {
+        "ordinary_dimension_m": [
+          0.06,
+          0.14
+        ],
+        "thin_dimensions_m": [
+          0.03,
+          0.04,
+          0.05
+        ]
+      },
+      "sampler": "react_manip.instances.variation.sample_variation",
+      "storage": "Episode variation + runtime + initial_state; Task scenario is the baseline",
+      "schedule": "independently shuffled five-stratum batches; two practice batches and one exam batch use the same domain; phone small count alternates 2/3",
+      "replay": "rebuild resolved Episode model; verify full runtime identity; restore exact initial state; no resampling during reset/step",
+      "policy_visibility": "qualitative runtime English instructions only; sampled values, solution axes, small-support names and files remain private"
+    }
+  },
+  "evaluation": {
+    "protocol": "practice_exam",
+    "practice_episodes": 10,
+    "exam_episodes": 5,
+    "exam_adaptation": "online",
+    "scoring": {
+      "primary": "mean_exam_task_score",
+      "score_key": "total_score"
+    }
+  }
+}

@@ -1,0 +1,237 @@
+{
+  "schema_version": "cl-manip.instance-contract.v1",
+  "status": "pilot",
+  "robot_id": "piperx",
+  "time": {
+    "clock": "synchronous_simulation",
+    "policy_wait_advances_physics": false
+  },
+  "observation": {
+    "public": [
+      "proprio",
+      "visual",
+      "current_instruction",
+      "task_feedback"
+    ],
+    "private": [
+      "resolved_parameters",
+      "initial_state_file",
+      "future_round_plan"
+    ]
+  },
+  "action": {
+    "frame": "world",
+    "bounds": [
+      -1,
+      1
+    ],
+    "layout": "runtime.action_layout",
+    "invalid_action": "invalid_run",
+    "left_arm": "not_present",
+    "layout_note": "piperx has 7 arm/gripper controls; runtime.action_layout is authoritative."
+  },
+  "reset": {
+    "format": "mujoco.integration.v1",
+    "time": 0,
+    "task_counters": "zero",
+    "initialization_noise": null,
+    "state_restore_during_step": false,
+    "variation": "none; seed is provenance only, not a reset randomization input",
+    "ball_pose": [
+      0.6,
+      0.22,
+      0.676,
+      1,
+      0,
+      0,
+      0
+    ],
+    "round_plan": null
+  },
+  "evaluation": {
+    "practice": 10,
+    "exam": 5,
+    "primary": "mean_exam_task_score",
+    "invalid": "abort_group_without_official_score",
+    "exam_adaptation": "online",
+    "score_key": "total_score"
+  },
+  "task_id": "pitch_pot",
+  "contract_version": "1.0",
+  "control_hz": 50,
+  "horizon_sec": 60,
+  "ownership": {
+    "spec": [
+      "one ball and one pot",
+      "ball radius 0.025 m, mass 0.10 kg, friction 0.8, start XY (0.60,0.22)",
+      "tray base z=0.65 m; default pickup_height=0 m",
+      "pot mouth criterion 0.30 m and cavity radius 0.09 m",
+      "robot/controller configuration, no initialization noise",
+      "success/failure rules, 50 Hz, 60 seconds and binary score",
+      "sampling domains"
+    ],
+    "task_instance": [
+      "pot.base_distance_m",
+      "room.floor_texture",
+      "room.wall_texture",
+      "desk.texture",
+      "lighting.layout",
+      "lighting.intensity_scale",
+      "lighting.azimuth_deg"
+    ],
+    "episode_instance": [
+      "episode_id",
+      "initial_state (identical fixed reset state for all 15 attempts)"
+    ],
+    "policy_decision": [
+      "grasp, swing and release actions"
+    ],
+    "derived": [
+      "pot_x=sqrt(base_distance_m^2-y_m^2); y_m=0 so pot_x=base_distance_m",
+      "distance is measured from scenario reference origin, not an offset robot base"
+    ]
+  },
+  "rules": {
+    "grasp": "both active-arm fingers contact continuously >=0.1 s at 50 Hz control ticks",
+    "lift": "grasped AND both fingers contact AND ball center z>tray_z+pickup_height+ball_radius+0.06; default threshold 0.735 m",
+    "open_request": "lifted AND active gripper action < -0.5; latched after the control step",
+    "release": "after lift: no active-gripper contact continuously >=0.04 s at control ticks; save first separation sample position and velocity; contact resets separation tracking",
+    "legal_release": "open requested AND norm(separation-start linear velocity)>=0.2 m/s",
+    "inside_pot": "relative to actual pot body: -0.02<z<0.275 AND hypot(x,y)<0.065; strict bounds",
+    "success": "released AND inside_pot AND no active-gripper contact AND speed<0.08 m/s continuously >=0.5 s, with no failure; interrupted hold resets timer",
+    "completion_event": "ball_settled_in_pot only; grasp/lift/release/entry milestones do not score",
+    "failure_checks": [
+      "confirmed release without open request => ball_slipped",
+      "confirmed release with speed<0.2 m/s => released_without_throw",
+      "after lifted and open_requested, ball touches tray at any physics substep => platform_contact_after_release (may precede confirmed release)",
+      "outside pot AND ball center z<ball_radius+0.01 => ball_dropped, missed_pot or bounced_out",
+      "max(abs(ball center coordinates))>max(8,pot_x+2) => out_of_bounds",
+      "released AND outside pot AND no active-gripper contact AND speed<0.04 m/s continuously >=0.5 s => settled_outside_pot"
+    ],
+    "post_release_gripper_contact": "not a standalone failure; contact prevents settling and resets its timer",
+    "nonfinite": "native reports non_finite_state; unified instance replay marks group invalid and aborts, not a zero-score model failure",
+    "score": "100 on success, otherwise 0; reward=1 on success, otherwise 0",
+    "horizon": "3000 control steps = 60 simulated seconds; no success/failure by horizon => truncation, score 0",
+    "rounds": false,
+    "initial_state_variation": "none",
+    "feasibility": "no new controller certification or calibration; prior demo certificates remain separate; default random-distance profile is not replaced by the near-calibration demo scenario"
+  },
+  "sampling_profile": {
+    "schema_version": "1.0",
+    "profile_id": "random_distance_1_2_2m",
+    "task_id": "pitch_pot",
+    "appearance": {
+      "room.floor_texture": {
+        "distribution": "choice",
+        "values": [
+          "light-gray-floor-tile",
+          "wood-tiles",
+          "light-wood-parquet",
+          "dark-wood-parquet",
+          "slate-stone",
+          "sandstone",
+          "terrazzo",
+          "rubber-mat",
+          "blue-carpet",
+          "cream-linoleum",
+          "realistic-tiles",
+          "realistic-wood",
+          "oak-wood-realistic",
+          "walnut-wood-realistic",
+          "gray-woodgrain-realistic",
+          "varnished-wood-realistic",
+          "ceramic-realistic",
+          "concrete-realistic",
+          "gray-carpet-realistic"
+        ]
+      },
+      "room.wall_texture": {
+        "distribution": "choice",
+        "values": [
+          "white-plaster",
+          "cool-white-paint",
+          "gray-plaster",
+          "industrial-concrete",
+          "blue-plaster",
+          "sage-plaster",
+          "warm-plaster",
+          "sand-plaster",
+          "muted-yellow-paint",
+          "soft-pink-paint",
+          "brick-accent",
+          "realistic-tile-wall",
+          "realistic-wood-panel",
+          "white-brick-realistic",
+          "cream-plaster-realistic",
+          "concrete-realistic"
+        ]
+      },
+      "desk.texture": {
+        "distribution": "choice",
+        "values": [
+          "light-wood",
+          "dark-wood",
+          "maple-wood",
+          "walnut-wood",
+          "white-laminate",
+          "black-laminate",
+          "brushed-metal",
+          "oak-wood-realistic",
+          "walnut-wood-realistic",
+          "gray-woodgrain-realistic",
+          "varnished-wood-realistic",
+          "brushed-steel-realistic"
+        ]
+      }
+    },
+    "assets": {
+      "texture_source": "ambientCG-CC0+robosuite-1.5.2"
+    },
+    "runtime": {
+      "lighting.layout": {
+        "distribution": "choice",
+        "values": [
+          "overcast",
+          "warm_indoor",
+          "daylight_side",
+          "cool_office",
+          "hard_sun",
+          "backlit",
+          "mixed_daylight"
+        ]
+      },
+      "lighting.intensity_scale": {
+        "distribution": "uniform",
+        "low": 0.8,
+        "high": 1.6
+      },
+      "lighting.azimuth_deg": {
+        "distribution": "uniform",
+        "low": -180,
+        "high": 180
+      }
+    },
+    "fixed": {
+      "pot": {
+        "y_m": 0.0
+      },
+      "ball": {
+        "radius_m": 0.025,
+        "mass_kg": 0.1,
+        "friction": 0.8,
+        "start_xy_m": [
+          0.6,
+          0.22
+        ]
+      }
+    },
+    "geometry": {
+      "pot.base_distance_m": {
+        "distribution": "uniform",
+        "low": 1.0,
+        "high": 2.2
+      }
+    }
+  },
+  "publication_status": "development_only"
+}

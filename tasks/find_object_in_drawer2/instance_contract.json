@@ -1,0 +1,87 @@
+{
+  "schema_version": "cl-manip.instance-contract.v1",
+  "status": "pilot",
+  "robot_id": "dual_piperx",
+  "time": {
+    "clock": "synchronous_simulation",
+    "policy_wait_advances_physics": false
+  },
+  "observation": {
+    "public": [
+      "proprio",
+      "visual",
+      "current_instruction",
+      "task_feedback"
+    ],
+    "private": [
+      "resolved_parameters",
+      "initial_state_file",
+      "future_round_plan"
+    ]
+  },
+  "action": {
+    "frame": "world",
+    "bounds": [
+      -1,
+      1
+    ],
+    "layout": "runtime.action_layout",
+    "invalid_action": "invalid_run",
+    "left_arm": "enabled; either arm or both arms may act",
+    "layout_note": "dual_piperx has 14 arm/gripper controls; runtime.action_layout is authoritative."
+  },
+  "reset": {
+    "format": "mujoco.integration.v1",
+    "time": 0,
+    "task_counters": "zero",
+    "initialization_noise": null,
+    "state_restore_during_step": false,
+    "variation": "none; seed is provenance only, not a reset randomization input",
+    "round_plan": "exactly five distinct target indices; permutation of Task Instance target_set"
+  },
+  "evaluation": {
+    "practice": 10,
+    "exam": 5,
+    "primary": "mean_exam_task_score",
+    "invalid": "abort_group_without_official_score",
+    "exam_adaptation": "online",
+    "score_key": "total_score"
+  },
+  "task_id": "find_object_in_drawer2",
+  "contract_version": "1.1",
+  "control_hz": 20,
+  "horizon_sec": 600,
+  "ownership": {
+    "spec": [
+      "task geometry constraints, scoring and deadline; fixed dual PiPER-X initialization"
+    ],
+    "task_instance": [
+      "all resolved sampling_profile parameters",
+      "inventory: object identities, drawer assignment, free-body poses and five target indices"
+    ],
+    "episode_instance": [
+      "permutation of the five targets; physical initial state unchanged"
+    ],
+    "derived": []
+  },
+  "rules": {
+    "score": "20 per completed instruction, each at most once; timeout unfinished instructions0; all five completed ends successfully; shared600s",
+    "placement": "existing fully contained, floor supported, released, stable .5s; drawer opened; no reset or object teleport between instructions",
+    "language": "English-only task_instruction, current-target round_instruction, success_condition, constraints and status. Top-level round_index 0..4. Advance the prompt in the completing step. At success or timeout, round_instruction is empty and round_index is null. Never reveal target drawers or future targets.",
+    "arms": "Either arm or both arms may manipulate drawers and objects. The target must be released from all robot contact before placement counts."
+  },
+  "sampling_profile": {
+    "schema_version": "1.0",
+    "profile_id": "find_object_in_drawer2_default",
+    "task_id": "find_object_in_drawer2",
+    "fixed": {
+      "drawer_count": 6,
+      "objects_per_drawer": 6,
+      "clutter_layers": 1
+    },
+    "geometry": {},
+    "appearance": {},
+    "runtime": {}
+  },
+  "publication_status": "development_only"
+}

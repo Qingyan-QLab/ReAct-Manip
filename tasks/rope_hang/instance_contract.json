@@ -1,0 +1,254 @@
+{
+  "schema_version": "cl-manip.instance-contract.v1",
+  "status": "pilot",
+  "robot_id": "piperx",
+  "time": {
+    "clock": "synchronous_simulation",
+    "policy_wait_advances_physics": false
+  },
+  "observation": {
+    "public": [
+      "proprio",
+      "visual",
+      "current_instruction",
+      "task_feedback"
+    ],
+    "private": [
+      "resolved_parameters",
+      "initial_state_file",
+      "future_round_plan"
+    ]
+  },
+  "action": {
+    "frame": "world",
+    "bounds": [
+      -1,
+      1
+    ],
+    "layout": "runtime.action_layout",
+    "invalid_action": "invalid_run",
+    "left_arm": "not_present",
+    "layout_note": "piperx has 7 arm/gripper controls; runtime.action_layout is authoritative."
+  },
+  "reset": {
+    "format": "mujoco.integration.v1",
+    "time": 0,
+    "task_counters": "zero",
+    "initialization_noise": null,
+    "state_restore_during_step": false,
+    "variation": "Fixed draped initialization matching the default demo; no per-episode geometry variation; exact saved reset state",
+    "round_plan": null
+  },
+  "evaluation": {
+    "practice": 10,
+    "exam": 5,
+    "primary": "mean_exam_task_score",
+    "invalid": "abort_group_without_official_score",
+    "exam_adaptation": "online",
+    "score_key": "total_score"
+  },
+  "task_id": "rope_hang",
+  "contract_version": "2.0",
+  "control_hz": 50,
+  "horizon_sec": 180,
+  "ownership": {
+    "spec": [
+      "40 rod links, length1, radius.012, full fixed mass array/friction/damping",
+      "fixed draped initialization: left_links20, bar_y=-.25; fixed robot initialization; 50Hz/180s; success/stability rules"
+    ],
+    "task_instance": [
+      "textures and lighting only"
+    ],
+    "episode_instance": [
+      "fixed draped initialization and episode seed; no coil translation",
+      "complete integration reset state, episode_id, round_plan=null"
+    ]
+  },
+  "rules": {
+    "grasp_lift": "Starts suspended with lifted=True; no grasp is fabricated. The robot catches and redistributes the slipping chain.",
+    "eligible": "lifted; active gripper command<-.5; bar contact, no other contact including self/robot; minimum node-to-active-EEF distance>.12; hanging_geometry",
+    "geometry": "ends z<.94 and opposite X signs around Bx=.72; after removing abs(x-Bx)<=.0245 exactly one sign transition; unwrapped atan2(x-Bx,z-1) range<2pi+.15; unique supported top crossing abs(y+.25)<.24; maxz>1.0175; minz>.032",
+    "stability": "supported_no_slip_v2: independent support for5s; material coordinate=index*ds and axial Y range each<=.010m, least-squares trend each<=.002m/s; unique top crossing within chain radius+.015m of bar top and within one link of bar-contact segment; no endpoint speed/drift limit; invalid support resets, excess range restarts at current dt, failed full-window trend resets",
+    "score": "100 on success else0; rope_hung event then terminate; timeout180s",
+    "failure": "floor contact terminates; nonfinite state/time reversal/MuJoCo numerical warnings invalidate evaluation; table/self contact merely breaks stability",
+    "modes": "Formal track uses the draped rod chain; explicit historical coil scenarios are supported only for legacy demos",
+    "feasibility": "configuration and scoring tests only, no ALOHA grasp recertification"
+  },
+  "sampling_profile": {
+    "schema_version": "1.0",
+    "profile_id": "nonuniform_chain_rebalance_v2",
+    "task_id": "rope_hang",
+    "appearance": {
+      "room.floor_texture": {
+        "distribution": "choice",
+        "values": [
+          "light-gray-floor-tile",
+          "wood-tiles",
+          "light-wood-parquet",
+          "dark-wood-parquet",
+          "slate-stone",
+          "sandstone",
+          "terrazzo",
+          "rubber-mat",
+          "blue-carpet",
+          "cream-linoleum",
+          "realistic-tiles",
+          "realistic-wood",
+          "oak-wood-realistic",
+          "walnut-wood-realistic",
+          "gray-woodgrain-realistic",
+          "varnished-wood-realistic",
+          "ceramic-realistic",
+          "concrete-realistic",
+          "gray-carpet-realistic"
+        ]
+      },
+      "room.wall_texture": {
+        "distribution": "choice",
+        "values": [
+          "white-plaster",
+          "cool-white-paint",
+          "gray-plaster",
+          "industrial-concrete",
+          "blue-plaster",
+          "sage-plaster",
+          "warm-plaster",
+          "sand-plaster",
+          "muted-yellow-paint",
+          "soft-pink-paint",
+          "brick-accent",
+          "realistic-tile-wall",
+          "realistic-wood-panel",
+          "white-brick-realistic",
+          "cream-plaster-realistic",
+          "concrete-realistic"
+        ]
+      },
+      "desk.texture": {
+        "distribution": "choice",
+        "values": [
+          "light-wood",
+          "dark-wood",
+          "maple-wood",
+          "walnut-wood",
+          "white-laminate",
+          "black-laminate",
+          "brushed-metal",
+          "oak-wood-realistic",
+          "walnut-wood-realistic",
+          "gray-woodgrain-realistic",
+          "varnished-wood-realistic",
+          "brushed-steel-realistic"
+        ]
+      }
+    },
+    "assets": {
+      "texture_source": "ambientCG-CC0+robosuite-1.5.2"
+    },
+    "runtime": {
+      "lighting.layout": {
+        "distribution": "choice",
+        "values": [
+          "overcast",
+          "warm_indoor",
+          "daylight_side",
+          "cool_office",
+          "hard_sun",
+          "backlit",
+          "mixed_daylight"
+        ]
+      },
+      "lighting.intensity_scale": {
+        "distribution": "uniform",
+        "low": 0.8,
+        "high": 1.6
+      },
+      "lighting.azimuth_deg": {
+        "distribution": "uniform",
+        "low": -180,
+        "high": 180
+      }
+    },
+    "fixed": {
+      "initialization": {
+        "layout": "draped",
+        "left_links": 20,
+        "bar_y": -0.25
+      },
+      "chain": {
+        "length": 1.0,
+        "radius": 0.012,
+        "segments": 40,
+        "link_masses": [
+          0.012,
+          0.096,
+          0.098,
+          0.02,
+          0.022,
+          0.026,
+          0.028,
+          0.03,
+          0.032,
+          0.036,
+          0.012,
+          0.016,
+          0.018,
+          0.02,
+          0.022,
+          0.026,
+          0.028,
+          0.03,
+          0.032,
+          0.036,
+          0.012,
+          0.016,
+          0.018,
+          0.02,
+          0.022,
+          0.026,
+          0.028,
+          0.03,
+          0.032,
+          0.036,
+          0.012,
+          0.016,
+          0.018,
+          0.02,
+          0.022,
+          0.026,
+          0.028,
+          0.03,
+          0.032,
+          0.036
+        ],
+        "friction": 0.005,
+        "damping": 0.001
+      },
+      "rebalance": {
+        "standby_qpos": [
+          0.4710438677867612,
+          1.6559638110422674,
+          -0.7293409743429529,
+          -1.981661916001316,
+          -2.7386032367069597,
+          1.441249401541266,
+          -1.495884625162426
+        ],
+        "grasp_height": 0.82,
+        "slip_distance": 0.005,
+        "slip_speed": 0.025,
+        "feed_speed": 0.12,
+        "max_lift": 0.36,
+        "target_mass_fraction": 0.52,
+        "standby_grip": 0.0,
+        "approach_kp": 600.0,
+        "preclose_steps": 1,
+        "feed_forward": 0.07,
+        "feed_timeout": 4.0
+      }
+    },
+    "geometry": {},
+    "physics": {}
+  },
+  "publication_status": "development_only"
+}

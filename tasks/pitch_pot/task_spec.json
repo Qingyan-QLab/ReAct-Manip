@@ -1,0 +1,109 @@
+{
+  "metadata": {
+    "camera_contract": {
+      "version": "3.0",
+      "fixed": [
+        "workspace_oblique",
+        "workspace_top",
+        "room_overview"
+      ],
+      "mounted": "query get_camera_specs(); only physical embodiment sensors",
+      "observation_key": "images",
+      "default_resolution": [
+        640,
+        480
+      ],
+      "room_and_debug_opt_in": true,
+      "policy_cameras": [
+        "robot0_head_camera",
+        "robot0_wrist_right"
+      ],
+      "policy_mounting": "robot_main_and_wrists"
+    },
+    "robot_control_mode": "eef_delta",
+    "embodiment_mode": "physical",
+    "score_max": 100,
+    "demo_controller": "tasks.pitch_pot.operation:PickThrowController",
+    "action_layout": "7 values per arm; use env.action_dim and composite_controller._action_split_indexes (14 for dual-arm robots)",
+    "instance_contract": "tasks/pitch_pot/instance_contract.json",
+    "evaluation": {
+      "practice_episodes": 10,
+      "exam_episodes": 5,
+      "exam_adaptation": "online",
+      "score_key": "total_score",
+      "aggregate": "mean_exam_task_score",
+      "instance_robot": "dual_piperx"
+    }
+  },
+  "api_version": "2.0",
+  "task_id": "pitch_pot",
+  "task_version": "2.1",
+  "task_type": "one_shot",
+  "required_arms": 1,
+  "required_gripper": "parallel",
+  "supported_robots": [
+    "piperx"
+  ],
+  "horizon_sec": 60,
+  "control_hz": 50,
+  "done_behavior": "stop",
+  "success": {
+    "min_occupancy": 0,
+    "min_events": 1,
+    "max_failures": 0,
+    "require_terminal_success": true
+  },
+  "observation": {
+    "modalities": [
+      "proprio",
+      "visual",
+      "geometry"
+    ],
+    "default_policy_view": [
+      "proprio",
+      "visual"
+    ],
+    "geometry_view": "internal",
+    "fields": {
+      "geometry": [
+        "projectile.pose",
+        "projectile.velocity",
+        "pot.pose",
+        "tray.position",
+        "projectile_to_pot",
+        "release_state"
+      ]
+    },
+    "visibility": {
+      "policy": "proprio+visual",
+      "oracle": "all",
+      "benchmark_log": "all"
+    }
+  },
+  "required_eef_dof": 6,
+  "action": {
+    "type": "eef_delta",
+    "shape": [
+      7
+    ],
+    "bounds": [
+      -1,
+      1
+    ],
+    "frame": "world",
+    "fields": [
+      "position_delta_3d",
+      "rotation_delta_3d",
+      "gripper"
+    ]
+  },
+  "feedback": {
+    "events": [
+      "ball_settled_in_pot"
+    ],
+    "success_signals": [
+      "success_state",
+      "terminal_success"
+    ]
+  }
+}

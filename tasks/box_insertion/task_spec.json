@@ -1,0 +1,333 @@
+{
+  "api_version": "2.0",
+  "task_id": "box_insertion",
+  "task_version": "1.7",
+  "task_type": "one_shot",
+  "required_arms": 1,
+  "required_gripper": "parallel",
+  "required_eef_dof": 6,
+  "supported_robots": [
+    "piperx"
+  ],
+  "horizon_sec": 60,
+  "control_hz": 20,
+  "done_behavior": "stop",
+  "success": {
+    "min_occupancy": 0,
+    "min_events": 1,
+    "max_failures": 0,
+    "require_terminal_success": true
+  },
+  "observation": {
+    "modalities": [
+      "proprio",
+      "geometry",
+      "visual",
+      "language"
+    ],
+    "default_policy_view": [
+      "proprio",
+      "visual",
+      "language"
+    ],
+    "geometry_view": "internal",
+    "fields": {
+      "eef_pos": {
+        "shape": [
+          3
+        ],
+        "dtype": "float32"
+      },
+      "eef_mat": {
+        "shape": [
+          9
+        ],
+        "dtype": "float32"
+      },
+      "robot_qpos": {
+        "dtype": "float32"
+      },
+      "robot_qvel": {
+        "dtype": "float32"
+      },
+      "gripper_qpos": {
+        "dtype": "float32"
+      },
+      "block_pose": {
+        "shape": [
+          3
+        ],
+        "dtype": "float32"
+      },
+      "block_velocity": {
+        "shape": [
+          3
+        ],
+        "dtype": "float32"
+      },
+      "block_angular_velocity": {
+        "shape": [
+          3
+        ],
+        "dtype": "float32"
+      },
+      "block_patch_friction": {
+        "shape": [
+          2
+        ],
+        "dtype": "float32"
+      },
+      "block_patch_density_kg_m3": {
+        "shape": [
+          2
+        ],
+        "dtype": "float32"
+      },
+      "block_mass_kg": {
+        "shape": [
+          1
+        ],
+        "dtype": "float32"
+      },
+      "block_com_local_m": {
+        "shape": [
+          3
+        ],
+        "dtype": "float32"
+      },
+      "slot_wall_friction": {
+        "shape": [
+          3
+        ],
+        "dtype": "float32"
+      },
+      "block_patch_width_m": {
+        "shape": [
+          2
+        ],
+        "dtype": "float32"
+      },
+      "block_width_m": {
+        "shape": [
+          1
+        ],
+        "dtype": "float32"
+      },
+      "slot_opening_width_m": {
+        "shape": [
+          1
+        ],
+        "dtype": "float32"
+      },
+      "slot_clearance_m": {
+        "shape": [
+          1
+        ],
+        "dtype": "float32"
+      },
+      "block_friction_split_y_m": {
+        "shape": [
+          1
+        ],
+        "dtype": "float32"
+      },
+      "block_friction_split_from_left_m": {
+        "shape": [
+          1
+        ],
+        "dtype": "float32"
+      },
+      "block_lateral_m": {
+        "shape": [
+          1
+        ],
+        "dtype": "float32"
+      },
+      "block_yaw_rad": {
+        "shape": [
+          1
+        ],
+        "dtype": "float32"
+      },
+      "block_contained": {
+        "shape": [
+          1
+        ],
+        "dtype": "bool"
+      },
+      "bottom_reached": {
+        "shape": [
+          1
+        ],
+        "dtype": "bool"
+      },
+      "insertion_depth_m": {
+        "shape": [
+          1
+        ],
+        "dtype": "float32"
+      },
+      "insertion_fraction": {
+        "shape": [
+          1
+        ],
+        "dtype": "float32"
+      },
+      "eef_to_push_face": {
+        "shape": [
+          3
+        ],
+        "dtype": "float32"
+      },
+      "contact_force_N": {
+        "shape": [
+          1
+        ],
+        "dtype": "float32"
+      }
+    },
+    "visibility": {
+      "block_patch_density_kg_m3": "internal",
+      "block_mass_kg": "internal",
+      "block_com_local_m": "internal",
+      "slot_wall_friction": "geometry_only",
+      "block_pose": "geometry_only",
+      "block_width_m": "geometry_only",
+      "slot_opening_width_m": "geometry_only",
+      "slot_clearance_m": "geometry_only",
+      "block_patch_friction": "internal",
+      "block_patch_width_m": "geometry_only",
+      "block_friction_split_y_m": "geometry_only",
+      "block_friction_split_from_left_m": "geometry_only",
+      "contact_force_N": "geometry_only"
+    }
+  },
+  "action": {
+    "type": "eef_delta",
+    "shape": [
+      7
+    ],
+    "bounds": [
+      -1,
+      1
+    ],
+    "frame": "world",
+    "fields": {
+      "position_delta": {
+        "indices": [
+          0,
+          1,
+          2
+        ],
+        "units": "normalized"
+      },
+      "orientation_delta": {
+        "indices": [
+          3,
+          4,
+          5
+        ],
+        "units": "normalized"
+      },
+      "gripper": {
+        "index": 6,
+        "open_value": -1,
+        "close_value": 1
+      }
+    }
+  },
+  "feedback": {
+    "fields": {
+      "task_seed": "int",
+      "block_patch_density_kg_m3": "float[2]",
+      "block_mass_kg": "float",
+      "block_com_local_m": "float[3]",
+      "slot_wall_friction": "float[3]",
+      "success_state": "bool",
+      "block_contained": "bool",
+      "bottom_reached": "bool",
+      "success_blockers": "string[]",
+      "insertion_depth_m": "float",
+      "remaining_insertion_distance_m": "float",
+      "block_lateral_m": "float",
+      "block_yaw_rad": "float",
+      "block_width_m": "float",
+      "slot_opening_width_m": "float",
+      "slot_clearance_m": "float",
+      "block_patch_friction": "float[2]",
+      "block_patch_width_m": "float[2]",
+      "block_friction_split_y_m": "float",
+      "block_friction_split_from_left_m": "float",
+      "total_score": "float",
+      "failure": "object",
+      "distance_score": "float",
+      "time_score": "float",
+      "score_position_valid": "bool"
+    },
+    "events": [
+      "block_inserted"
+    ],
+    "success_signals": [
+      "success_state",
+      "terminal_success"
+    ]
+  },
+  "metadata": {
+    "camera_contract": {
+      "version": "3.0",
+      "fixed": [
+        "workspace_oblique",
+        "workspace_top",
+        "room_overview"
+      ],
+      "mounted": "query get_camera_specs(); only physical embodiment sensors",
+      "observation_key": "images",
+      "default_resolution": [
+        640,
+        480
+      ],
+      "room_and_debug_opt_in": true,
+      "policy_cameras": [
+        "robot0_head_camera",
+        "robot0_wrist_right"
+      ],
+      "policy_mounting": "robot_main_and_wrists"
+    },
+    "stage": "robot_v1",
+    "physics": "passive_free_body_contact_only",
+    "score_max": 100.0,
+    "notes": "The block width is sampled uniformly from 0.60 to 1.00 m. For every scenario the slot opening is derived as block width + at least 0.05 m total nominal clearance (2.5 cm per side at the minimum). The gravity-loaded free rigid body has two independently sampled bottom contact regions separated at 20-80% of its width. It must be pushed to within 0.005 m of the deep slot back wall and settle before success. Task step never writes its qpos/qvel; off-center pushes can translate, rotate or tip it. The baseline may fail. Default construction samples the Profile using seed (0 if omitted); reset reuses that Task Instance. The two regions also have unequal sampled densities: light 350-550 and heavy 850-1150 kg/m3, with a random heavy side. Mass, COM and inertia follow the solid volumes. Left/right wall sliding friction is independently uniform 3.5-5.0; back wall 1.0-2.0. slot_wall_friction order is left, right, back; density order is left, right.",
+    "episode_randomization": {
+      "version": 1,
+      "domains": {
+        "friction_multiplier": [
+          0.6,
+          1.4
+        ],
+        "friction_limits": [
+          0.01,
+          0.6
+        ],
+        "mass_scale": [
+          0.7,
+          1.3
+        ]
+      },
+      "sampler": "react_manip.instances.variation.sample_variation",
+      "storage": "Episode variation + runtime + initial_state; Task scenario is the baseline",
+      "schedule": "independently shuffled five-stratum batches; two practice batches and one exam batch use the same domain; phone small count alternates 2/3",
+      "replay": "rebuild resolved Episode model; verify full runtime identity; restore exact initial state; no resampling during reset/step",
+      "policy_visibility": "qualitative runtime English instructions only; sampled values, solution axes, small-support names and files remain private"
+    }
+  },
+  "evaluation": {
+    "protocol": "practice_exam",
+    "practice_episodes": 10,
+    "exam_episodes": 5,
+    "exam_adaptation": "online",
+    "scoring": {
+      "primary": "mean_exam_task_score",
+      "score_key": "total_score"
+    }
+  }
+}

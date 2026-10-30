@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "leveling_board1_instances_v2",
+  "task_id": "leveling_board1",
+  "fixed": {
+    "table": {
+      "top_z": 0.68,
+      "size": [
+        1.4,
+        1.0,
+        0.05
+      ],
+      "friction": [
+        0.78,
+        0.42,
+        0.05
+      ]
+    },
+    "support_block": {
+      "fixed": true,
+      "size": [
+        0.05,
+        0.18,
+        0.12
+      ]
+    },
+    "board": {
+      "length": 0.9,
+      "width": 0.12,
+      "thickness": 0.02,
+      "mass_kg": 0.08,
+      "hinge_range_rad": [
+        -0.1,
+        0.22
+      ]
+    },
+    "shims": {
+      "count": 6,
+      "solution_count": 3,
+      "solution_heights_m": [
+        0.03,
+        0.04,
+        0.05
+      ],
+      "dimension_range_m": [
+        0.06,
+        0.14
+      ],
+      "mass_kg": [
+        0.09,
+        0.12,
+        0.15,
+        0.21,
+        0.27,
+        0.18
+      ],
+      "friction": [
+        0.72,
+        0.38,
+        0.04
+      ]
+    },
+    "task": {
+      "level_tolerance_deg": 0.5,
+      "score_full_tolerance_deg": 0.5,
+      "score_penalty_per_deg": 10.0,
+      "score_min": 0.0,
+      "score_max": 100.0,
+      "horizon_sec": 180,
+      "stable_seconds": 5.0,
+      "unstable_multiplier": 0.6,
+      "unreleased_score": 0.0,
+      "unsupported_score": 0.0
+    }
+  },
+  "geometry": {
+    "shim.dimension_m": {
+      "distribution": "uniform",
+      "low": 0.06,
+      "high": 0.14
+    },
+    "shim.solution_height_m": {
+      "distribution": "choice",
+      "values": [
+        0.03,
+        0.04,
+        0.05
+      ]
+    },
+    "shim.solution_height_axis": {
+      "distribution": "choice",
+      "values": [
+        0,
+        1,
+        2
+      ]
+    }
+  },
+  "physics": {},
+  "randomization": {
+    "task_instance": [
+      "height_order",
+      "height_axis",
+      "three_dimensions"
+    ],
+    "episode_instance": [
+      "permutation_of_six_fixed_slots"
+    ],
+    "initialization_noise": null
+  },
+  "assets": {
+    "scene": "tasks/leveling_board1/assets/scene.xml",
+    "asset_version": "leveling_board1_mjcf_v1"
+  },
+  "episode_slots_xy": [
+    [
+      0.06,
+      0.18
+    ],
+    [
+      0.24,
+      0.18
+    ],
+    [
+      0.42,
+      0.18
+    ],
+    [
+      0.06,
+      0.36
+    ],
+    [
+      0.24,
+      0.36
+    ],
+    [
+      0.42,
+      0.36
+    ]
+  ]
+}

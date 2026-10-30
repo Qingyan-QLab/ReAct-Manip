@@ -1,0 +1,321 @@
+{
+  "schema_version": "cl-manip.instance-contract.v1",
+  "status": "pilot",
+  "robot_id": "piperx",
+  "time": {
+    "clock": "synchronous_simulation",
+    "policy_wait_advances_physics": false
+  },
+  "observation": {
+    "public": [
+      "proprio",
+      "visual",
+      "current_instruction",
+      "task_feedback"
+    ],
+    "private": [
+      "resolved_parameters",
+      "initial_state_file",
+      "future_round_plan"
+    ]
+  },
+  "action": {
+    "frame": "world",
+    "bounds": [
+      -1,
+      1
+    ],
+    "layout": "runtime.action_layout",
+    "invalid_action": "invalid_run",
+    "left_arm": "not_present",
+    "layout_note": "piperx has 7 arm/gripper controls; runtime.action_layout is authoritative."
+  },
+  "reset": {
+    "format": "mujoco.integration.v1",
+    "time": 0,
+    "task_counters": "zero",
+    "initialization_noise": null,
+    "state_restore_during_step": false,
+    "variation": "Explicit Episode variation applied before compilation; reset repeats that Episode exactly.",
+    "round_plan": null
+  },
+  "evaluation": {
+    "practice": 10,
+    "exam": 5,
+    "primary": "mean_exam_task_score",
+    "invalid": "abort_group_without_official_score",
+    "exam_adaptation": "online",
+    "score_key": "total_score"
+  },
+  "task_id": "box_insertion",
+  "contract_version": "1.0-episode-v1",
+  "control_hz": 20,
+  "horizon_sec": 60,
+  "ownership": {
+    "spec": [
+      "block length/height, U slot, fixed initial pose, +X pushing",
+      "20 Hz / 60 s, scoring t1=10 and t2=40 s, corner tolerances and success conditions",
+      "fixed ALOHA mount/controller, no initialization noise, sampling domains"
+    ],
+    "task_instance": [
+      "wood_block.width_m (baseline; Episode may override fields listed in episode_randomization)",
+      "block_friction.split_ratio (baseline; Episode may override fields listed in episode_randomization)",
+      "block_friction.left/right (baseline; Episode may override fields listed in episode_randomization)",
+      "block_density.light_kg_m3/heavy_kg_m3/heavy_side (baseline; Episode may override fields listed in episode_randomization)",
+      "physics.slot_left_wall_friction/slot_right_wall_friction/slot_back_wall_friction (baseline; Episode may override fields listed in episode_randomization)",
+      "room/desk/slot/block textures and lighting (baseline; Episode may override fields listed in episode_randomization)"
+    ],
+    "derived": [
+      "slot opening=block width+.05",
+      "block mass, COM and inertia from disjoint region volumes and densities; compiled into runtime model identity"
+    ],
+    "episode_instance": [
+      "left/right block sliding friction",
+      "uniform density multiplier preserving COM and scaling mass/inertia together",
+      "explicit integration initial_state",
+      "compiled Episode runtime identity",
+      "round_plan=null"
+    ],
+    "policy_decision": [
+      "robot pushing actions"
+    ]
+  },
+  "rules": {
+    "success": "all rotated eight corners inside X[.10,.40], Y[-opening/2,opening/2], Z[.78,.85], inclusive tolerance .0005; current clipped displacement from initial x >=.355; linear speed<=.025 and angular speed<=.08; continuous 10 ticks; interruption resets; success ends episode, no release requirement",
+    "distance": "50*clip((current_center_x-.10)/(.40-half_length-.10),0,1), no historical maximum; all corners inside Y/Z/back boundary with .0005 tolerance, but no front X bound; invalid position or failure =>0",
+    "time": "success only: 50 for t<=10; 50*(40-t)/30 for 10<t<40; zero for t>=40; elapsed includes 10 stable ticks",
+    "total": "distance+time; success tolerance can yield distance slightly below50; no automatic rounding up",
+    "failure": "center z<.65 ends and scores0; nonfinite simulation is invalid in replay",
+    "timeout": "1200 steps / 60 s: preserve valid final-position distance, time0; success on final tick takes precedence",
+    "reward": "change in current total_score, may be negative on retreat; not official score",
+    "rounds": false,
+    "feasibility": "three-layer and evaluator checks only; no ALOHA grasp or pushing demo recertification"
+  },
+  "sampling_profile": {
+    "schema_version": "1.0",
+    "profile_id": "box_insertion_final_position_v3",
+    "task_id": "box_insertion",
+    "fixed": {
+      "table": {
+        "top_z": 0.78,
+        "size": [
+          0.9,
+          1.6,
+          0.05
+        ]
+      },
+      "box": {
+        "fixed": true,
+        "mounted_on": "table",
+        "has_bottom": false,
+        "center": [
+          0.26,
+          0.0,
+          0.815
+        ],
+        "clearance_m": 0.05,
+        "inner_depth": 0.3,
+        "outer_depth": 0.32,
+        "wall_height": 0.07,
+        "wall": 0.02
+      },
+      "wood_block": {
+        "size": [
+          0.13175,
+          1.0,
+          0.04421
+        ],
+        "initial_clearance_to_slot_m": 0.06,
+        "target_insertion_depth_m": 0.36,
+        "bottom_tolerance_m": 0.005
+      },
+      "physics": {
+        "gravity_m_s2": [
+          0.0,
+          0.0,
+          -9.81
+        ],
+        "table_friction": 0.005
+      },
+      "task": {
+        "time_score_max": 50.0,
+        "distance_score_max": 50.0,
+        "score_horizon_sec": 60.0,
+        "time_full_until_sec": 10.0,
+        "time_zero_from_sec": 40.0
+      }
+    },
+    "geometry": {
+      "wood_block.width_m": {
+        "distribution": "uniform",
+        "low": 0.6,
+        "high": 1.0
+      },
+      "block_friction.split_ratio": {
+        "distribution": "uniform",
+        "low": 0.2,
+        "high": 0.8
+      }
+    },
+    "physics": {
+      "block_friction.left": {
+        "distribution": "exponential",
+        "low": 0.01,
+        "high": 0.6,
+        "scale": 0.1
+      },
+      "block_friction.right": {
+        "distribution": "exponential",
+        "low": 0.01,
+        "high": 0.6,
+        "scale": 0.1
+      },
+      "block_density.light_kg_m3": {
+        "distribution": "uniform",
+        "low": 350.0,
+        "high": 550.0
+      },
+      "block_density.heavy_kg_m3": {
+        "distribution": "uniform",
+        "low": 850.0,
+        "high": 1150.0
+      },
+      "block_density.heavy_side": {
+        "distribution": "choice",
+        "values": [
+          "left",
+          "right"
+        ]
+      },
+      "physics.slot_left_wall_friction": {
+        "distribution": "uniform",
+        "low": 3.5,
+        "high": 5.0
+      },
+      "physics.slot_right_wall_friction": {
+        "distribution": "uniform",
+        "low": 3.5,
+        "high": 5.0
+      },
+      "physics.slot_back_wall_friction": {
+        "distribution": "uniform",
+        "low": 1.0,
+        "high": 2.0
+      }
+    },
+    "appearance": {
+      "room.floor_texture": {
+        "distribution": "choice",
+        "values": [
+          "light-gray-floor-tile",
+          "oak-wood-realistic",
+          "ceramic-realistic",
+          "gray-carpet-realistic",
+          "walnut-wood-realistic"
+        ]
+      },
+      "room.wall_texture": {
+        "distribution": "choice",
+        "values": [
+          "white-plaster",
+          "cool-white-paint",
+          "gray-plaster",
+          "brick-accent",
+          "cream-plaster-realistic"
+        ]
+      },
+      "desk.texture": {
+        "distribution": "choice",
+        "values": [
+          "oak-wood-realistic",
+          "walnut-wood-realistic",
+          "gray-woodgrain-realistic",
+          "varnished-wood-realistic",
+          "white-laminate",
+          "brushed-steel-realistic"
+        ]
+      },
+      "slot.texture": {
+        "distribution": "choice",
+        "values": [
+          "brushed-steel-realistic",
+          "scratched-steel-realistic",
+          "drawer-light-metal",
+          "drawer-dark-metal",
+          "drawer-white-laminate",
+          "drawer-blue-metal"
+        ]
+      },
+      "block.texture": {
+        "distribution": "choice",
+        "values": [
+          "oak-wood-realistic",
+          "walnut-wood-realistic",
+          "gray-woodgrain-realistic",
+          "varnished-wood-realistic",
+          "white-laminate",
+          "black-laminate"
+        ]
+      }
+    },
+    "runtime": {
+      "lighting.layout": {
+        "distribution": "choice",
+        "values": [
+          "overcast",
+          "warm_indoor",
+          "daylight_side",
+          "cool_office",
+          "backlit",
+          "mixed_daylight"
+        ]
+      },
+      "lighting.intensity_scale": {
+        "distribution": "uniform",
+        "low": 0.8,
+        "high": 1.35
+      },
+      "lighting.azimuth_deg": {
+        "distribution": "uniform",
+        "low": -180,
+        "high": 180
+      }
+    },
+    "constraints": [
+      {
+        "type": "not_equal",
+        "paths": [
+          "desk.texture",
+          "block.texture"
+        ]
+      }
+    ],
+    "assets": {
+      "scene": "tasks/box_insertion/assets/scene.xml",
+      "asset_version": "box_insertion_robot_v1"
+    }
+  },
+  "publication_status": "development_only",
+  "episode_randomization": {
+    "version": 1,
+    "domains": {
+      "friction_multiplier": [
+        0.6,
+        1.4
+      ],
+      "friction_limits": [
+        0.01,
+        0.6
+      ],
+      "mass_scale": [
+        0.7,
+        1.3
+      ]
+    },
+    "sampler": "react_manip.instances.variation.sample_variation",
+    "storage": "Episode variation + runtime + initial_state; Task scenario is the baseline",
+    "schedule": "independently shuffled five-stratum batches; two practice batches and one exam batch use the same domain; phone small count alternates 2/3",
+    "replay": "rebuild resolved Episode model; verify full runtime identity; restore exact initial state; no resampling during reset/step",
+    "policy_visibility": "qualitative runtime English instructions only; sampled values, solution axes, small-support names and files remain private"
+  }
+}

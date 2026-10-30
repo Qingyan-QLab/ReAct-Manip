@@ -1,0 +1,175 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "laptop_constrained_opening_v2_1_lightweight_roomier",
+  "task_id": "laptop_into_drawer",
+  "fixed": {
+    "room.size_m": [
+      10,
+      10,
+      3.2
+    ],
+    "physics.gravity_m_s2": [
+      0,
+      0,
+      -9.81
+    ],
+    "appearance.palette": "light_lab",
+    "lighting.layout": "ceiling_pair"
+  },
+  "geometry": {
+    "drawer.width_m": {
+      "distribution": "uniform",
+      "low": 0.375,
+      "high": 0.475
+    },
+    "drawer.depth_m": {
+      "distribution": "uniform",
+      "low": 0.315,
+      "high": 0.415
+    },
+    "drawer.height_m": {
+      "distribution": "uniform",
+      "low": 0.09,
+      "high": 0.13
+    },
+    "drawer.opening_ratio": {
+      "distribution": "choice",
+      "values": [
+        1.04,
+        0.98,
+        0.94
+      ]
+    },
+    "laptop.width_gap_m": {
+      "distribution": "uniform",
+      "low": 0.05,
+      "high": 0.07
+    },
+    "laptop.depth_gap_m": {
+      "distribution": "uniform",
+      "low": 0.05,
+      "high": 0.07
+    },
+    "laptop.thickness_m": {
+      "distribution": "uniform",
+      "low": 0.026,
+      "high": 0.034
+    },
+    "laptop.mass_kg": {
+      "distribution": "uniform",
+      "low": 0.35,
+      "high": 0.65
+    }
+  },
+  "physics": {
+    "drawer.slide_friction_n": {
+      "distribution": "uniform",
+      "low": 0.08,
+      "high": 0.12
+    }
+  },
+  "appearance": {
+    "room.floor_texture": {
+      "distribution": "choice",
+      "values": [
+        "light-gray-floor-tile",
+        "wood-tiles",
+        "light-wood-parquet",
+        "dark-wood-parquet",
+        "slate-stone",
+        "sandstone",
+        "terrazzo",
+        "rubber-mat",
+        "blue-carpet",
+        "cream-linoleum",
+        "realistic-tiles",
+        "realistic-wood",
+        "oak-wood-realistic",
+        "walnut-wood-realistic",
+        "gray-woodgrain-realistic",
+        "varnished-wood-realistic",
+        "ceramic-realistic",
+        "concrete-realistic",
+        "gray-carpet-realistic"
+      ]
+    },
+    "room.wall_texture": {
+      "distribution": "choice",
+      "values": [
+        "white-plaster",
+        "cool-white-paint",
+        "gray-plaster",
+        "industrial-concrete",
+        "blue-plaster",
+        "sage-plaster",
+        "warm-plaster",
+        "sand-plaster",
+        "muted-yellow-paint",
+        "soft-pink-paint",
+        "brick-accent",
+        "realistic-tile-wall",
+        "realistic-wood-panel",
+        "white-brick-realistic",
+        "cream-plaster-realistic",
+        "concrete-realistic"
+      ]
+    },
+    "desk.texture": {
+      "distribution": "choice",
+      "values": [
+        "light-wood",
+        "dark-wood",
+        "maple-wood",
+        "walnut-wood",
+        "white-laminate",
+        "black-laminate",
+        "brushed-metal",
+        "oak-wood-realistic",
+        "walnut-wood-realistic",
+        "gray-woodgrain-realistic",
+        "varnished-wood-realistic",
+        "brushed-steel-realistic"
+      ]
+    },
+    "drawer.texture": {
+      "distribution": "choice",
+      "values": [
+        "drawer-light-metal",
+        "drawer-dark-metal",
+        "drawer-white-laminate",
+        "drawer-blue-metal",
+        "drawer-walnut",
+        "brushed-metal",
+        "scratched-steel-realistic",
+        "walnut-wood-realistic"
+      ]
+    }
+  },
+  "runtime": {
+    "lighting.layout": {
+      "distribution": "choice",
+      "values": [
+        "overcast",
+        "warm_indoor",
+        "daylight_side",
+        "cool_office",
+        "hard_sun",
+        "backlit",
+        "mixed_daylight"
+      ]
+    },
+    "lighting.intensity_scale": {
+      "distribution": "uniform",
+      "low": 0.8,
+      "high": 1.6
+    },
+    "lighting.azimuth_deg": {
+      "distribution": "uniform",
+      "low": -180,
+      "high": 180
+    }
+  },
+  "assets": {
+    "texture_source": "ambientCG-CC0+robosuite-1.5.2"
+  }
+}

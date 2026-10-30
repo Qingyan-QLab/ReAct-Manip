@@ -1,0 +1,43 @@
+# Python bytecode and local environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Test, type-check, and coverage output
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.tox/
+.nox/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Packaging output
+build/
+dist/
+dist-release/
+*.egg-info/
+
+# Editor and OS files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Local simulation and evaluation output
+MUJOCO_LOG.TXT
+outputs/
+
+# Downloaded sources and generated robot models; build locally.
+assets/robots/agilex/
+assets/robots/rpent/

@@ -1,0 +1,146 @@
+{
+  "api_version": "2.0",
+  "task_id": "tilte_maze",
+  "task_version": "0.6",
+  "task_type": "one_shot",
+  "required_arms": 1,
+  "required_gripper": "parallel",
+  "supported_robots": [
+    "piperx"
+  ],
+  "horizon_sec": 600,
+  "control_hz": 20,
+  "done_behavior": "fail_and_stop",
+  "success": {
+    "min_occupancy": 0,
+    "min_events": 1,
+    "max_failures": 0,
+    "require_terminal_success": true
+  },
+  "observation": {
+    "modalities": [
+      "proprio",
+      "visual",
+      "geometry"
+    ],
+    "default_policy_view": [
+      "proprio",
+      "visual"
+    ],
+    "geometry_view": "internal",
+    "fields": {
+      "geometry": [
+        "ball.pose",
+        "ball.velocity",
+        "board.tilt",
+        "joystick.tilt",
+        "phase"
+      ]
+    },
+    "visibility": {
+      "policy": "proprio+visual",
+      "oracle": "all",
+      "benchmark_log": "all"
+    }
+  },
+  "action": {
+    "type": "cartesian_gripper",
+    "shape": [
+      7
+    ],
+    "bounds": [
+      -1,
+      1
+    ],
+    "fields": [
+      "dx",
+      "dy",
+      "dz",
+      "droll",
+      "dpitch",
+      "dyaw",
+      "gripper"
+    ]
+  },
+  "feedback": {
+    "events": [
+      "ball_entered_trap",
+      "ball_reached_goal"
+    ],
+    "success_signals": [
+      "success_state",
+      "terminal_success"
+    ],
+    "fields": [
+      "score",
+      "route_progress_pct",
+      "yellow_entries",
+      "penalty",
+      "board_tilt_per_10_stick_deg",
+      "surface_friction",
+      "surface_rolling_friction",
+      "wall_friction",
+      "wall_rolling_friction",
+      "wall_bounce",
+      "total_score"
+    ]
+  },
+  "metadata": {
+    "native_v2": true,
+    "embodiment_mode": "physical",
+    "score_max": 100,
+    "seeded_dynamics": {
+      "sample_timing": "once when the scene is constructed",
+      "reproducibility": "the same seed produces the same mapping and contact parameters",
+      "joystick_board_tilt_per_10_deg_range": [
+        1.0,
+        4.0
+      ],
+      "floor_sliding_friction_range": [
+        0.025,
+        0.07
+      ],
+      "floor_rolling_friction_range": [
+        1e-05,
+        4e-05
+      ],
+      "wall_sliding_friction_range": [
+        0.015,
+        0.055
+      ],
+      "wall_rolling_friction_range": [
+        5e-06,
+        3e-05
+      ],
+      "wall_bounce_strength_range": [
+        0.65,
+        0.88
+      ]
+    },
+    "camera_contract": {
+      "version": "3.0",
+      "fixed": [
+        "workspace_oblique",
+        "workspace_top",
+        "maze_closeup",
+        "joystick_closeup",
+        "room_overview"
+      ],
+      "observation_key": "images",
+      "default_resolution": [
+        640,
+        480
+      ],
+      "room_and_debug_opt_in": true,
+      "policy_cameras": [
+        "robot0_head_camera",
+        "robot0_wrist_right"
+      ],
+      "policy_mounting": "robot_main_and_wrists"
+    },
+    "default_robot": "piperx"
+  },
+  "evaluation": {
+    "config": "evaluation.json"
+  }
+}

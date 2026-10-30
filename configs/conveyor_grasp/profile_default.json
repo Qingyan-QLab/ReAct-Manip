@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "default",
+  "task_id": "conveyor_grasp",
+  "fixed": {},
+  "physics": {
+    "task.n_objects": {"distribution": "choice", "values": [10, 12, 15, 18, 20, 24, 27, 30]},
+    "task.category_count": {"distribution": "choice", "values": [2, 3, 4]},
+    "belt.speed": {
+      "distribution": "uniform",
+      "low": 0.08,
+      "high": 0.20
+    },
+    "belt.friction": {
+      "distribution": "uniform",
+      "low": 0.3,
+      "high": 0.8
+    },
+    "object.mass_scale": {
+      "distribution": "uniform",
+      "low": 0.7,
+      "high": 1.3
+    }
+  },
+  "appearance": {
+    "room.floor_texture": {
+      "distribution": "choice",
+      "values": [
+        "light-gray-floor-tile",
+        "wood-tiles",
+        "light-wood-parquet",
+        "dark-wood-parquet",
+        "slate-stone",
+        "sandstone",
+        "terrazzo",
+        "rubber-mat",
+        "blue-carpet",
+        "cream-linoleum",
+        "realistic-tiles",
+        "realistic-wood",
+        "oak-wood-realistic",
+        "walnut-wood-realistic",
+        "gray-woodgrain-realistic",
+        "varnished-wood-realistic",
+        "ceramic-realistic",
+        "concrete-realistic",
+        "gray-carpet-realistic"
+      ]
+    },
+    "room.wall_texture": {
+      "distribution": "choice",
+      "values": [
+        "white-plaster",
+        "cool-white-paint",
+        "gray-plaster",
+        "industrial-concrete",
+        "blue-plaster",
+        "sage-plaster",
+        "warm-plaster",
+        "sand-plaster",
+        "muted-yellow-paint",
+        "soft-pink-paint",
+        "brick-accent",
+        "realistic-tile-wall",
+        "realistic-wood-panel",
+        "white-brick-realistic",
+        "cream-plaster-realistic",
+        "concrete-realistic"
+      ]
+    }
+  },
+  "assets": {
+    "texture_source": "ambientCG-CC0+robosuite-1.5.2"
+  },
+  "runtime": {
+    "lighting.layout": {
+      "distribution": "choice",
+      "values": [
+        "overcast",
+        "warm_indoor",
+        "daylight_side",
+        "cool_office",
+        "hard_sun",
+        "backlit",
+        "mixed_daylight"
+      ]
+    },
+    "lighting.intensity_scale": {
+      "distribution": "uniform",
+      "low": 0.8,
+      "high": 1.6
+    },
+    "lighting.azimuth_deg": {
+      "distribution": "uniform",
+      "low": -180,
+      "high": 180
+    }
+  }
+}

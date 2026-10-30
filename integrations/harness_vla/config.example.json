@@ -1,0 +1,9 @@
+{
+  "rpent_root": null,
+  "planner_model": null,
+  "vla_factory": null,
+  "vla": {},
+  "planner_timeout_s": 1200,
+  "max_turns": 100,
+  "close_timeout_s": 30
+}

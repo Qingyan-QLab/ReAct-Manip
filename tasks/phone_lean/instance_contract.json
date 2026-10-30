@@ -1,0 +1,519 @@
+{
+  "schema_version": "cl-manip.instance-contract.v1",
+  "task_id": "phone_lean",
+  "contract_version": "0.2-curved-config-only",
+  "status": "pilot",
+  "publication_status": "development_only",
+  "robot_id": "dual_piperx",
+  "control_hz": 20,
+  "horizon_sec": 180,
+  "evaluation": {
+    "practice": 10,
+    "exam": 5,
+    "exam_adaptation": "online",
+    "primary": "mean_exam_task_score",
+    "score_key": "total_score",
+    "invalid": "abort_group_without_official_score"
+  },
+  "ownership": {
+    "spec": [
+      "catalog",
+      "rules",
+      "control",
+      "robot_initialization_noise=0",
+      "settling_steps=25"
+    ],
+    "task_instance": [
+      "support_names (exactly four selected supports)",
+      "small_support_names (exactly two supports; book is excluded)",
+      "large_support_names (the remaining two supports)",
+      "phone_and_four_support_dimensions",
+      "phone_and_four_support_mass",
+      "phone_and_four_support_friction",
+      "table_friction",
+      "gravity"
+    ],
+    "episode_instance": [
+      "phone-on-table and support initial positions",
+      "fixed upright identity orientation for supports, including book front toward world -Y",
+      "explicit integration initial_state",
+      "compiled Episode runtime identity",
+      "round_plan=null"
+    ]
+  },
+  "sampling_profile": {
+    "schema_version": "2.0",
+    "profile_id": "phone_lean_v2_curved_config_only",
+    "task_id": "phone_lean",
+    "task_instance": {
+      "gravity_m_s2": [
+        9.8,
+        11
+      ],
+      "size_scale": {
+        "phone": [
+          0.9,
+          1
+        ],
+        "cup": [
+          0.85,
+          1.15
+        ],
+        "bowl": [
+          0.85,
+          1.15
+        ],
+        "pyramid": [
+          0.85,
+          1.15
+        ],
+        "alarm_clock": [
+          0.85,
+          1.15
+        ],
+        "book": [
+          0.85,
+          1.15
+        ],
+        "bottle": [
+          0.85,
+          1.15
+        ],
+        "can": [
+          0.85,
+          1.15
+        ],
+        "vase": [
+          0.85,
+          1.15
+        ],
+        "cone": [
+          0.85,
+          1.15
+        ],
+        "dumbbell": [
+          0.85,
+          1.15
+        ]
+      },
+      "mass_kg": {
+        "phone": [
+          0.32,
+          0.32
+        ],
+        "cup": [
+          0.03,
+          0.06
+        ],
+        "bowl": [
+          0.2,
+          0.2
+        ],
+        "pyramid": [
+          0.025,
+          0.05
+        ],
+        "alarm_clock": [
+          0.035,
+          0.07
+        ],
+        "book": [
+          0.015,
+          0.03
+        ],
+        "bottle": [
+          0.25,
+          0.3
+        ],
+        "can": [
+          0.02,
+          0.04
+        ],
+        "vase": [
+          0.025,
+          0.05
+        ],
+        "cone": [
+          0.2,
+          0.4
+        ],
+        "dumbbell": [
+          0.03,
+          0.06
+        ]
+      },
+      "surface_friction": {
+        "table": [
+          [
+            0.2,
+            0.2
+          ],
+          [
+            0.001,
+            0.006
+          ],
+          [
+            0.00002,
+            0.0002
+          ]
+        ],
+        "phone": [
+          [
+            0.8,
+            0.8
+          ],
+          [
+            0.001,
+            0.006
+          ],
+          [
+            0.00002,
+            0.0002
+          ]
+        ],
+        "cup": [
+          [
+            0.1,
+            0.2
+          ],
+          [
+            0.001,
+            0.006
+          ],
+          [
+            0.00002,
+            0.0002
+          ]
+        ],
+        "bowl": [
+          [
+            0.8,
+            0.8
+          ],
+          [
+            0.001,
+            0.006
+          ],
+          [
+            0.00002,
+            0.0002
+          ]
+        ],
+        "pyramid": [
+          [
+            0.2,
+            0.2
+          ],
+          [
+            0.001,
+            0.006
+          ],
+          [
+            0.00002,
+            0.0002
+          ]
+        ],
+        "alarm_clock": [
+          [
+            0.2,
+            0.2
+          ],
+          [
+            0.001,
+            0.006
+          ],
+          [
+            0.00002,
+            0.0002
+          ]
+        ],
+        "book": [
+          [
+            0.2,
+            0.2
+          ],
+          [
+            0.001,
+            0.006
+          ],
+          [
+            0.00002,
+            0.0002
+          ]
+        ],
+        "bottle": [
+          [
+            0.8,
+            0.8
+          ],
+          [
+            0.001,
+            0.006
+          ],
+          [
+            0.00002,
+            0.0002
+          ]
+        ],
+        "can": [
+          [
+            0.2,
+            0.2
+          ],
+          [
+            0.001,
+            0.006
+          ],
+          [
+            0.00002,
+            0.0002
+          ]
+        ],
+        "vase": [
+          [
+            0.2,
+            0.2
+          ],
+          [
+            0.001,
+            0.006
+          ],
+          [
+            0.00002,
+            0.0002
+          ]
+        ],
+        "cone": [
+          [
+            0.8,
+            0.8
+          ],
+          [
+            0.001,
+            0.006
+          ],
+          [
+            0.00002,
+            0.0002
+          ]
+        ],
+        "dumbbell": [
+          [
+            0.2,
+            0.2
+          ],
+          [
+            0.001,
+            0.006
+          ],
+          [
+            0.00002,
+            0.0002
+          ]
+        ]
+      },
+      "support_pool": [
+        "cup",
+        "bowl",
+        "pyramid",
+        "alarm_clock",
+        "book",
+        "bottle",
+        "can",
+        "vase",
+        "cone",
+        "dumbbell"
+      ],
+      "support_count": 4,
+      "size_groups": {
+        "small_count": [
+          2
+        ],
+        "large_only_supports": [
+          "book"
+        ],
+        "small_max_extent_to_phone_length": [
+          0.5,
+          0.6
+        ],
+        "nominal_max_extent_m": {
+          "cup": 0.14,
+          "bowl": 0.212,
+          "pyramid": 0.19,
+          "alarm_clock": 0.16,
+          "book": 0.3,
+          "bottle": 0.18,
+          "can": 0.15,
+          "vase": 0.18,
+          "cone": 0.18,
+          "dumbbell": 0.29
+        },
+        "small_mass_rule": "nominal sampled mass times size_scale cubed",
+        "role_rule": "select four supports uniformly; choose exactly two small supports from selected supports excluding large_only_supports; the remaining two are large",
+        "scoring_rule": "all four selected supports are eligible to score",
+        "support_shape_rule": "book is the only box-based support; every other support uses curved collision geometry",
+        "book_dimensions_m": {
+          "width": 0.22,
+          "thickness": 0.008,
+          "height": 0.3
+        },
+        "book_max_thickness_m": 0.01,
+        "book_min_realized_height_m": 0.25,
+        "book_front_direction_world": "-Y at the fixed identity initial quaternion"
+      }
+    },
+    "episode_instance": {
+      "support_position_xy_m": {
+        "left_outer": [
+          [
+            -0.52,
+            -0.49
+          ],
+          [
+            0.04,
+            0.12
+          ]
+        ],
+        "left_inner": [
+          [
+            -0.19,
+            -0.16
+          ],
+          [
+            -0.04,
+            0.04
+          ]
+        ],
+        "right_inner": [
+          [
+            0.16,
+            0.19
+          ],
+          [
+            -0.04,
+            0.04
+          ]
+        ],
+        "right_outer": [
+          [
+            0.49,
+            0.52
+          ],
+          [
+            0.04,
+            0.12
+          ]
+        ]
+      },
+      "phone_position_xy_m": [
+        [
+          -0.025,
+          0.025
+        ],
+        [
+          -0.2,
+          -0.16
+        ]
+      ],
+      "minimum_gap_m": 0.015,
+      "phone_approach_clearance_m": 0.08,
+      "max_layout_attempts": 256
+    },
+    "fixed": {
+      "gripper_contact_friction": [
+        1,
+        0.003,
+        0.0001
+      ],
+      "gripper_contact_condim": 3,
+      "surface_contact_condim": 6,
+      "simulation": {
+        "integrator": "implicitfast",
+        "solver_tolerance": 1e-10,
+        "multiccd": true,
+        "finger_joint_damping": 6,
+        "finger_contact_solref": [
+          0.008,
+          1
+        ],
+        "finger_contact_solimp": [
+          0.95,
+          0.99,
+          0.001
+        ],
+        "phone_contact_solref": [
+          0.006,
+          1
+        ],
+        "phone_contact_solimp": [
+          0.95,
+          0.99,
+          0.001
+        ],
+        "controller_kp": [
+          180,
+          180,
+          180,
+          60,
+          60,
+          60
+        ]
+      },
+      "robot_initialization_noise": 0,
+      "table_top_z_m": 0.68,
+      "initial_quaternion_wxyz": {
+        "supports": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "phone": [
+          0.5,
+          -0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "score_max": 100,
+      "required_successful_supports": 1,
+      "allow_support_repositioning": true,
+      "size_randomization": "independent_uniform_isotropic_scale_per_object",
+      "shape_randomization": false
+    }
+  },
+  "rules": {
+    "score": "100 on the first valid lean against any selected support; otherwise 0",
+    "angle_deg": [
+      45,
+      75
+    ],
+    "linear_speed_max_m_s": 0.005,
+    "angular_speed_max_rad_s": 0.05,
+    "drift_max_m": 0.005,
+    "stable_sec": 10,
+    "control_samples": 201,
+    "drift": "max Euclidean distance from each position in the current valid window to its latest position; >0.005 clears the window",
+    "contact": "MuJoCo normal force >=1e-4 N; phone-local back x>0.003*scale and bottom z<-0.060*scale; front contact x<-0.003*scale rejects the pose",
+    "release": "no load-bearing phone contact with either gripper; grasp-assist equality inactive",
+    "comparison": "inclusive angle/speed/drift limits; any invalid sample clears window",
+    "timeout": "score 0 at 3600 control steps unless success is achieved on that last step",
+    "invalid": "non-finite state/action or invalid action dimension/bounds aborts evaluation",
+    "orientation": "Circular Home button on local -Z remains on the lower half; signed bottom-to-top angle 45-75 degrees above table inclusive; angles above 75, upside-down and sideways are rejected. Light-blue back (+X) bears against any selected support; black front (-X) has no load-bearing contact with it. No world yaw restriction for the phone.",
+    "size_groups": "Each Task has exactly two large and two small supports. Book is large-only, stays at least 25 cm high and below 1 cm thick, and starts upright with its front toward world -Y. All four supports may score. No role, mass, IK, or physical witness is used to guarantee solvability.",
+    "support_geometry": "Book is the only support with box collision geometry. All other support collision geoms are cylinders, spheres, capsules, tapered round stacks, or the existing curved cup/bowl/pyramid geometry.",
+    "seed_fidelity": "Requested Task and Episode seeds are constructed exactly once and are never advanced to search for a solvable scene."
+  },
+  "episode_randomization": {
+    "version": 1,
+    "domains": {
+      "support_position_xy_m": "profile-bounded per assigned support slot",
+      "phone_position_xy_m": "profile-bounded central front grasp zone"
+    },
+    "sampler": "react_manip.instances.variation.sample_variation",
+    "storage": "Episode variation + runtime + initial_state; Task scenario is the baseline",
+    "schedule": "initial positions vary between Episodes; role ordering and support identities remain fixed within a Task",
+    "replay": "rebuild resolved Episode model; verify full runtime identity; restore exact initial state; no resampling during reset/step",
+    "policy_visibility": "qualitative runtime English instructions only; sampled values, solution axes, small-support names and files remain private"
+  }
+}

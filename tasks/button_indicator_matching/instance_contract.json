@@ -1,0 +1,230 @@
+{
+  "schema_version": "cl-manip.instance-contract.v1",
+  "status": "pilot",
+  "robot_id": "dual_piperx",
+  "time": {
+    "clock": "synchronous_simulation",
+    "policy_wait_advances_physics": false,
+    "terminal_priority": [
+      "invalid",
+      "failure",
+      "success",
+      "timeout"
+    ]
+  },
+  "observation": {
+    "public": [
+      "proprio",
+      "visual",
+      "current_instruction",
+      "task_feedback"
+    ],
+    "private": [
+      "resolved_parameters",
+      "initial_state_file",
+      "future_round_plan"
+    ]
+  },
+  "action": {
+    "frame": "world",
+    "bounds": [
+      -1,
+      1
+    ],
+    "layout": "runtime.action_layout",
+    "invalid_action": "invalid_run",
+    "left_arm": "allowed_by_existing_task_controller",
+    "layout_note": "dual_piperx has 14 arm/gripper controls; runtime.action_layout is authoritative."
+  },
+  "reset": {
+    "format": "mujoco.integration.v1",
+    "time": 0,
+    "task_counters": "zero",
+    "initialization_noise": null,
+    "state_restore_during_step": false
+  },
+  "evaluation": {
+    "practice": 10,
+    "exam": 5,
+    "primary": "mean_exam_task_score",
+    "invalid": "abort_group_without_official_score",
+    "exam_adaptation": "online",
+    "score_key": "total_score"
+  },
+  "task_id": "button_indicator_matching",
+  "contract_version": "2.1",
+  "control_hz": 20,
+  "horizon_sec": 120,
+  "ownership": {
+    "spec": [
+      "press_threshold",
+      "hold_duration",
+      "score_rule",
+      "horizon"
+    ],
+    "task_instance": [
+      "scenario.parameters.button_count",
+      "scenario.parameters.button_indicator_assignment",
+      "scenario.parameters.layout",
+      "scenario.parameters.label_mode",
+      "scenario.parameters.button.*",
+      "scenario.parameters.indicator.*",
+      "scenario.parameters.room.*",
+      "scenario.parameters.lighting.*",
+      "robot_id",
+      "scenario.parameters.desk.*"
+    ],
+    "episode_instance": [
+      "initial_state",
+      "round_plan.targets"
+    ],
+    "derived": [
+      "indicator state from measured button displacement"
+    ]
+  },
+  "rules": {
+    "pressed_q_lt": -0.003,
+    "hold_sec_gte": 0.5,
+    "correct_points": 20,
+    "incorrect_points": -20,
+    "success_score_gte": 100,
+    "round_advance_on": "instruction_completed",
+    "assignment_lifetime": "task_instance",
+    "legacy_reset_without_instance": "resample_assignment",
+    "initial_state_variation": "target sequence only in pilot",
+    "initial_score": 0,
+    "score_floor": 0,
+    "press_release": "q<-.003; before/after OR rising edge; early release clears timer; held buttons require release/repress after transition",
+    "correct_award": "correct button currently held>=.5s after a fresh press; one +20 then finish instruction",
+    "wrong_award": "first incorrect rising edge ends current instruction with -20; multiple errors on same tick still one penalty",
+    "simultaneous_buttons": "incorrect rising edge has priority over correct hold; one settlement per control tick",
+    "terminal": "five results then terminate, success iff all five correct; max120s",
+    "task_score": "signed outcome sum during play; at episode end (including truncation), total_score = min(100, max(0, raw_score)); average clamped episode scores for exams",
+    "round_count": 5,
+    "round_deadline_sec": 24,
+    "timeout_award": "24s from current instruction publication: -20 and advance; correct deadline tick wins unless wrong edge"
+  },
+  "sampling_profile": {
+    "schema_version": "1.0",
+    "profile_id": "button_indicator_matching_default",
+    "task_id": "button_indicator_matching",
+    "fixed": {
+      "button_count": 4,
+      "label_mode": "numeric"
+    },
+    "geometry": {
+      "button_count": {
+        "distribution": "choice",
+        "values": [
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "label_mode": {
+        "distribution": "choice",
+        "values": [
+          "numeric",
+          "letters",
+          "colors"
+        ]
+      }
+    },
+    "appearance": {
+      "room.floor_texture": {
+        "distribution": "choice",
+        "values": [
+          "light-gray-floor-tile",
+          "oak-wood-realistic",
+          "ceramic-realistic",
+          "gray-carpet-realistic",
+          "walnut-wood-realistic"
+        ]
+      },
+      "room.wall_texture": {
+        "distribution": "choice",
+        "values": [
+          "white-plaster",
+          "cool-white-paint",
+          "gray-plaster",
+          "brick-accent",
+          "cream-plaster-realistic"
+        ]
+      },
+      "desk.texture": {
+        "distribution": "choice",
+        "values": [
+          "oak-wood-realistic",
+          "walnut-wood-realistic",
+          "gray-woodgrain-realistic",
+          "varnished-wood-realistic",
+          "white-laminate",
+          "brushed-steel-realistic"
+        ]
+      },
+      "button.style": {
+        "distribution": "choice",
+        "values": [
+          "round",
+          "mushroom",
+          "square",
+          "dome"
+        ]
+      },
+      "button.material": {
+        "distribution": "choice",
+        "values": [
+          "black_rubber",
+          "blue_polymer",
+          "red_polymer",
+          "yellow_polymer",
+          "ivory_plastic",
+          "brushed_steel"
+        ]
+      },
+      "indicator.style": {
+        "distribution": "choice",
+        "values": [
+          "beacon",
+          "ring",
+          "square_panel",
+          "dome"
+        ]
+      },
+      "indicator.material": {
+        "distribution": "choice",
+        "values": [
+          "black_housing",
+          "white_housing",
+          "steel_housing",
+          "blue_housing"
+        ]
+      }
+    },
+    "runtime": {
+      "lighting.layout": {
+        "distribution": "choice",
+        "values": [
+          "overcast",
+          "warm_indoor",
+          "daylight_side",
+          "cool_office",
+          "backlit",
+          "mixed_daylight"
+        ]
+      },
+      "lighting.intensity_scale": {
+        "distribution": "uniform",
+        "low": 1.0,
+        "high": 1.35
+      },
+      "lighting.azimuth_deg": {
+        "distribution": "uniform",
+        "low": -180,
+        "high": 180
+      }
+    }
+  },
+  "publication_status": "development_only"
+}

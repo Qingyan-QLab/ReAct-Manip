@@ -1,0 +1,69 @@
+{
+  "api_version": "2.0",
+  "task_id": "ring_toss1",
+  "task_version": "0.4",
+  "task_type": "event",
+  "required_arms": 1,
+  "required_gripper": "parallel",
+  "supported_robots": [
+    "piperx"
+  ],
+  "control_hz": 20,
+  "horizon_sec": 180,
+  "done_behavior": "stop",
+  "success": {
+    "min_occupancy": 0,
+    "min_events": 1,
+    "max_failures": null,
+    "require_terminal_success": true
+  },
+  "action": {
+    "type": "cartesian_gripper",
+    "shape": [
+      7
+    ],
+    "fields": [
+      "dx",
+      "dy",
+      "dz",
+      "droll",
+      "dpitch",
+      "dyaw",
+      "gripper"
+    ]
+  },
+  "feedback": {
+    "success_signals": [
+      "success_state",
+      "terminal_success"
+    ],
+    "fields": [
+      "score",
+      "score_delta",
+      "hits",
+      "last_target",
+      "ring_states",
+      "events",
+      "task_seed"
+    ]
+  },
+  "metadata": {
+    "evaluation": {
+      "success": "physically released ring settles around a target peg"
+    },
+    "score_max": 100,
+    "action_layout": "Per-arm shape=7; default fixed ALOHA runtime has 14 controls, both arms enabled.",
+    "camera_contract": {
+      "version": "3.0",
+      "policy_cameras": [
+        "robot0_head_camera",
+        "robot0_wrist_right"
+      ],
+      "policy_mounting": "robot_main_and_wrists",
+      "default_resolution": [
+        640,
+        480
+      ]
+    }
+  }
+}

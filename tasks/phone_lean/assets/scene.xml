@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mujoco model="phone_cup">
+  <option timestep="0.002" gravity="0 0 -9.81" />
+  <worldbody>
+    <geom name="table" type="box" pos="0 0 0.655" size="0.8 0.7 0.025" friction="0.85 0.55 0.08" solref="0.004 1" solimp="0.92 0.98 0.002" />
+    <body name="phone" pos="0.30 -0.34 0.755">
+      <freejoint name="phone_free" />
+      <geom name="phone_body" type="box" pos="0 0 0.00315" size="0.0063 0.0385 0.07285" mass="0.174" friction="0.65 0.40 0.04" solref="0.004 1" solimp="0.93 0.99 0.002" contype="1" conaffinity="1" rgba="0.08 0.08 0.1 1" />
+      <geom name="phone_bottom_round" type="cylinder" pos="0 0 -0.0697" quat="0.7071067811865476 0.7071067811865475 0 0" size="0.0063 0.0385" mass="0.006" group="0" friction="0.65 0.003 0.0001" />
+    </body>
+    <!-- Tapered cup approximation: narrow lower cylinder + wider upper wall. -->
+    <geom name="cup_lower" type="cylinder" size="0.035 0.035" pos="0.18 0.0 0.715" mass="0.09" friction="0.95 0.55 0.08" solref="0.006 1" solimp="0.92 0.98 0.002" contype="0" conaffinity="0" rgba="0.08 0.35 0.72 0.9" />
+    <geom name="cup_upper" type="cylinder" size="0.055 0.07" pos="0.18 0.0 0.77" mass="0.097" friction="0.95 0.55 0.08" solref="0.006 1" solimp="0.92 0.98 0.002" contype="0" conaffinity="0" rgba="0.1 0.45 0.8 0.8" />
+    <geom name="support_box" type="box" pos="-0.24 -0.23 0.77" size="0.065 0.065 0.09" friction="0.75 .01 .001" contype="1" conaffinity="1" rgba="0.48 0.28 0.12 1.0" />
+    <body name="pyramid" pos="-0.18 -0.12 0.68">
+      <freejoint name="pyramid_free" />
+      <inertial pos="0 0 0.06" mass="0.18" diaginertia="0.001 0.001 0.001" />
+      <geom name="pyramid_rod_geom_0" type="capsule" fromto="0.085 0 0.008 -0.0425 0.073612 0.008" size="0.008" mass="0.03" contype="1" conaffinity="1" friction="0.75 .01 .001" rgba="0.83 0.48 0.08 1.0" />
+      <geom name="pyramid_rod_geom_1" type="capsule" fromto="-0.0425 0.073612 0.008 -0.0425 -0.073612 0.008" size="0.008" mass="0.03" contype="1" conaffinity="1" friction="0.75 .01 .001" rgba="0.83 0.48 0.08 1.0" />
+      <geom name="pyramid_rod_geom_2" type="capsule" fromto="-0.0425 -0.073612 0.008 0.085 0 0.008" size="0.008" mass="0.03" contype="1" conaffinity="1" friction="0.75 .01 .001" rgba="0.83 0.48 0.08 1.0" />
+      <geom name="pyramid_rod_geom_3" type="capsule" fromto="0.085 0 0.008 0 0 0.155" size="0.008" mass="0.03" contype="1" conaffinity="1" friction="0.75 .01 .001" rgba="0.83 0.48 0.08 1.0" />
+      <geom name="pyramid_rod_geom_4" type="capsule" fromto="-0.0425 0.073612 0.008 0 0 0.155" size="0.008" mass="0.03" contype="1" conaffinity="1" friction="0.75 .01 .001" rgba="0.83 0.48 0.08 1.0" />
+      <geom name="pyramid_rod_geom_5" type="capsule" fromto="-0.0425 -0.073612 0.008 0 0 0.155" size="0.008" mass="0.03" contype="1" conaffinity="1" friction="0.75 .01 .001" rgba="0.83 0.48 0.08 1.0" />
+    </body>
+  </worldbody>
+</mujoco>

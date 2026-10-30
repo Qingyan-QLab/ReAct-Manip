@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "panda_curling_push",
+  "task_id": "curling_push",
+  "geometry": {"target.distance_m": {"distribution": "uniform", "low": 1.0, "high": 5.0}},
+  "physics": {"stone.mass_kg": {"distribution": "uniform", "low": 1.0, "high": 10.0}},
+  "fixed": {
+    "stone": {"radius_m": 0.09, "height_m": 0.07, "start_x_m": 0.50},
+    "target": {"radius_m": 0.30},
+    "ice": {"length_m": 5.5, "width_m": 0.90, "height_m": 0.65, "friction": 0.006},
+    "rules": {"push_end_x_m": 0.90, "max_push_sec": 1.5, "release_gap_sec": 0.06, "stop_speed_mps": 0.015, "stop_angular_speed_rps": 0.10, "stop_hold_sec": 0.6, "max_lift_m": 0.06},
+    "control": {"hz": 50, "horizon_sec": 60, "position_scale": 0.15, "rotation_scale": 0.25}
+  },
+  "appearance": {
+    "room.floor_texture": {"distribution": "choice", "values": ["light-gray-floor-tile", "concrete-realistic"]},
+    "room.wall_texture": {"distribution": "choice", "values": ["cream-plaster-realistic", "white-brick-realistic"]},
+    "desk.texture": {"distribution": "choice", "values": ["white-laminate", "brushed-steel-realistic"]}
+  },
+  "runtime": {
+    "lighting.layout": {"distribution": "choice", "values": ["overcast", "cool_office"]},
+    "lighting.intensity_scale": {"distribution": "uniform", "low": 0.8, "high": 1.2},
+    "lighting.azimuth_deg": {"distribution": "uniform", "low": -90, "high": 90}
+  }
+}

@@ -1,0 +1,248 @@
+{
+  "schema_version": "cl-manip.instance-contract.v1",
+  "status": "pilot",
+  "robot_id": "piperx",
+  "time": {
+    "clock": "synchronous_simulation",
+    "policy_wait_advances_physics": false,
+    "terminal_priority": [
+      "invalid",
+      "failure",
+      "success",
+      "timeout"
+    ]
+  },
+  "observation": {
+    "public": [
+      "proprio",
+      "visual",
+      "current_instruction",
+      "task_feedback"
+    ],
+    "private": [
+      "resolved_parameters",
+      "initial_state_file",
+      "future_round_plan"
+    ]
+  },
+  "action": {
+    "frame": "world",
+    "bounds": [
+      -1,
+      1
+    ],
+    "layout": "runtime.action_layout",
+    "invalid_action": "invalid_run",
+    "left_arm": "not_present",
+    "layout_note": "piperx has 7 arm/gripper controls; runtime.action_layout is authoritative."
+  },
+  "reset": {
+    "format": "mujoco.integration.v1",
+    "time": 0,
+    "task_counters": "zero",
+    "initialization_noise": null,
+    "state_restore_during_step": false,
+    "variation": "none; seed is provenance only, not a reset randomization input",
+    "ball_pose": [
+      0.6,
+      0.22,
+      0.676,
+      1,
+      0,
+      0,
+      0
+    ],
+    "round_plan": null
+  },
+  "evaluation": {
+    "practice": 10,
+    "exam": 5,
+    "primary": "mean_exam_task_score",
+    "invalid": "abort_group_without_official_score",
+    "exam_adaptation": "online",
+    "score_key": "total_score"
+  },
+  "task_id": "rail_ball_to_cup",
+  "contract_version": "1.1",
+  "control_hz": 50,
+  "horizon_sec": 60,
+  "ownership": {
+    "spec": [
+      "ball size, mass, friction and pickup pose",
+      "rail family, fixed anchors, spacing, radius, 160 segments per rail",
+      "cup geometry and position",
+      "contact physics and robot/controller configuration",
+      "success/failure thresholds and 50 Hz / 60 seconds",
+      "sampling domains"
+    ],
+    "task_instance": [
+      "cup.base_height_m",
+      "track.start_height",
+      "track.exit_angle_deg",
+      "room.floor_texture",
+      "room.wall_texture",
+      "desk.texture",
+      "lighting.layout",
+      "lighting.intensity_scale",
+      "lighting.azimuth_deg"
+    ],
+    "episode_instance": [
+      "episode_id",
+      "initial_state (identical fixed reset state for all 15 attempts)"
+    ],
+    "policy_decision": [
+      "release position chosen through robot actions"
+    ],
+    "derived": [
+      "Hermite curve and compiled collision model from resolved track parameters"
+    ]
+  },
+  "rules": {
+    "grasp": "both active-arm fingers contact for >=0.1 s at control ticks; lift while both touch until ball center z>0.735 m",
+    "open_request": "after lifted, active gripper action < -0.5",
+    "release": "no gripper contact for >=0.06 s at physics substeps; record first uninterrupted separation position/velocity",
+    "legal_release": "open requested AND min distance to 250 uniformly sampled track.ball_position(x, clearance=0), x in [0.32,0.57], <=0.035 m AND linear speed<=0.45 m/s",
+    "route": "after release: rail contact with 0.64<x<0.73; then contact one of last 3 rail segments; then no rail contact >=0.008 s and center x>0.875; separation-start vx>0 AND vz>0",
+    "inside_cup": "relative to the resolved cup pose (x=1.10, y=-0.18, base_height_m): -0.008<z<0.153 AND hypot(x,y)<0.033 (small contact/measurement tolerance)",
+    "success": "released AND inside_cup AND no gripper contact AND speed<0.12 m/s continuously >=0.3 s at 50 Hz, with no failure; route milestones are recorded when detected but are not required for the terminal occupancy check",
+    "completion_event": "ball_settled_in_cup only; milestones never count as completion",
+    "failure_checks": [
+      "release without open request => ball_slipped",
+      "release distance>0.035 or speed>0.45 => release_outside_track_or_thrown",
+      "gripper contact after confirmed release => ball_touched_after_release",
+      "confirmed separation with vx<=0 or vz<=0 => invalid_exit",
+      "rail contact after confirmed launch => rail_contact_after_launch",
+      "ball center z<0.035 => missed_cup or bounced_out",
+      "max(abs(ball center coordinates))>4 => out_of_bounds",
+      "released AND outside cup AND no gripper contact AND speed<0.04 m/s continuously >=1 s => stalled_on_rail or settled_outside_cup"
+    ],
+    "nonfinite": "native environment reports non_finite_state; unified replay marks run invalid and aborts the group, not a zero-score model failure",
+    "score": "100 on terminal success; otherwise 0; reward=1 on success, otherwise 0",
+    "failure_priority": "failure blocks success at the same control tick",
+    "horizon": "3000 control steps = 60 simulated seconds; timeout without terminal result is truncation and score 0",
+    "rounds": false,
+    "initial_state_variation": "none",
+    "feasibility": "existing independent 25-position physical scan must demonstrate a launch and cup success or generation fails; no automatic replacement seed; not a robot-path certificate"
+  },
+  "sampling_profile": {
+    "schema_version": "1.0",
+    "profile_id": "curved_dual_rail_v1",
+    "task_id": "rail_ball_to_cup",
+    "appearance": {
+      "room.floor_texture": {
+        "distribution": "choice",
+        "values": [
+          "light-gray-floor-tile",
+          "wood-tiles",
+          "light-wood-parquet",
+          "dark-wood-parquet",
+          "slate-stone",
+          "sandstone",
+          "terrazzo",
+          "rubber-mat",
+          "blue-carpet",
+          "cream-linoleum",
+          "realistic-tiles",
+          "realistic-wood",
+          "oak-wood-realistic",
+          "walnut-wood-realistic",
+          "gray-woodgrain-realistic",
+          "varnished-wood-realistic",
+          "ceramic-realistic",
+          "concrete-realistic",
+          "gray-carpet-realistic"
+        ]
+      },
+      "room.wall_texture": {
+        "distribution": "choice",
+        "values": [
+          "white-plaster",
+          "cool-white-paint",
+          "gray-plaster",
+          "industrial-concrete",
+          "blue-plaster",
+          "sage-plaster",
+          "warm-plaster",
+          "sand-plaster",
+          "muted-yellow-paint",
+          "soft-pink-paint",
+          "brick-accent",
+          "realistic-tile-wall",
+          "realistic-wood-panel",
+          "white-brick-realistic",
+          "cream-plaster-realistic",
+          "concrete-realistic"
+        ]
+      },
+      "desk.texture": {
+        "distribution": "choice",
+        "values": [
+          "light-wood",
+          "dark-wood",
+          "maple-wood",
+          "walnut-wood",
+          "white-laminate",
+          "black-laminate",
+          "brushed-metal",
+          "oak-wood-realistic",
+          "walnut-wood-realistic",
+          "gray-woodgrain-realistic",
+          "varnished-wood-realistic",
+          "brushed-steel-realistic"
+        ]
+      }
+    },
+    "assets": {
+      "texture_source": "ambientCG-CC0+robosuite-1.5.2"
+    },
+    "runtime": {
+      "lighting.layout": {
+        "distribution": "choice",
+        "values": [
+          "overcast",
+          "warm_indoor",
+          "daylight_side",
+          "cool_office",
+          "hard_sun",
+          "backlit",
+          "mixed_daylight"
+        ]
+      },
+      "lighting.intensity_scale": {
+        "distribution": "uniform",
+        "low": 0.8,
+        "high": 1.6
+      },
+      "lighting.azimuth_deg": {
+        "distribution": "uniform",
+        "low": -180,
+        "high": 180
+      }
+    },
+    "fixed": {
+      "ball": {
+        "radius_m": 0.025,
+        "mass_kg": 0.1,
+        "friction": 0.8
+      }
+    },
+    "geometry": {
+      "cup.base_height_m": {
+        "distribution": "uniform",
+        "low": 0.39,
+        "high": 0.47
+      },
+      "track.start_height": {
+        "distribution": "uniform",
+        "low": 0.91,
+        "high": 1.03
+      },
+      "track.exit_angle_deg": {
+        "distribution": "uniform",
+        "low": 18.0,
+        "high": 32.0
+      }
+    }
+  },
+  "publication_status": "development_only"
+}

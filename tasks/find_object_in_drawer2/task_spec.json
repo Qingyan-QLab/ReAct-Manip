@@ -1,0 +1,130 @@
+{
+  "api_version": "2.0",
+  "task_id": "find_object_in_drawer2",
+  "task_version": "1.5",
+  "task_type": "one_shot",
+  "required_arms": 2,
+  "required_gripper": "parallel",
+  "supported_robots": [
+    "dual_piperx"
+  ],
+  "horizon_sec": 600,
+  "control_hz": 20,
+  "success": {
+    "min_occupancy": 0,
+    "max_failures": null,
+    "require_terminal_success": true
+  },
+  "observation": {
+    "modalities": [
+      "proprio",
+      "visual",
+      "language",
+      "geometry"
+    ],
+    "default_policy_view": [
+      "proprio",
+      "visual",
+      "language"
+    ],
+    "geometry_view": "internal",
+    "fields": {
+      "proprio": [
+        "joint_pos",
+        "joint_vel",
+        "eef_pose",
+        "gripper_state"
+      ],
+      "visual": [
+        "robot0_head_camera",
+        "robot0_wrist_right",
+        "robot0_wrist_left"
+      ],
+      "language": [
+        "language_prompt"
+      ],
+      "geometry": [
+        "objects",
+        "target_index",
+        "drawers",
+        "target_placement",
+        "destination_box"
+      ]
+    },
+    "visibility": {
+      "policy": "proprio+visual+language",
+      "oracle": "all",
+      "benchmark_log": "all"
+    }
+  },
+  "action": {
+    "type": "eef_delta",
+    "shape": [
+      14
+    ],
+    "bounds": [
+      -1,
+      1
+    ],
+    "frame": "world",
+    "fields": [
+      "right_pose_6d",
+      "left_pose_6d",
+      "right_gripper",
+      "left_gripper"
+    ]
+  },
+  "feedback": {
+    "events": [
+      "task_success",
+      "instruction_completed"
+    ],
+    "success_signals": [
+      "success_state",
+      "terminal_success"
+    ],
+    "fields": [
+      "language_prompt",
+      "total_score",
+      "language_prompt_structured",
+      "completed_rounds",
+      "score_delta"
+    ]
+  },
+  "metadata": {
+    "display_name": "Bimanual search in six drawers",
+    "camera_contract": {
+      "version": "3.0",
+      "fixed": [
+        "workspace_oblique",
+        "workspace_top",
+        "room_overview"
+      ],
+      "mounted": "query get_camera_specs(); only physical embodiment sensors",
+      "observation_key": "images",
+      "default_resolution": [
+        640,
+        480
+      ],
+      "room_and_debug_opt_in": true,
+      "policy_cameras": [
+        "robot0_head_camera",
+        "robot0_wrist_right",
+        "robot0_wrist_left"
+      ],
+      "policy_mounting": "robot_main_and_wrists"
+    },
+    "action_dimensions_by_robot": {
+      "dual_piperx": 14
+    },
+    "default_robot": "dual_piperx",
+    "score_max": 100,
+    "active_arms": [
+      "right",
+      "left"
+    ]
+  },
+  "evaluation": {
+    "config": "evaluation.json"
+  }
+}

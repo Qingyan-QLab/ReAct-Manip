@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "find_object_in_drawer2_default",
+  "task_id": "find_object_in_drawer2",
+  "fixed": {
+    "drawer_count": 6,
+    "objects_per_drawer": 6,
+    "clutter_layers": 1
+  },
+  "geometry": {},
+  "appearance": {},
+  "runtime": {}
+}

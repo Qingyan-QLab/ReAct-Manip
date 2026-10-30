@@ -1,0 +1,265 @@
+{
+  "schema_version": "cl-manip.instance-contract.v1",
+  "status": "pilot",
+  "robot_id": "piperx",
+  "time": {
+    "clock": "synchronous_simulation",
+    "policy_wait_advances_physics": false
+  },
+  "observation": {
+    "public": [
+      "proprio",
+      "visual",
+      "current_instruction",
+      "task_feedback"
+    ],
+    "private": [
+      "resolved_parameters",
+      "initial_state_file",
+      "future_round_plan"
+    ]
+  },
+  "action": {
+    "frame": "world",
+    "bounds": [
+      -1,
+      1
+    ],
+    "layout": "runtime.action_layout",
+    "invalid_action": "invalid_run",
+    "left_arm": "not_present",
+    "layout_note": "piperx has 7 arm/gripper controls; runtime.action_layout is authoritative."
+  },
+  "reset": {
+    "format": "mujoco.integration.v1",
+    "time": 0,
+    "task_counters": "zero",
+    "initialization_noise": null,
+    "state_restore_during_step": false,
+    "variation": "none; seed is provenance only, not a reset randomization input",
+    "round_plan": null
+  },
+  "evaluation": {
+    "practice": 10,
+    "exam": 5,
+    "primary": "mean_exam_task_score",
+    "invalid": "abort_group_without_official_score",
+    "exam_adaptation": "online",
+    "score_key": "total_score"
+  },
+  "task_id": "tilte_maze",
+  "contract_version": "1.0",
+  "control_hz": 20,
+  "horizon_sec": 600,
+  "ownership": {
+    "spec": [
+      "task geometry constraints, scoring and deadline; fixed ALOHA initialization"
+    ],
+    "task_instance": [
+      "all resolved sampling_profile parameters"
+    ],
+    "episode_instance": [
+      "none; exact same reset state"
+    ],
+    "derived": []
+  },
+  "rules": {
+    "score": "clip(historical route progress -20*min(yellow entries,4),0,100)",
+    "success": "ball center in blue cell; progress100; terminate immediately",
+    "timeout": "600s, retain partial score",
+    "dynamics": "physical joystick contact; measured stick drives kinematic tray rotation at max30deg/s; free ball dynamics"
+  },
+  "sampling_profile": {
+    "schema_version": "1.0",
+    "profile_id": "tilte_maze_v9",
+    "task_id": "tilte_maze",
+    "fixed": {
+      "board": {
+        "half_size_m": 0.17,
+        "floor_height_m": 0.018,
+        "rim_height_m": 0.045,
+        "rim_width_m": 0.012,
+        "center_height_m": 0.85,
+        "density_kg_m3": 80.0,
+        "surface_friction": 0.05,
+        "surface_rolling_friction": 2.5e-05,
+        "center_xy_m": [
+          -0.28,
+          -0.45
+        ]
+      },
+      "maze": {
+        "wall_height_m": 0.034,
+        "wall_width_m": 0.0136,
+        "wall_friction": 0.035,
+        "wall_rolling_friction": 1.5e-05,
+        "wall_bounce": 0.78
+      },
+      "ball": {
+        "radius_m": 0.0122,
+        "diameter_to_start_passage_ratio": 0.8,
+        "mass_kg": 0.011,
+        "friction": 0.01,
+        "rolling_friction": 3e-06,
+        "start_xy_m": [
+          -0.14344,
+          0.14535
+        ]
+      },
+      "holes": {
+        "trap_xy_m": [],
+        "trap_half_size_m": 0.015,
+        "goal_xy_m": [
+          0.14344,
+          -0.14344
+        ],
+        "goal_half_size_m": 0.015
+      },
+      "task": {
+        "max_tilt_deg": 6.0,
+        "substeps_per_control": 10,
+        "horizon_sec": 600.0
+      },
+      "joystick": {
+        "max_angle_deg": 25.0,
+        "board_tilt_per_10_deg": 2.5,
+        "position_xy_m": [
+          -0.32,
+          -0.2
+        ],
+        "contact_friction": 4.0
+      }
+    },
+    "geometry": {
+      "board.half_size_m": {
+        "distribution": "uniform",
+        "low": 0.168,
+        "high": 0.172
+      },
+      "ball.start_x_m": {
+        "distribution": "uniform",
+        "low": -0.1436,
+        "high": -0.1433
+      },
+      "ball.start_y_m": {
+        "distribution": "uniform",
+        "low": 0.1452,
+        "high": 0.1455
+      }
+    },
+    "physics": {
+      "ball.mass_kg": {
+        "distribution": "uniform",
+        "low": 0.009,
+        "high": 0.013
+      },
+      "joystick.board_tilt_per_10_deg": {
+        "distribution": "uniform",
+        "low": 1.0,
+        "high": 4.0
+      },
+      "ball.friction": {
+        "distribution": "uniform",
+        "low": 0.005,
+        "high": 0.015
+      },
+      "ball.rolling_friction": {
+        "distribution": "uniform",
+        "low": 1e-06,
+        "high": 6e-06
+      },
+      "board.surface_friction": {
+        "distribution": "uniform",
+        "low": 0.025,
+        "high": 0.07
+      },
+      "board.surface_rolling_friction": {
+        "distribution": "uniform",
+        "low": 1e-05,
+        "high": 4e-05
+      },
+      "maze.wall_friction": {
+        "distribution": "uniform",
+        "low": 0.015,
+        "high": 0.055
+      },
+      "maze.wall_rolling_friction": {
+        "distribution": "uniform",
+        "low": 5e-06,
+        "high": 3e-05
+      },
+      "maze.wall_bounce": {
+        "distribution": "uniform",
+        "low": 0.65,
+        "high": 0.88
+      }
+    },
+    "appearance": {
+      "room.floor_texture": {
+        "distribution": "choice",
+        "values": [
+          "light-gray-floor-tile",
+          "oak-wood-realistic",
+          "ceramic-realistic",
+          "gray-carpet-realistic",
+          "walnut-wood-realistic"
+        ]
+      },
+      "room.wall_texture": {
+        "distribution": "choice",
+        "values": [
+          "white-plaster",
+          "cool-white-paint",
+          "gray-plaster",
+          "brick-accent",
+          "cream-plaster-realistic"
+        ]
+      }
+    },
+    "runtime": {
+      "lighting.layout": {
+        "distribution": "choice",
+        "values": [
+          "overcast",
+          "cool_office",
+          "daylight_side"
+        ]
+      },
+      "lighting.intensity_scale": {
+        "distribution": "uniform",
+        "low": 0.8,
+        "high": 1.1
+      },
+      "lighting.azimuth_deg": {
+        "distribution": "uniform",
+        "low": -45,
+        "high": 45
+      }
+    },
+    "randomization": {
+      "seed_source": "environment_seed",
+      "sample_once_per_scene": true,
+      "geometry": [
+        "board_size",
+        "hole_size",
+        "ball_start"
+      ],
+      "physics": [
+        "joystick_board_gain",
+        "ball_mass",
+        "ball_sliding_friction",
+        "ball_rolling_friction",
+        "surface_sliding_friction",
+        "surface_rolling_friction",
+        "wall_sliding_friction",
+        "wall_rolling_friction",
+        "wall_bounce"
+      ]
+    },
+    "assets": {
+      "generator": "tasks/tilte_maze/assets/gen_assets.py",
+      "asset_version": "tilte_maze_mjcf_v11_seeded_dynamics"
+    }
+  },
+  "publication_status": "development_only"
+}

@@ -1,0 +1,181 @@
+{
+  "sources": {
+    "arm": {
+      "repository": "https://github.com/agilexrobotics/agx_arm_urdf",
+      "revision": "983788b58d7eae76511177f768d85877534917fe",
+      "license": "MIT"
+    },
+    "mobile": {
+      "repository": "https://github.com/agilexrobotics/mobile_aloha_sim",
+      "revision": "f799ae0192c0c2bbd502ec4d9bbec8c2633acd1a",
+      "license": "package.xml declares BSD; no top-level LICENSE in pinned source",
+      "use": "Tracer chassis and support frame only; no legacy arms or grippers"
+    }
+  },
+  "files": {
+    "arm/LICENSE": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/LICENSE",
+      "sha256": "247944c63de1573653722ba784f96123da267105b7b48577e0c8826a24b809f6"
+    },
+    "arm/agx_gripper/meshes/gripper_base.stl": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/agx_gripper/meshes/gripper_base.stl",
+      "sha256": "0b839dc0bcb7d94e3422c74f6396b54a0441ba4836448ab5586e7f372d1bdbf3"
+    },
+    "arm/agx_gripper/meshes/gripper_link1.stl": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/agx_gripper/meshes/gripper_link1.stl",
+      "sha256": "475a7d8db056524d7659fadf5a2c307d62791047b6214d733dfc7846ed1c613d"
+    },
+    "arm/agx_gripper/meshes/gripper_link2.stl": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/agx_gripper/meshes/gripper_link2.stl",
+      "sha256": "3f88d534a85e28a33ef7d2061adacbd1d25214aa9325f9e464aad0f9e4b74606"
+    },
+    "arm/agx_gripper/meshes/dae/gripper_link1.dae": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/agx_gripper/meshes/dae/gripper_link1.dae",
+      "sha256": "b4aaf0e024d09eb0454e70e0c5092638edcf7da7c253d1effdeeaec46f76427b"
+    },
+    "arm/agx_gripper/meshes/dae/gripper_link2.dae": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/agx_gripper/meshes/dae/gripper_link2.dae",
+      "sha256": "0da1350898b2787b76b84698253aeb1efd2ddb6360b2fa2ae03ecff389883af8"
+    },
+    "arm/agx_gripper/meshes/dae/gripper_base.dae": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/agx_gripper/meshes/dae/gripper_base.dae",
+      "sha256": "aaea10ec06709d6a3343dd3378553eee3df40b43ee276df10c5b68ac7f61bae2"
+    },
+    "arm/piper_x/urdf/piper_x_description.urdf": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/piper_x/urdf/piper_x_description.urdf",
+      "sha256": "8786fa7d01c81358b446e8d5121ae2b8e7a9fc770513373f270f29a9d5a3a2f1"
+    },
+    "arm/piper_x/urdf/piper_x_with_gripper_description.xacro": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/piper_x/urdf/piper_x_with_gripper_description.xacro",
+      "sha256": "88561fe45a3f4e639c7a233b13574d88d7707b545110cb30b983e360cdb57420"
+    },
+    "arm/piper_x/meshes/flange.stl": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/piper_x/meshes/flange.stl",
+      "sha256": "f9ce752f93a6598858a779e3d8755a09e466b588efcffc3a1c3953773753a22b"
+    },
+    "arm/piper_x/meshes/link3.stl": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/piper_x/meshes/link3.stl",
+      "sha256": "c51994fa4ca6a0577cfc65fe5a666ad47ad6af8dc98fbe81b71c4a7fe8ad09a5"
+    },
+    "arm/piper_x/meshes/base_link.stl": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/piper_x/meshes/base_link.stl",
+      "sha256": "b732cf8a1f8435f51e3ec860f11189c3ec63744d3df008b7d3e9b6505dfc483d"
+    },
+    "arm/piper_x/meshes/link2.stl": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/piper_x/meshes/link2.stl",
+      "sha256": "0316b881cd0bae6c9f8f794fabdee7fbf041f83f2f75980d34b67555fe8a3561"
+    },
+    "arm/piper_x/meshes/link1.stl": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/piper_x/meshes/link1.stl",
+      "sha256": "60c53c4d5d20c5b663cc4ced2f5e322d2a857baa6e79cef04a33b5f9f7c1e985"
+    },
+    "arm/piper_x/meshes/link5.stl": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/piper_x/meshes/link5.stl",
+      "sha256": "fb7ab27270e6b5fa0b2e6df9fa37722062f4ff397cd4f89883d23551bedd0801"
+    },
+    "arm/piper_x/meshes/link4.stl": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/piper_x/meshes/link4.stl",
+      "sha256": "10b69bde5305c53fbb4a6dc4e910e8604d54d250a969e6cda8128d8244989831"
+    },
+    "arm/piper_x/meshes/link6.stl": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/piper_x/meshes/link6.stl",
+      "sha256": "8c391520fd963fe4f9b46afcde82ceeab2a93b73c01fc5debe039fe632f597e6"
+    },
+    "arm/piper_x/meshes/dae/link4.dae": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/piper_x/meshes/dae/link4.dae",
+      "sha256": "cda6aab6dfefb13d5409a691d7486c4253737f114cca9ada67da36a10fb08123"
+    },
+    "arm/piper_x/meshes/dae/link5.dae": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/piper_x/meshes/dae/link5.dae",
+      "sha256": "8c2a2da46dfe9d13fc8841a990694c77106c27be292fac4fc42a86cd78a2dee1"
+    },
+    "arm/piper_x/meshes/dae/link6.dae": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/piper_x/meshes/dae/link6.dae",
+      "sha256": "7e6076e2574f042f5067dd431e96486249cffbc8ab292fb66cb68848ad5bab9a"
+    },
+    "arm/piper_x/meshes/dae/link2.dae": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/piper_x/meshes/dae/link2.dae",
+      "sha256": "05ad1975346a330129dbce02131405dba6f51d74d0e5f3a70ec154ef219d9163"
+    },
+    "arm/piper_x/meshes/dae/base_link.dae": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/piper_x/meshes/dae/base_link.dae",
+      "sha256": "706008b1e425227d42fb490febb6a54a2a294a39911b8cf4e9ca4b8c61eb42bd"
+    },
+    "arm/piper_x/meshes/dae/link3.dae": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/piper_x/meshes/dae/link3.dae",
+      "sha256": "001b0b97dd514a9f8e6b321e12a8005d17198eb8b60ec443b9bd67251a3790ce"
+    },
+    "arm/piper_x/meshes/dae/link1.dae": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/piper_x/meshes/dae/link1.dae",
+      "sha256": "6448c874d7106738d20cdd044e0e88f86262935f0bc3bdc072c5025bcf47ecfd"
+    },
+    "arm/piper_x/meshes/dae/flange.dae": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/agx_arm_urdf/983788b58d7eae76511177f768d85877534917fe/piper_x/meshes/dae/flange.dae",
+      "sha256": "421c3e20c6109df3c96c5ce18ff0b2609b6604135ff790e4bfc1d9a281b0701a"
+    },
+    "mobile/aloha_new_description/urdf/aloha_new.urdf": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/mobile_aloha_sim/f799ae0192c0c2bbd502ec4d9bbec8c2633acd1a/aloha_new_description/urdf/aloha_new.urdf",
+      "sha256": "d4a115493af6a67ef969cfb8686b54f2970225b617ec6dd99cf682c0c4c7b6e9"
+    },
+    "mobile/aloha_new_description/package.xml": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/mobile_aloha_sim/f799ae0192c0c2bbd502ec4d9bbec8c2633acd1a/aloha_new_description/package.xml",
+      "sha256": "8b7aa5c8b34c8854ad4e033132ff1f8a406f5bb8c32260a8e14b337cf570dba4"
+    },
+    "mobile/aloha_new_description/meshes/base_link.STL": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/mobile_aloha_sim/f799ae0192c0c2bbd502ec4d9bbec8c2633acd1a/aloha_new_description/meshes/base_link.STL",
+      "sha256": "fd9c5c5816513cae313b6bee70f95474faadd136eb3ea19c68ffa451dfcd962a"
+    },
+    "mobile/aloha_new_description/meshes/link1.STL": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/mobile_aloha_sim/f799ae0192c0c2bbd502ec4d9bbec8c2633acd1a/aloha_new_description/meshes/link1.STL",
+      "sha256": "2288b210ac2a4a0a6150cbe024870e6d1eee21dea320d5d6d19d17eb3099b8ea"
+    },
+    "mobile/aloha_new_description/meshes/link2.STL": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/mobile_aloha_sim/f799ae0192c0c2bbd502ec4d9bbec8c2633acd1a/aloha_new_description/meshes/link2.STL",
+      "sha256": "09f46d7c93dccf8073491fb4ef6fb89dbe5ec9b5e82ad2c383b96a50dd6fe81f"
+    },
+    "mobile/aloha_new_description/meshes/link3.STL": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/mobile_aloha_sim/f799ae0192c0c2bbd502ec4d9bbec8c2633acd1a/aloha_new_description/meshes/link3.STL",
+      "sha256": "80077a3cb2fd4bf4a7f65920c8f3e2f3a590c6059146dc08731a536244114210"
+    },
+    "mobile/aloha_new_description/meshes/link4.STL": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/mobile_aloha_sim/f799ae0192c0c2bbd502ec4d9bbec8c2633acd1a/aloha_new_description/meshes/link4.STL",
+      "sha256": "e9963ce55b0796a61e4f9eb3445d81f4d40b67dcfd43eafcf2619c637f341cfe"
+    },
+    "mobile/aloha_new_description/meshes/link5.STL": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/mobile_aloha_sim/f799ae0192c0c2bbd502ec4d9bbec8c2633acd1a/aloha_new_description/meshes/link5.STL",
+      "sha256": "ab9877b96fe2b69622011049735f0fd244b1e30ada2dc65840364c07a5154323"
+    },
+    "mobile/aloha_new_description/meshes/piper_slave_meshes/link6.STL": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/mobile_aloha_sim/f799ae0192c0c2bbd502ec4d9bbec8c2633acd1a/aloha_new_description/meshes/piper_slave_meshes/link6.STL",
+      "sha256": "227f63feb64d17c397c76ebb96a8720476345a3bba36e0d6d7c9d938db8ce677"
+    },
+    "mobile/aloha_new_description/meshes/tracer_base_link_no_wheel.dae": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/mobile_aloha_sim/f799ae0192c0c2bbd502ec4d9bbec8c2633acd1a/aloha_new_description/meshes/tracer_base_link_no_wheel.dae",
+      "sha256": "d3a1ee3b34dbc418e888d68148d04fccda589e00d5100fbd3cbc2f17154e0a08"
+    },
+    "mobile/aloha_new_description/meshes/tracer_wheel.dae": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/mobile_aloha_sim/f799ae0192c0c2bbd502ec4d9bbec8c2633acd1a/aloha_new_description/meshes/tracer_wheel.dae",
+      "sha256": "42784402bca05e9f406f4e08d8ea1cc7ff57db9fee0e0b0b557670d0ee1d10c1"
+    },
+    "mobile/aloha_new_description/meshes/castor_joint.dae": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/mobile_aloha_sim/f799ae0192c0c2bbd502ec4d9bbec8c2633acd1a/aloha_new_description/meshes/castor_joint.dae",
+      "sha256": "901cad2da533c8fd0f3e3ce25a4d5b5d1c689d5f852640cd7dab041dc647d629"
+    },
+    "mobile/aloha_new_description/meshes/castor.dae": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/mobile_aloha_sim/f799ae0192c0c2bbd502ec4d9bbec8c2633acd1a/aloha_new_description/meshes/castor.dae",
+      "sha256": "0a61bca6839f37ebebd89021474821abfd908d2b50867f221e3504db4d84a06a"
+    },
+    "mobile/aloha_new_description/meshes/body.dae": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/mobile_aloha_sim/f799ae0192c0c2bbd502ec4d9bbec8c2633acd1a/aloha_new_description/meshes/body.dae",
+      "sha256": "2bad2557aad93a83adad913da6ee30f32d4414602f9f7be138c377a0543be659"
+    },
+    "mobile/aloha_new_description/meshes/piper_slave_meshes/link7.STL": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/mobile_aloha_sim/f799ae0192c0c2bbd502ec4d9bbec8c2633acd1a/aloha_new_description/meshes/piper_slave_meshes/link7.STL",
+      "sha256": "63d89c3e9d5aba6c230f21a1e8ad5724f3818a1dba7e3493c58de4bee8d44cac"
+    },
+    "mobile/aloha_new_description/meshes/piper_slave_meshes/link8.STL": {
+      "url": "https://raw.githubusercontent.com/agilexrobotics/mobile_aloha_sim/f799ae0192c0c2bbd502ec4d9bbec8c2633acd1a/aloha_new_description/meshes/piper_slave_meshes/link8.STL",
+      "sha256": "8ff0fa31925c2339f8c64171e47c91410b671530d6613e33472b710cc4968ece"
+    }
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "schema_version": "cl-manip.instance-contract.v1",
+  "status": "pilot",
+  "robot_id": "piperx",
+  "time": {
+    "clock": "synchronous_simulation",
+    "policy_wait_advances_physics": false,
+    "terminal_priority": [
+      "invalid",
+      "failure",
+      "success",
+      "timeout"
+    ]
+  },
+  "observation": {
+    "public": [
+      "proprio",
+      "visual",
+      "current_instruction",
+      "task_feedback"
+    ],
+    "private": [
+      "resolved_parameters",
+      "initial_state_file",
+      "future_round_plan"
+    ]
+  },
+  "action": {
+    "frame": "world",
+    "bounds": [
+      -1,
+      1
+    ],
+    "layout": "runtime.action_layout",
+    "invalid_action": "invalid_run",
+    "left_arm": "not_present",
+    "layout_note": "piperx has 7 arm/gripper controls; runtime.action_layout is authoritative."
+  },
+  "reset": {
+    "format": "mujoco.integration.v1",
+    "time": 0,
+    "task_counters": "ready; first_contact/last_contact/last_time=None; rest_sec=0; success=False; failure=None; finished=False; display attempt normalized by replay adapter",
+    "initialization_noise": null,
+    "state_restore_during_step": false,
+    "variation": "none; same initial state across all 15 attempts"
+  },
+  "evaluation": {
+    "practice": 10,
+    "exam": 5,
+    "primary": "mean_exam_task_score",
+    "invalid": "abort_group_without_official_score",
+    "exam_adaptation": "online",
+    "score_key": "task_score",
+    "policy_state": "one policy per Task Instance; retain and allow learning in both practice and exam; no snapshot rollback; new policy for next Task Instance"
+  },
+  "task_id": "curling_push",
+  "contract_version": "1.2",
+  "control_hz": 50,
+  "horizon_sec": 60,
+  "ownership": {
+    "spec": [
+      "sampling_profile.fixed.stone.radius_m",
+      "sampling_profile.fixed.stone.height_m",
+      "sampling_profile.fixed.stone.start_x_m",
+      "sampling_profile.fixed.target.radius_m",
+      "sampling_profile.fixed.ice.*",
+      "sampling_profile.fixed.rules.*",
+      "sampling_profile.fixed.control.*",
+      "sampling domains in sampling_profile.geometry/physics/appearance/runtime",
+      "robot_id=piperx for this instance track; fixed robot initialization with noise disabled"
+    ],
+    "task_instance": [
+      "scenario.parameters.stone.mass_kg",
+      "scenario.parameters.target.distance_m",
+      "scenario.parameters.room.*",
+      "scenario.parameters.desk.*",
+      "scenario.parameters.lighting.*"
+    ],
+    "episode_instance": [
+      "episode_id",
+      "initial_state (same reset state for all 15 attempts; no sampled variation; round_plan=null)"
+    ],
+    "derived": [
+      "model geometry from resolved Scenario",
+      "initial stone and robot state under the fixed reset procedure"
+    ],
+    "storage_note": "Scenario repeats fixed Spec values to reconstruct and validate the environment. Storage in the Task Instance file does not make these values freely variable."
+  },
+  "rules": {
+    "phase_initial": "ready",
+    "first_contact": "any robot/gripper geom touching stone => pushing",
+    "release": "pushing AND no contact AND time-last_contact >= 0.06 => sliding",
+    "failure_checks": [
+      "any nonfinite position/velocity => invalid_run in replay adapter",
+      "x-radius < 0.2 OR x+radius > ice.length_m OR abs(y)+radius > ice.width_m/2 OR z < ice.height_m-0.02 => out_of_bounds",
+      "z > ice.height_m+stone.height_m/2+0.06 => stone_lifted",
+      "contact AND phase=sliding => second_push",
+      "contact AND x > 0.90 => push_beyond_launch_zone",
+      "phase=pushing AND release condition false AND time-first_contact > 1.5 => push_too_long"
+    ],
+    "rest": "phase=sliding AND no contact AND norm(linear_velocity)<0.015 AND norm(angular_velocity)<0.10; reset accumulated rest to zero when false",
+    "success": "after continuous rest >=0.6 sec, check norm([x-target.distance_m,y])+stone.radius_m <= target.radius_m at settlement time only, and no failure; containment is not required throughout the rest window",
+    "stopped_outside_target": "rest >=0.6 sec AND containment false => immediate failure",
+    "timeout": "at 3000 control steps (60 simulated seconds), if no earlier terminal result: truncated=True, failure=timeout, task_score=0",
+    "check_rate": "each MuJoCo physics substep, dt=0.002 seconds",
+    "failure_priority": "failure overrides success on the same substep",
+    "task_score": "100 if terminal_success else 0",
+    "rounds": false,
+    "initial_state_variation": "none in pilot"
+  },
+  "sampling_profile": {
+    "schema_version": "1.0",
+    "profile_id": "panda_curling_push",
+    "task_id": "curling_push",
+    "geometry": {
+      "target.distance_m": {
+        "distribution": "uniform",
+        "low": 1.0,
+        "high": 5.0
+      }
+    },
+    "physics": {
+      "stone.mass_kg": {
+        "distribution": "uniform",
+        "low": 1.0,
+        "high": 10.0
+      }
+    },
+    "fixed": {
+      "stone": {
+        "radius_m": 0.09,
+        "height_m": 0.07,
+        "start_x_m": 0.5
+      },
+      "target": {
+        "radius_m": 0.3
+      },
+      "ice": {
+        "length_m": 5.5,
+        "width_m": 0.9,
+        "height_m": 0.65,
+        "friction": 0.006
+      },
+      "rules": {
+        "push_end_x_m": 0.9,
+        "max_push_sec": 1.5,
+        "release_gap_sec": 0.06,
+        "stop_speed_mps": 0.015,
+        "stop_angular_speed_rps": 0.1,
+        "stop_hold_sec": 0.6,
+        "max_lift_m": 0.06
+      },
+      "control": {
+        "hz": 50,
+        "horizon_sec": 60,
+        "position_scale": 0.15,
+        "rotation_scale": 0.25
+      }
+    },
+    "appearance": {
+      "room.floor_texture": {
+        "distribution": "choice",
+        "values": [
+          "light-gray-floor-tile",
+          "concrete-realistic"
+        ]
+      },
+      "room.wall_texture": {
+        "distribution": "choice",
+        "values": [
+          "cream-plaster-realistic",
+          "white-brick-realistic"
+        ]
+      },
+      "desk.texture": {
+        "distribution": "choice",
+        "values": [
+          "white-laminate",
+          "brushed-steel-realistic"
+        ]
+      }
+    },
+    "runtime": {
+      "lighting.layout": {
+        "distribution": "choice",
+        "values": [
+          "overcast",
+          "cool_office"
+        ]
+      },
+      "lighting.intensity_scale": {
+        "distribution": "uniform",
+        "low": 0.8,
+        "high": 1.2
+      },
+      "lighting.azimuth_deg": {
+        "distribution": "uniform",
+        "low": -90,
+        "high": 90
+      }
+    }
+  },
+  "publication_status": "development_only"
+}

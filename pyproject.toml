@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "react-manip"
+version = "0.4.0"
+description = "Sixteen-task MuJoCo environment and evaluation runtime for adaptive robot manipulation"
+readme = "README.md"
+requires-python = ">=3.10,<3.11"
+license = "PolyForm-Noncommercial-1.0.0"
+
+dependencies = [
+    "numpy==1.26.4",
+    "mujoco==3.3.1",
+    "robosuite==1.5.2",
+    "scipy==1.15.3",
+    "numba==0.67.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Qingyan-QLab/ReAct-Manip"
+Repository = "https://github.com/Qingyan-QLab/ReAct-Manip"
+Issues = "https://github.com/Qingyan-QLab/ReAct-Manip/issues"
+
+[project.optional-dependencies]
+assets = ["trimesh==5.1.1", "pycollada==0.9.3", "lxml==6.1.3", "python-dateutil==2.9.0.post0", "six==1.17.0", "coacd==1.0.7", "rtree==1.4.1", "networkx==3.4.2"]
+demo = ["pygame==2.6.1"]
+
+[project.scripts]
+react-manip-assets = "react_manip.asset_cli:main"
+react-manip-evaluate = "scripts.evaluate_policy:main"
+react-manip-demo = "scripts.pygame_demo:main"
+
+[tool.setuptools.packages.find]
+namespaces = true
+include = [
+    "react_manip", "react_manip.*",
+    "tasks", "tasks.*",
+    "configs", "configs.*",
+    "assets", "assets.category_drawer_sorting",
+    "assets.materials", "assets.materials.realistic", "assets.materials.realistic.*",
+    "scripts",
+]
+exclude = ["react_manip.suites", "react_manip.suites.*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.json", "assets/*", "assets/textures/*"]
+"assets.materials.realistic.common" = ["*.png"]
+"assets.materials.realistic.tiles074" = ["*.png"]
+"assets.materials.realistic.woodfloor049" = ["*.png"]
+"scripts" = ["piperx_assets.lock.json"]
+"react_manip.robots" = ["legacy_agilex_assets.lock.json"]

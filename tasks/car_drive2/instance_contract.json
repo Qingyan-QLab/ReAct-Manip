@@ -1,0 +1,206 @@
+{
+  "schema_version": "cl-manip.instance-contract.v1",
+  "status": "pilot",
+  "robot_id": "dual_piperx",
+  "time": {
+    "clock": "synchronous_simulation",
+    "policy_wait_advances_physics": false
+  },
+  "observation": {
+    "public": [
+      "proprio",
+      "visual",
+      "current_instruction",
+      "task_feedback"
+    ],
+    "private": [
+      "resolved_parameters",
+      "initial_state_file",
+      "future_round_plan"
+    ]
+  },
+  "action": {
+    "frame": "base",
+    "bounds": [
+      -1,
+      1
+    ],
+    "layout": "runtime.action_layout",
+    "invalid_action": "invalid_run",
+    "left_arm": "allowed_by_existing_task_controller",
+    "layout_note": "14 controls: right arm 6, left arm 6, right gripper 1, left gripper 1. OSC frame moves with vehicle."
+  },
+  "reset": {
+    "format": "mujoco.integration.v1",
+    "time": 0,
+    "task_counters": "zero",
+    "initialization_noise": null,
+    "state_restore_during_step": false,
+    "variation": "Explicit Episode variation applied before compilation; reset repeats that Episode exactly.",
+    "round_plan": null
+  },
+  "evaluation": {
+    "practice": 10,
+    "exam": 5,
+    "primary": "mean_exam_task_score",
+    "invalid": "abort_group_without_official_score",
+    "exam_adaptation": "online",
+    "score_key": "total_score"
+  },
+  "task_id": "car_drive2",
+  "contract_version": "1.0-episode-v1",
+  "control_hz": 20,
+  "horizon_sec": 180,
+  "ownership": {
+    "spec": [
+      "18 m road, start XY=(0,1.5), yaw=pi/2; obstacle Y=[4.5,10,15], sides=[-1,+1,-1]",
+      "20 Hz / 180 s; joystick range +/-0.18, deadzone 0.10, stiffness3; fixed ALOHA mounting and initialization",
+      "kinematic vehicle update and 0.95 m collision envelope, binary arrival scoring, parameter domains"
+    ],
+    "task_instance": [
+      "road.half_width_m (baseline; Episode may override fields listed in episode_randomization)",
+      "obstacle.extension_m (baseline; Episode may override fields listed in episode_randomization)",
+      "obstacle.half_width_m (baseline; Episode may override fields listed in episode_randomization)",
+      "vehicle.nominal_speed_m_s (baseline; Episode may override fields listed in episode_randomization)",
+      "vehicle.steering_gain (baseline; Episode may override fields listed in episode_randomization)",
+      "joystick.damping (baseline; Episode may override fields listed in episode_randomization)"
+    ],
+    "derived": [
+      "obstacle xo=side*(H+.05-e)/2; sx=(H+.05+e)/2; all obstacles share e and sy"
+    ],
+    "episode_instance": [
+      "throttle-to-speed gain (vehicle.nominal_speed_m_s); policy actions unchanged",
+      "explicit integration initial_state",
+      "compiled Episode runtime identity",
+      "round_plan=null"
+    ]
+  },
+  "rules": {
+    "drive": "u=clip(q/.18,-1,1); drive=sign(u)*max(0,abs(u)-.10)/.90; speed=V*(L+R)/2; yaw_rate=G*(R-L); update yaw then XY every .05 s",
+    "blocked": "reject candidate XY/yaw if abs(x)>H-.95 or y outside [.95,17.05] or any abs(x-xo)<sx+.95 AND abs(y-yo)<sy+.95; report zero speed; recoverable, no penalty",
+    "success": "accepted vehicle center y>=16.8; score100 and drive_finished then terminate, regardless of prior blocks",
+    "timeout": "3600 steps/180 s; last-step success takes precedence; otherwise truncate with score0",
+    "score": "100 on success, otherwise0; no partial points; score_key total_score",
+    "reset": "Reset restores car XY/yaw, drives, steps, blocked state, mocap and moving OSC origin with the explicit Episode speed gain.",
+    "feasibility": "no ALOHA grasp or driving demonstration recertification"
+  },
+  "sampling_profile": {
+    "schema_version": "1.0",
+    "profile_id": "car_drive2_obstacle_course_v1",
+    "task_id": "car_drive2",
+    "fixed": {
+      "road": {
+        "half_width_m": 4.2,
+        "length_m": 18.0,
+        "surface_friction": [
+          0.8,
+          0.01,
+          0.001
+        ]
+      },
+      "vehicle": {
+        "start_y_m": 1.5,
+        "nominal_speed_m_s": 1.05,
+        "steering_gain": 0.08
+      },
+      "joysticks": {
+        "count": 2,
+        "slide_range_m": [
+          -0.18,
+          0.18
+        ],
+        "damping": 8.0,
+        "stiffness": 3.0
+      },
+      "obstacles": {
+        "count": 3,
+        "longitudinal_positions_m": [
+          4.5,
+          10.0,
+          15.0
+        ],
+        "extension_range_m": [
+          0.25,
+          0.4
+        ],
+        "half_width_range_m": [
+          0.32,
+          0.42
+        ]
+      },
+      "fences": {
+        "count": 2
+      }
+    },
+    "geometry": {
+      "road.half_width_m": {
+        "distribution": "uniform",
+        "low": 3.8,
+        "high": 4.2
+      },
+      "obstacle.extension_m": {
+        "distribution": "uniform",
+        "low": 0.25,
+        "high": 0.4
+      },
+      "obstacle.half_width_m": {
+        "distribution": "uniform",
+        "low": 0.32,
+        "high": 0.42
+      },
+      "obstacle.longitudinal_positions_m": {
+        "distribution": "choice",
+        "values": [
+          [
+            4.5,
+            10.0,
+            15.0
+          ]
+        ]
+      }
+    },
+    "physics": {
+      "vehicle.nominal_speed_m_s": {
+        "distribution": "uniform",
+        "low": 0.9,
+        "high": 1.15
+      },
+      "vehicle.steering_gain": {
+        "distribution": "uniform",
+        "low": 0.06,
+        "high": 0.1
+      },
+      "joystick.damping": {
+        "distribution": "uniform",
+        "low": 6.0,
+        "high": 10.0
+      }
+    },
+    "randomization": {
+      "seed_source": "environment_seed",
+      "obstacles": [
+        "extension",
+        "half_width",
+        "alternating_side"
+      ]
+    },
+    "assets": {
+      "asset_version": "car_drive2_obstacle_course_v1"
+    }
+  },
+  "publication_status": "development_only",
+  "episode_randomization": {
+    "version": 1,
+    "domains": {
+      "nominal_speed_m_s": [
+        0.9,
+        1.15
+      ]
+    },
+    "sampler": "react_manip.instances.variation.sample_variation",
+    "storage": "Episode variation + runtime + initial_state; Task scenario is the baseline",
+    "schedule": "independently shuffled five-stratum batches; two practice batches and one exam batch use the same domain; phone small count alternates 2/3",
+    "replay": "rebuild resolved Episode model; verify full runtime identity; restore exact initial state; no resampling during reset/step",
+    "policy_visibility": "qualitative runtime English instructions only; sampled values, solution axes, small-support names and files remain private"
+  }
+}

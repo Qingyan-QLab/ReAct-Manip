@@ -1,0 +1,204 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "box_insertion_final_position_v3",
+  "task_id": "box_insertion",
+  "fixed": {
+    "table": {
+      "top_z": 0.78,
+      "size": [
+        0.9,
+        1.6,
+        0.05
+      ]
+    },
+    "box": {
+      "fixed": true,
+      "mounted_on": "table",
+      "has_bottom": false,
+      "center": [
+        0.26,
+        0.0,
+        0.815
+      ],
+      "clearance_m": 0.05,
+      "inner_depth": 0.3,
+      "outer_depth": 0.32,
+      "wall_height": 0.07,
+      "wall": 0.02
+    },
+    "wood_block": {
+      "size": [
+        0.13175,
+        1.0,
+        0.04421
+      ],
+      "initial_clearance_to_slot_m": 0.06,
+      "target_insertion_depth_m": 0.36,
+      "bottom_tolerance_m": 0.005
+    },
+    "physics": {
+      "gravity_m_s2": [
+        0.0,
+        0.0,
+        -9.81
+      ],
+      "table_friction": 0.005
+    },
+    "task": {
+      "time_score_max": 50.0,
+      "distance_score_max": 50.0,
+      "score_horizon_sec": 60.0,
+      "time_full_until_sec": 10.0,
+      "time_zero_from_sec": 40.0
+    }
+  },
+  "geometry": {
+    "wood_block.width_m": {
+      "distribution": "uniform",
+      "low": 0.6,
+      "high": 1.0
+    },
+    "block_friction.split_ratio": {
+      "distribution": "uniform",
+      "low": 0.2,
+      "high": 0.8
+    }
+  },
+  "physics": {
+    "block_friction.left": {
+      "distribution": "exponential",
+      "low": 0.01,
+      "high": 0.6,
+      "scale": 0.1
+    },
+    "block_friction.right": {
+      "distribution": "exponential",
+      "low": 0.01,
+      "high": 0.6,
+      "scale": 0.1
+    },
+    "block_density.light_kg_m3": {
+      "distribution": "uniform",
+      "low": 350.0,
+      "high": 550.0
+    },
+    "block_density.heavy_kg_m3": {
+      "distribution": "uniform",
+      "low": 850.0,
+      "high": 1150.0
+    },
+    "block_density.heavy_side": {
+      "distribution": "choice",
+      "values": [
+        "left",
+        "right"
+      ]
+    },
+    "physics.slot_left_wall_friction": {
+      "distribution": "uniform",
+      "low": 3.5,
+      "high": 5.0
+    },
+    "physics.slot_right_wall_friction": {
+      "distribution": "uniform",
+      "low": 3.5,
+      "high": 5.0
+    },
+    "physics.slot_back_wall_friction": {
+      "distribution": "uniform",
+      "low": 1.0,
+      "high": 2.0
+    }
+  },
+  "appearance": {
+    "room.floor_texture": {
+      "distribution": "choice",
+      "values": [
+        "light-gray-floor-tile",
+        "oak-wood-realistic",
+        "ceramic-realistic",
+        "gray-carpet-realistic",
+        "walnut-wood-realistic"
+      ]
+    },
+    "room.wall_texture": {
+      "distribution": "choice",
+      "values": [
+        "white-plaster",
+        "cool-white-paint",
+        "gray-plaster",
+        "brick-accent",
+        "cream-plaster-realistic"
+      ]
+    },
+    "desk.texture": {
+      "distribution": "choice",
+      "values": [
+        "oak-wood-realistic",
+        "walnut-wood-realistic",
+        "gray-woodgrain-realistic",
+        "varnished-wood-realistic",
+        "white-laminate",
+        "brushed-steel-realistic"
+      ]
+    },
+    "slot.texture": {
+      "distribution": "choice",
+      "values": [
+        "brushed-steel-realistic",
+        "scratched-steel-realistic",
+        "drawer-light-metal",
+        "drawer-dark-metal",
+        "drawer-white-laminate",
+        "drawer-blue-metal"
+      ]
+    },
+    "block.texture": {
+      "distribution": "choice",
+      "values": [
+        "oak-wood-realistic",
+        "walnut-wood-realistic",
+        "gray-woodgrain-realistic",
+        "varnished-wood-realistic",
+        "white-laminate",
+        "black-laminate"
+      ]
+    }
+  },
+  "runtime": {
+    "lighting.layout": {
+      "distribution": "choice",
+      "values": [
+        "overcast",
+        "warm_indoor",
+        "daylight_side",
+        "cool_office",
+        "backlit",
+        "mixed_daylight"
+      ]
+    },
+    "lighting.intensity_scale": {
+      "distribution": "uniform",
+      "low": 0.8,
+      "high": 1.35
+    },
+    "lighting.azimuth_deg": {
+      "distribution": "uniform",
+      "low": -180,
+      "high": 180
+    }
+  },
+  "constraints": [
+    {
+      "type": "not_equal",
+      "paths": [
+        "desk.texture",
+        "block.texture"
+      ]
+    }
+  ],
+  "assets": {
+    "scene": "tasks/box_insertion/assets/scene.xml",
+    "asset_version": "box_insertion_robot_v1"
+  }
+}

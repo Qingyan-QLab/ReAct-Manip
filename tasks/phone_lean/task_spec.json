@@ -1,0 +1,216 @@
+{
+  "api_version": "2.0",
+  "task_id": "phone_lean",
+  "task_version": "0.2",
+  "task_type": "event",
+  "required_arms": 2,
+  "required_gripper": "parallel",
+  "supported_robots": [
+    "dual_piperx"
+  ],
+  "horizon_sec": 180,
+  "control_hz": 20,
+  "done_behavior": "stop",
+  "success": {
+    "min_occupancy": 0,
+    "min_events": 1,
+    "max_failures": 0,
+    "require_terminal_success": true
+  },
+  "observation": {
+    "modalities": [
+      "state",
+      "visual",
+      "geometry"
+    ],
+    "default_policy_view": [
+      "state",
+      "visual"
+    ],
+    "geometry_view": "internal",
+    "fields": {
+      "state": [
+        "phone_lean_xy_error",
+        "phone_height",
+        "score",
+        "successful_supports"
+      ],
+      "visual": [
+        "robot0_head_camera",
+        "robot0_wrist_right",
+        "robot0_wrist_left"
+      ],
+      "geometry": [
+        "phone.pose",
+        "cup.pose",
+        "bowl.pose",
+        "pyramid.pose",
+        "alarm_clock.pose",
+        "book.pose",
+        "bottle.pose",
+        "can.pose",
+        "vase.pose",
+        "cone.pose",
+        "dumbbell.pose",
+        "eef.pose",
+        "eef_right.pose",
+        "eef_left.pose",
+        "eef_to_phone",
+        "eef_to_phone_by_arm",
+        "phone_to_supports"
+      ]
+    },
+    "visibility": {
+      "policy": "state+visual",
+      "oracle": "all",
+      "benchmark_log": "all"
+    }
+  },
+  "action": {
+    "type": "dual_cartesian_gripper",
+    "shape": [
+      14
+    ],
+    "fields": [
+      "right_dx",
+      "right_dy",
+      "right_dz",
+      "right_droll",
+      "right_dpitch",
+      "right_dyaw",
+      "left_dx",
+      "left_dy",
+      "left_dz",
+      "left_droll",
+      "left_dpitch",
+      "left_dyaw",
+      "right_gripper",
+      "left_gripper"
+    ]
+  },
+  "feedback": {
+    "events": [
+      "phone_stably_leaned:cup",
+      "phone_stably_leaned:bowl",
+      "phone_stably_leaned:pyramid",
+      "phone_stably_leaned:alarm_clock",
+      "phone_stably_leaned:book",
+      "phone_stably_leaned:bottle",
+      "phone_stably_leaned:can",
+      "phone_stably_leaned:vase",
+      "phone_stably_leaned:cone",
+      "phone_stably_leaned:dumbbell"
+    ],
+    "success_signals": [
+      "success_state",
+      "terminal_success"
+    ],
+    "fields": [
+      "phone_lean_xy_error",
+      "phone_height",
+      "support_target",
+      "successful_supports",
+      "remaining_supports",
+      "score",
+      "total_score",
+      "score_delta",
+      "support_score",
+      "support_score_max",
+      "criteria",
+      "criteria_by_support",
+      "support_names"
+    ]
+  },
+  "metadata": {
+    "support_targets": [
+      "cup",
+      "bowl",
+      "pyramid",
+      "alarm_clock",
+      "book",
+      "bottle",
+      "can",
+      "vase",
+      "cone",
+      "dumbbell"
+    ],
+    "points_per_support": 100,
+    "score_max": 100,
+    "score_rule": "A released stable lean against any one of the four selected supports earns 100 points and terminates the episode. Otherwise the score is zero.",
+    "continuous_scene": true,
+    "reset_between_supports": false,
+    "allow_support_repositioning": true,
+    "allow_object_dragging": true,
+    "layout_randomization": "Each Task uniformly selects four support kinds and assigns exactly two large and two small roles from the profile. The upright book is large-only, 22 cm wide, 8 mm thick and 30 cm high before scaling, with its front facing the robot. Other supports use curved collision geometry. Episodes vary only initial positions. No solvability screening or seed replacement is performed.",
+    "evaluation": {
+      "success": "Any selected support may score. The circular Home button remains on the lower half; light-blue back has load-bearing support contact; black screen has no load-bearing contact with that support; rounded bottom contacts table; grasp assist is off and there is no load-bearing gripper contact; all angle, speed and drift limits hold for ten continuous seconds. Success earns 100 and ends the episode; otherwise 0.",
+      "tilt_deg": [
+        45,
+        75
+      ],
+      "stable_window_sec": 10,
+      "required_valid_fraction": 1,
+      "max_drift_m": 0.005,
+      "max_linear_speed_m_s": 0.005,
+      "max_angular_speed_rad_s": 0.05,
+      "angle_reference": "phone long axis above tabletop (75 = maximum allowed; 90 = upright and invalid); equivalently 15-45 degrees from vertical",
+      "threshold_comparison": "inclusive",
+      "sampling": "20 Hz; 201 consecutive valid endpoints span 10 seconds"
+    },
+    "required_successful_supports": 1,
+    "randomization_hierarchy": {
+      "task_instance": "four support kinds, exactly two large/two small roles, profile-defined size, mass, friction and gravity",
+      "episode_instance": "explicit phone/support initial positions",
+      "profile": "configs/phone_lean/profile_default.json",
+      "robot_initialization_noise": 0
+    },
+    "size_randomization": {
+      "method": "uniform isotropic scale per object",
+      "profile_field": "Task role sizes; small-support extent ratio 0.50-0.60; book is large-only and remains at least 25 cm high and under 1 cm thick",
+      "shape_and_proportions_fixed": true
+    },
+    "initial_phone_pose": "Screen up and horizontal directly on the tabletop in the central front grasp zone.",
+    "phone_shape": "Flat gripping sides and back, cylindrical convex bottom across thickness; visual and collision boundaries matched.",
+    "support_count": 4,
+    "geometry_fields": "Support pose fields are present only for the four selected kinds.",
+    "camera_contract": {
+      "version": "3.0",
+      "policy_cameras": [
+        "robot0_head_camera",
+        "robot0_wrist_right",
+        "robot0_wrist_left"
+      ],
+      "policy_mounting": "robot_main_and_wrists",
+      "default_resolution": [
+        640,
+        480
+      ]
+    },
+    "default_robot": "dual_piperx",
+    "phone_appearance": "Black front screen (-X), light-blue back (+X), circular Home button on the lower half at local -Z; button decorations have no mass or collisions.",
+    "episode_randomization": {
+      "version": 1,
+      "domains": {
+        "support_position_xy_m": "profile-bounded per assigned support slot",
+        "phone_position_xy_m": "profile-bounded central front grasp zone"
+      },
+      "sampler": "react_manip.instances.variation.sample_variation",
+      "storage": "Episode variation + runtime + initial_state; Task scenario is the baseline",
+      "schedule": "initial positions vary between Episodes; role ordering and support identities remain fixed within a Task",
+      "replay": "rebuild resolved Episode model; verify full runtime identity; restore exact initial state; no resampling during reset/step",
+      "policy_visibility": "qualitative runtime English instructions only; sampled values, solution axes, small-support names and files remain private"
+    },
+    "support_geometry": "Book is the only box-based support and starts upright with local -Y facing the robot. Every other support uses curved collision geometry without a hidden stabilizing base.",
+    "no_solvability_guarantee": "Task and Episode seeds are never replaced because a scene is difficult or unsolvable; only malformed, overlapping, penetrating, or non-finite initial states are rejected."
+  },
+  "evaluation": {
+    "protocol": "practice_exam",
+    "practice_episodes": 10,
+    "exam_episodes": 5,
+    "exam_adaptation": "online",
+    "scoring": {
+      "primary": "mean_exam_task_score",
+      "score_key": "total_score"
+    }
+  }
+}

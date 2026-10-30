@@ -1,0 +1,22 @@
+{
+  "revision": "f799ae0192c0c2bbd502ec4d9bbec8c2633acd1a",
+  "files": {
+    "aloha_new_description/package.xml": "4a7d32f5637a3eba05e6e491664de60a3df794d8e0d489ac4c586e7ab6986c25",
+    "aloha_new_description/aloha_new.urdf": "8985eccfe7106e3dfb17f7464db5ffdb035f6a868e96152eeb12123d3f6666c7",
+    "aloha_new_description/urdf/aloha_new.urdf": "8985eccfe7106e3dfb17f7464db5ffdb035f6a868e96152eeb12123d3f6666c7",
+    "aloha_new_description/meshes/castor_joint.dae": "901cad2da533c8fd0f3e3ce25a4d5b5d1c689d5f852640cd7dab041dc647d629",
+    "aloha_new_description/meshes/tracer_wheel.dae": "42784402bca05e9f406f4e08d8ea1cc7ff57db9fee0e0b0b557670d0ee1d10c1",
+    "aloha_new_description/meshes/tracer_base_link_no_wheel.dae": "d3a1ee3b34dbc418e888d68148d04fccda589e00d5100fbd3cbc2f17154e0a08",
+    "aloha_new_description/meshes/castor.dae": "0a61bca6839f37ebebd89021474821abfd908d2b50867f221e3504db4d84a06a",
+    "aloha_new_description/meshes/link3.STL": "80077a3cb2fd4bf4a7f65920c8f3e2f3a590c6059146dc08731a536244114210",
+    "aloha_new_description/meshes/base_link.STL": "fd9c5c5816513cae313b6bee70f95474faadd136eb3ea19c68ffa451dfcd962a",
+    "aloha_new_description/meshes/link2.STL": "09f46d7c93dccf8073491fb4ef6fb89dbe5ec9b5e82ad2c383b96a50dd6fe81f",
+    "aloha_new_description/meshes/link1.STL": "2288b210ac2a4a0a6150cbe024870e6d1eee21dea320d5d6d19d17eb3099b8ea",
+    "aloha_new_description/meshes/link5.STL": "ab9877b96fe2b69622011049735f0fd244b1e30ada2dc65840364c07a5154323",
+    "aloha_new_description/meshes/link4.STL": "e9963ce55b0796a61e4f9eb3445d81f4d40b67dcfd43eafcf2619c637f341cfe",
+    "aloha_new_description/meshes/body.dae": "2bad2557aad93a83adad913da6ee30f32d4414602f9f7be138c377a0543be659",
+    "aloha_new_description/meshes/piper_slave_meshes/link8.STL": "8ff0fa31925c2339f8c64171e47c91410b671530d6613e33472b710cc4968ece",
+    "aloha_new_description/meshes/piper_slave_meshes/link6.STL": "227f63feb64d17c397c76ebb96a8720476345a3bba36e0d6d7c9d938db8ce677",
+    "aloha_new_description/meshes/piper_slave_meshes/link7.STL": "63d89c3e9d5aba6c230f21a1e8ad5724f3818a1dba7e3493c58de4bee8d44cac"
+  }
+}

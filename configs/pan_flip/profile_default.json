@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "default",
+  "task_id": "pan_flip",
+  "fixed": {
+    "pan": {
+      "radius_m": 0.15
+    },
+    "pie": {
+      "start_xy_m": [
+        0.065,
+        0
+      ]
+    },
+    "contact": {
+      "friction": 0.45
+    }
+  },
+  "appearance": {
+    "room.floor_texture": {
+      "distribution": "choice",
+      "values": [
+        "oak-wood-realistic",
+        "ceramic-realistic",
+        "concrete-realistic"
+      ]
+    },
+    "room.wall_texture": {
+      "distribution": "choice",
+      "values": [
+        "cream-plaster-realistic",
+        "white-brick-realistic"
+      ]
+    }
+  },
+  "runtime": {
+    "lighting.layout": {
+      "distribution": "choice",
+      "values": [
+        "overcast",
+        "warm_indoor",
+        "daylight_side"
+      ]
+    },
+    "lighting.intensity_scale": {
+      "distribution": "uniform",
+      "low": 0.8,
+      "high": 1.2
+    },
+    "lighting.azimuth_deg": {
+      "distribution": "uniform",
+      "low": -30,
+      "high": 30
+    }
+  },
+  "geometry": {
+    "pie.radius_m": {
+      "distribution": "uniform",
+      "low": 0.05,
+      "high": 0.07
+    },
+    "pie.thickness_m": {
+      "distribution": "uniform",
+      "low": 0.014,
+      "high": 0.022
+    },
+    "pan.handle_length_m": {
+      "distribution": "uniform",
+      "low": 0.14,
+      "high": 0.2
+    },
+    "pan.grip_fraction": {
+      "distribution": "uniform",
+      "low": 0.5,
+      "high": 0.75
+    }
+  },
+  "physics": {
+    "pie.mass_kg": {
+      "distribution": "uniform",
+      "low": 0.05,
+      "high": 0.12
+    },
+    "pie.mass_uniformity": {
+      "distribution": "uniform",
+      "low": 0.3,
+      "high": 1.0
+    },
+    "pie.density_direction_deg": {
+      "distribution": "uniform",
+      "low": 0.0,
+      "high": 360.0
+    },
+    "pan.mass_kg": {
+      "distribution": "uniform",
+      "low": 0.25,
+      "high": 0.45
+    }
+  }
+}

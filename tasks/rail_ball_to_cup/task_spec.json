@@ -1,0 +1,117 @@
+{
+  "metadata": {
+    "camera_contract": {
+      "version": "3.0",
+      "fixed": [
+        "workspace_oblique",
+        "workspace_top",
+        "room_overview"
+      ],
+      "mounted": "query get_camera_specs(); only physical embodiment sensors",
+      "observation_key": "images",
+      "default_resolution": [
+        640,
+        480
+      ],
+      "room_and_debug_opt_in": true,
+      "policy_cameras": [
+        "robot0_head_camera",
+        "robot0_wrist_right"
+      ],
+      "policy_mounting": "robot_main_and_wrists"
+    },
+    "robot_control_mode": "eef_delta",
+    "embodiment_mode": "physical",
+    "score_max": 100,
+    "demo_controller": "tasks.rail_ball_to_cup.embodiment_demo:EmbodimentPickPlaceController",
+    "action_dim_by_robot": {
+      "panda": 7,
+      "sawyer": 7,
+      "piperx": 7,
+      "dual_piperx": 14,
+      "mobile_dual_piperx": 14
+    },
+    "instance_contract": "tasks/rail_ball_to_cup/instance_contract.json",
+    "evaluation": {
+      "practice_episodes": 10,
+      "exam_episodes": 5,
+      "exam_adaptation": "online",
+      "score_key": "total_score",
+      "aggregate": "mean_exam_task_score",
+      "instance_robot": "dual_piperx"
+    }
+  },
+  "api_version": "2.0",
+  "task_id": "rail_ball_to_cup",
+  "task_version": "1.3",
+  "task_type": "one_shot",
+  "required_arms": 1,
+  "required_gripper": "parallel",
+  "supported_robots": [
+    "piperx"
+  ],
+  "horizon_sec": 60,
+  "control_hz": 50,
+  "done_behavior": "stop",
+  "success": {
+    "min_occupancy": 0,
+    "min_events": 1,
+    "max_failures": 0,
+    "require_terminal_success": true
+  },
+  "observation": {
+    "modalities": [
+      "proprio",
+      "visual",
+      "geometry"
+    ],
+    "default_policy_view": [
+      "proprio",
+      "visual"
+    ],
+    "geometry_view": "internal",
+    "fields": {
+      "geometry": [
+        "ball.pose",
+        "ball.velocity",
+        "cup.pose",
+        "cup.base_height_m",
+        "track.start_height",
+        "track.exit_angle_deg",
+        "ball_to_cup",
+        "phase"
+      ]
+    },
+    "visibility": {
+      "policy": "proprio+visual",
+      "oracle": "all",
+      "benchmark_log": "all"
+    }
+  },
+  "required_eef_dof": 6,
+  "action": {
+    "type": "eef_delta",
+    "shape": [
+      7
+    ],
+    "bounds": [
+      -1,
+      1
+    ],
+    "frame": "world",
+    "fields": [
+      "position_delta_3d",
+      "rotation_delta_3d",
+      "gripper"
+    ]
+  },
+  "feedback": {
+    "events": [
+      "ball_settled_in_cup"
+    ],
+    "success_signals": [
+      "success_state",
+      "terminal_success"
+    ]
+  }
+}

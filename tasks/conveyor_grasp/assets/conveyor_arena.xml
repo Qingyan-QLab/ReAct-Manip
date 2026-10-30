@@ -1,0 +1,85 @@
+<!-- 传送带抓取场景（tasks/conveyor_grasp/assets/gen_assets.py 生成，单位米） -->
+<mujoco model="conveyor_arena">
+    <compiler angle="radian" meshdir="meshes" />
+    <option timestep="0.002" iterations="50" tolerance="1e-10" gravity="0 0 -9.81" />
+    <asset>
+        <texture type="skybox" builtin="gradient" rgb1="0.55 0.62 0.70" rgb2="0.16 0.19 0.24" width="512" height="512" />
+        <texture type="2d" name="floor_tex" builtin="checker" rgb1="0.42 0.44 0.47" rgb2="0.30 0.32 0.35" width="256" height="256" />
+        <material name="floor_mat" texture="floor_tex" texrepeat="8 8" />
+        <texture type="2d" name="belt_tex" builtin="flat" rgb1="0.22 0.23 0.25" rgb2="0.22 0.23 0.25" width="8" height="8" />
+        <material name="belt_mat" texture="belt_tex" reflectance="0.15" />
+        <texture type="2d" name="cover_tex" builtin="flat" rgb1="0.30 0.31 0.34" rgb2="0.30 0.31 0.34" width="8" height="8" />
+        <material name="cover_mat" texture="cover_tex" />
+        <texture type="2d" name="box_tex" builtin="flat" rgb1="0.45 0.47 0.30" rgb2="0.45 0.47 0.30" width="8" height="8" />
+        <material name="box_mat" texture="box_tex" />
+        <material name="bin_target_mat" rgba="0.95 0.48 0.08 1" emission="0.08" />
+        <texture type="2d" name="metal_tex" builtin="flat" rgb1="0.50 0.52 0.55" rgb2="0.50 0.52 0.55" width="8" height="8" />
+        <material name="metal_mat" texture="metal_tex" reflectance="0.3" />
+    </asset>
+    <worldbody>
+        <!-- 地面 -->
+        <geom name="floor" type="plane" size="7 4 0.05" material="floor_mat" friction="0.5" />
+        <!-- 皮带体：长板 + slide 关节（速度执行器驱动，见 actuator） -->
+        <body name="belt" pos="0 0 0.88">
+            <joint name="belt_slide" type="slide" axis="1 0 0" limited="true" range="-0.5 0.9" armature="0.5" />
+            <geom name="belt_top_col" type="box" size="6.5 0.20 0.02" pos="6.05 0 0" friction="0.5" condim="3" density="300" margin="0.001" />
+            <geom name="belt_top_vis" type="box" size="6.5 0.20 0.02" pos="6.05 0 0.001" material="belt_mat" contype="0" conaffinity="0" group="1" />
+            <site name="belt_start_site" pos="0.9 0 0.02" size="0.01" />
+        </body>
+        <!-- 传送带接地支撑台架：台面 + 四根立柱 + 端部横梁 -->
+        <body name="conveyor_support">
+            <geom name="conveyor_deck_col" type="box" pos="2.60 0 0.80" size="1.80 0.30 0.04" material="metal_mat" density="180" friction="0.6" />
+            <geom name="conveyor_deck_vis" type="box" pos="2.60 0 0.80" size="1.80 0.30 0.04" material="metal_mat" contype="0" conaffinity="0" group="1" />
+            <geom name="conveyor_leg_0_n_col" type="box" pos="1.05 -0.22 0.39" size="0.10 0.10 0.39" material="metal_mat" density="180" friction="0.6" />
+            <geom name="conveyor_leg_0_n_vis" type="box" pos="1.05 -0.22 0.39" size="0.105 0.105 0.39" material="metal_mat" contype="0" conaffinity="0" group="1" />
+            <geom name="conveyor_leg_0_s_col" type="box" pos="1.05 0.22 0.39" size="0.10 0.10 0.39" material="metal_mat" density="180" friction="0.6" />
+            <geom name="conveyor_leg_0_s_vis" type="box" pos="1.05 0.22 0.39" size="0.105 0.105 0.39" material="metal_mat" contype="0" conaffinity="0" group="1" />
+            <geom name="conveyor_leg_1_n_col" type="box" pos="4.15 -0.22 0.39" size="0.10 0.10 0.39" material="metal_mat" density="180" friction="0.6" />
+            <geom name="conveyor_leg_1_n_vis" type="box" pos="4.15 -0.22 0.39" size="0.105 0.105 0.39" material="metal_mat" contype="0" conaffinity="0" group="1" />
+            <geom name="conveyor_leg_1_s_col" type="box" pos="4.15 0.22 0.39" size="0.10 0.10 0.39" material="metal_mat" density="180" friction="0.6" />
+            <geom name="conveyor_leg_1_s_vis" type="box" pos="4.15 0.22 0.39" size="0.105 0.105 0.39" material="metal_mat" contype="0" conaffinity="0" group="1" />
+            <geom name="conveyor_crossbar_col" type="box" pos="2.60 0 0.20" size="1.65 0.07 0.07" material="metal_mat" density="180" friction="0.6" />
+            <geom name="conveyor_crossbar_vis" type="box" pos="2.60 0 0.20" size="1.65 0.075 0.075" material="metal_mat" contype="0" conaffinity="0" group="1" />
+        </body>
+        <!-- 尾部盖板：隐藏 x < 0.95（物体/皮带端回绕处） -->
+        <body name="cover_trail">
+            <geom name="cover_trail_col" type="box" pos="0.45 0 1.47" size="0.5 0.8 0.5" density="100" friction="0.5" />
+            <geom name="cover_trail_vis" type="box" pos="0.45 0 1.35" size="0.5 0.8 0.5" material="cover_mat" contype="0" conaffinity="0" group="1" />
+        </body>
+        <!-- 回绕盖板：隐藏 x > 4.25（返回段 + 皮带前缘） -->
+        <body name="cover_return">
+            <geom name="cover_return_col" type="box" pos="8.925 0 1.47" size="4.675 0.8 0.5" density="100" friction="0.5" />
+            <geom name="cover_return_vis" type="box" pos="8.925 0 1.35" size="4.675 0.8 0.5" material="cover_mat" contype="0" conaffinity="0" group="1" />
+        </body>
+        <body name="rail_-1">
+            <geom name="rail_-1_col" type="box" pos="2.6 -0.235 0.935" size="1.75 0.015 0.035" density="300" friction="0.5" />
+            <geom name="rail_-1_vis" type="box" pos="2.6 -0.235 0.935" size="1.75 0.015 0.035" material="metal_mat" contype="0" conaffinity="0" group="1" />
+        </body>
+        <body name="rail_1">
+            <geom name="rail_1_col" type="box" pos="2.6 0.235 0.935" size="1.75 0.015 0.035" density="300" friction="0.5" />
+            <geom name="rail_1_vis" type="box" pos="2.6 0.235 0.935" size="1.75 0.015 0.035" material="metal_mat" contype="0" conaffinity="0" group="1" />
+        </body>
+        <!-- 收集箱：4 壁 + 底板 -->
+        <body name="bin">
+            <geom name="bin_bot" type="box" pos="2.5999999999999996 0.9 0.01" size="0.19999999999999996 0.15000000000000002 0.01" material="box_mat" density="500" friction="0.5" />
+            <geom name="bin_wall_n" type="box" pos="2.5999999999999996 1.06 0.125" size="0.19999999999999996 0.01 0.125" material="box_mat" density="500" friction="0.5" />
+            <geom name="bin_wall_s" type="box" pos="2.5999999999999996 0.74 0.125" size="0.19999999999999996 0.01 0.125" material="box_mat" density="500" friction="0.5" />
+            <geom name="bin_wall_e" type="box" pos="2.8099999999999996 0.9 0.125" size="0.01 0.15000000000000002 0.125" material="box_mat" density="500" friction="0.5" />
+            <geom name="bin_wall_w" type="box" pos="2.39 0.9 0.125" size="0.01 0.15000000000000002 0.125" material="box_mat" density="500" friction="0.5" />
+            <geom name="bin_target_vis" type="box" pos="2.5999999999999996 0.9 0.021" size="0.17999999999999997 0.13000000000000003 0.001" material="bin_target_mat" contype="0" conaffinity="0" group="1" />
+            <site name="bin_site" pos="2.5999999999999996 0.9 0.02" size="0.01" />
+        </body>
+        <!-- 回收滑槽（视觉）：护栏 + 地面引导；回收状态机在 env 层（designs §4.1） -->
+        <geom name="chute_vis" type="box" pos="2.6 -0.55 0.55" size="1.75 0.18 0.25" material="metal_mat" contype="0" conaffinity="0" group="1" euler="0.35 0 0" />
+        <geom name="chute_ground_vis" type="box" pos="2.6 -0.85 0.01" size="1.75 0.35 0.01" material="metal_mat" contype="0" conaffinity="0" group="1" />
+        <camera name="agentview" pos="2.6 4.8 3.0" xyaxes="-0.9998 0.0208 0.0000  -0.0087 -0.4165 0.9091" fovy="50" />
+        <camera name="sideview" pos="6.2 0.8 2.8" xyaxes="-0.1909 0.9816 0.0000  -0.4700 -0.0914 0.8779" fovy="50" />
+        <!-- 灯光（照亮带面/物体；无影灯避免渲染偏暗） -->
+        <light name="light_main" pos="2.6 -2.5 3.2" dir="0.0 0.8 -0.6" diffuse="0.85 0.85 0.85" ambient="0.45 0.45 0.45" directional="true" castshadow="false" />
+        <light name="light_fill" pos="2.6 2.0 2.6" dir="0.0 -0.6 -0.8" diffuse="0.45 0.45 0.45" ambient="0.25 0.25 0.25" directional="true" castshadow="false" />
+    </worldbody>
+    <actuator>
+        <!-- 皮带速度执行器（kv 大增益 → 负载下速度误差小；指令为内部状态，不对外暴露） -->
+        <velocity joint="belt_slide" name="belt_vel" kv="10000" ctrllimited="true" ctrlrange="-2 2" />
+    </actuator>
+</mujoco>

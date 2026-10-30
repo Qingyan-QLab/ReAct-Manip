@@ -1,0 +1,225 @@
+{
+  "schema_version": "cl-manip.instance-contract.v1",
+  "task_id": "leveling_board1",
+  "contract_version": "1.0-episode-v1",
+  "status": "pilot",
+  "publication_status": "development_only",
+  "robot_id": "dual_piperx",
+  "control_hz": 20,
+  "horizon_sec": 180,
+  "sampling_profile": {
+    "schema_version": "1.0",
+    "profile_id": "leveling_board1_instances_v2",
+    "task_id": "leveling_board1",
+    "fixed": {
+      "table": {
+        "top_z": 0.68,
+        "size": [
+          1.4,
+          1.0,
+          0.05
+        ],
+        "friction": [
+          0.78,
+          0.42,
+          0.05
+        ]
+      },
+      "support_block": {
+        "fixed": true,
+        "size": [
+          0.05,
+          0.18,
+          0.12
+        ]
+      },
+      "board": {
+        "length": 0.9,
+        "width": 0.12,
+        "thickness": 0.02,
+        "mass_kg": 0.08,
+        "hinge_range_rad": [
+          -0.1,
+          0.22
+        ]
+      },
+      "shims": {
+        "count": 6,
+        "solution_count": 3,
+        "solution_heights_m": [
+          0.03,
+          0.04,
+          0.05
+        ],
+        "dimension_range_m": [
+          0.06,
+          0.14
+        ],
+        "mass_kg": [
+          0.09,
+          0.12,
+          0.15,
+          0.21,
+          0.27,
+          0.18
+        ],
+        "friction": [
+          0.72,
+          0.38,
+          0.04
+        ]
+      },
+      "task": {
+        "level_tolerance_deg": 0.5,
+        "score_full_tolerance_deg": 0.5,
+        "score_penalty_per_deg": 10.0,
+        "score_min": 0.0,
+        "score_max": 100.0,
+        "horizon_sec": 180,
+        "stable_seconds": 5.0,
+        "unstable_multiplier": 0.6,
+        "unreleased_score": 0.0,
+        "unsupported_score": 0.0
+      }
+    },
+    "geometry": {
+      "shim.dimension_m": {
+        "distribution": "uniform",
+        "low": 0.06,
+        "high": 0.14
+      },
+      "shim.solution_height_m": {
+        "distribution": "choice",
+        "values": [
+          0.03,
+          0.04,
+          0.05
+        ]
+      },
+      "shim.solution_height_axis": {
+        "distribution": "choice",
+        "values": [
+          0,
+          1,
+          2
+        ]
+      }
+    },
+    "physics": {},
+    "randomization": {
+      "task_instance": [
+        "height_order",
+        "height_axis",
+        "three_dimensions"
+      ],
+      "episode_instance": [
+        "six shim dimensions",
+        "three thin-side identities and axes",
+        "six-slot permutation"
+      ],
+      "initialization_noise": null
+    },
+    "assets": {
+      "scene": "tasks/leveling_board1/assets/scene.xml",
+      "asset_version": "leveling_board1_mjcf_v1"
+    },
+    "episode_slots_xy": [
+      [
+        0.06,
+        0.18
+      ],
+      [
+        0.24,
+        0.18
+      ],
+      [
+        0.42,
+        0.18
+      ],
+      [
+        0.06,
+        0.36
+      ],
+      [
+        0.24,
+        0.36
+      ],
+      [
+        0.42,
+        0.36
+      ]
+    ]
+  },
+  "ownership": {
+    "spec": [
+      "board/support/table geometry and physics",
+      "six shim masses and friction",
+      "score and stability thresholds",
+      "180 second horizon",
+      "six grid coordinates",
+      "initial orientations and robot pose"
+    ],
+    "task_instance": [
+      "shim_dimensions (baseline; Episode may override fields listed in episode_randomization)",
+      "solution_axes (baseline; Episode may override fields listed in episode_randomization)"
+    ],
+    "episode_instance": [
+      "six shim dimensions",
+      "three thin-side identities and axes",
+      "six-slot permutation",
+      "explicit integration initial_state",
+      "compiled Episode runtime identity",
+      "round_plan=null"
+    ]
+  },
+  "evaluation": {
+    "practice": 10,
+    "exam": 5,
+    "exam_adaptation": "online",
+    "primary": "mean_exam_task_score",
+    "score_key": "total_score",
+    "invalid": "abort_group_without_official_score"
+  },
+  "reset": {
+    "settle_physics_steps": 300,
+    "board_initial_angle_deg": 8,
+    "velocity_zero_after_settle": true,
+    "task_time_after_settle": 0,
+    "initialization_noise": null,
+    "variation": "Explicit Episode variation applied before compilation; reset repeats that Episode exactly."
+  },
+  "scoring": {
+    "success": "released, independently shim-supported and physically stable for 5 seconds; abs(angle)<=0.5 degrees throughout the window",
+    "score": "base=clip(100-10*max(0,abs(angle)-0.5),0,100); 0 if unreleased or unsupported; otherwise base if stable, else 0.6*base; successful terminal=100"
+  },
+  "stability": {
+    "sampling_hz": 20,
+    "endpoints": 101,
+    "board_speed_rad_s": 0.01,
+    "board_angle_range_deg": 0.1,
+    "support_shim_linear_speed_m_s": 0.005,
+    "support_shim_angular_speed_rad_s": 0.05,
+    "support_shim_drift_m": 0.005,
+    "min_normal_contact_force_N": 0.0001,
+    "contact_normal_vertical_component_min": 0.5
+  },
+  "episode_randomization": {
+    "version": 1,
+    "domains": {
+      "ordinary_dimension_m": [
+        0.06,
+        0.14
+      ],
+      "thin_dimensions_m": [
+        0.03,
+        0.04,
+        0.05
+      ]
+    },
+    "sampler": "react_manip.instances.variation.sample_variation",
+    "storage": "Episode variation + runtime + initial_state; Task scenario is the baseline",
+    "schedule": "independently shuffled five-stratum batches; two practice batches and one exam batch use the same domain; phone small count alternates 2/3",
+    "replay": "rebuild resolved Episode model; verify full runtime identity; restore exact initial state; no resampling during reset/step",
+    "policy_visibility": "qualitative runtime English instructions only; sampled values, solution axes, small-support names and files remain private"
+  }
+}

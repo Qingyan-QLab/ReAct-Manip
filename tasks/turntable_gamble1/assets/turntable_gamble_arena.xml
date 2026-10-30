@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 转盘赌场景（designs/转盘赌.md §2.1）：台座 + 评分环（16 扇区）+ 相机；由 tasks/turntable_gamble/assets/gen_assets.py 生成 -->
+<mujoco model="turntable_gamble_arena">
+    <compiler angle="radian" />
+    <option timestep="0.002" density="1.225" viscosity="0" gravity="0 0 -9.81" solver="Newton" iterations="500" />
+    <asset>
+        <texture type="skybox" builtin="gradient" rgb1="0.55 0.60 0.65" rgb2="0.12 0.14 0.18" width="512" height="512" />
+        <texture type="2d" name="wood" builtin="checker" rgb1="0.58 0.45 0.33" rgb2="0.45 0.35 0.25" width="128" height="128" />
+        <material name="wood_mat" texture="wood" texrepeat="3 3" reflectance="0.1" />
+        <material name="pedestal_mat" rgba="0.35 0.38 0.44 1" reflectance="0.25" specular="0.3" />
+        <material name="mat_s0" rgba="0.620 0.620 0.620 1" reflectance="0.08" specular="0.08" shininess="0.1" />
+        <material name="mat_s1" rgba="0.420 0.420 0.420 1" reflectance="0.08" specular="0.08" shininess="0.1" />
+        <material name="mat_s2" rgba="0.450 0.740 0.340 1" reflectance="0.08" specular="0.08" shininess="0.1" />
+        <material name="mat_s3" rgba="0.160 0.550 0.260 1" reflectance="0.08" specular="0.08" shininess="0.1" />
+        <material name="mat_s4" rgba="0.520 0.660 0.950 1" reflectance="0.08" specular="0.08" shininess="0.1" />
+        <material name="mat_s5" rgba="0.120 0.280 0.780 1" reflectance="0.08" specular="0.08" shininess="0.1" />
+        <material name="mat_s6" rgba="0.820 0.160 0.120 1" reflectance="0.08" specular="0.08" shininess="0.1" />
+        <material name="mat_s7" rgba="0.930 0.720 0.100 1" reflectance="0.08" specular="0.08" shininess="0.1" />
+        <material name="mat_s8" rgba="0.820 0.160 0.120 1" reflectance="0.08" specular="0.08" shininess="0.1" />
+        <material name="mat_s9" rgba="0.120 0.280 0.780 1" reflectance="0.08" specular="0.08" shininess="0.1" />
+        <material name="mat_s10" rgba="0.520 0.660 0.950 1" reflectance="0.08" specular="0.08" shininess="0.1" />
+        <material name="mat_s11" rgba="0.160 0.550 0.260 1" reflectance="0.08" specular="0.08" shininess="0.1" />
+        <material name="mat_s12" rgba="0.450 0.740 0.340 1" reflectance="0.08" specular="0.08" shininess="0.1" />
+        <material name="mat_s13" rgba="0.420 0.420 0.420 1" reflectance="0.08" specular="0.08" shininess="0.1" />
+        <material name="mat_s14" rgba="0.620 0.620 0.620 1" reflectance="0.08" specular="0.08" shininess="0.1" />
+        <material name="mat_s15" rgba="0.620 0.620 0.620 1" reflectance="0.08" specular="0.08" shininess="0.1" />
+        <material name="mat_div" rgba="0.06 0.06 0.06 1" reflectance="0.05" specular="0.05" shininess="0.1" />
+        <mesh name="ring_sector_0" file="ring_sector_0.stl" />
+        <mesh name="ring_sector_1" file="ring_sector_1.stl" />
+        <mesh name="ring_sector_2" file="ring_sector_2.stl" />
+        <mesh name="ring_sector_3" file="ring_sector_3.stl" />
+        <mesh name="ring_sector_4" file="ring_sector_4.stl" />
+        <mesh name="ring_sector_5" file="ring_sector_5.stl" />
+        <mesh name="ring_sector_6" file="ring_sector_6.stl" />
+        <mesh name="ring_sector_7" file="ring_sector_7.stl" />
+        <mesh name="ring_sector_8" file="ring_sector_8.stl" />
+        <mesh name="ring_sector_9" file="ring_sector_9.stl" />
+        <mesh name="ring_sector_10" file="ring_sector_10.stl" />
+        <mesh name="ring_sector_11" file="ring_sector_11.stl" />
+        <mesh name="ring_sector_12" file="ring_sector_12.stl" />
+        <mesh name="ring_sector_13" file="ring_sector_13.stl" />
+        <mesh name="ring_sector_14" file="ring_sector_14.stl" />
+        <mesh name="ring_sector_15" file="ring_sector_15.stl" />
+    </asset>
+    <worldbody>
+        <!-- 光源（robosuite 无头渲染默认无灯，场景会全黑） -->
+        <light name="sun" directional="true" pos="0 -1.5 3" dir="0 0.45 -0.9" diffuse="0.85 0.85 0.85" ambient="0.45 0.45 0.45" specular="0.2 0.2 0.2" />
+        <!-- 地面（group=1 视觉组） -->
+        <geom name="floor" type="plane" size="8 8 0.05" material="wood_mat" condim="6" friction="0.4 0.005 0.05" group="1" />
+        <!-- 中央台座（z 0..0.500） -->
+        <body name="pedestal">
+            <geom name="pedestal_body" type="cylinder" size="0.2 0.2500" pos="0 0 0.2500" material="pedestal_mat" condim="6" friction="0.5 0.005 0.0001" group="1" />
+        </body>
+        <!-- 置物台面（承托评分环，r=0.44 顶面 z=0.512） -->
+        <body name="table">
+            <geom name="table_top" type="cylinder" size="0.44 0.006" pos="0 0 0.5060" material="pedestal_mat" condim="6" friction="0.5 0.005 0.0001" group="1" />
+        </body>
+        <!-- 评分环：16 扇区（纯视觉 contype=0，箭头 2mm 悬空扫过不接触）+ 2mm 黑分界；ring_yaw 每回合随机 -->
+        <body name="ring" pos="0 0 0.5160">
+            <joint name="ring_yaw" type="hinge" axis="0 0 1" frictionloss="1000" />
+            <!-- 质量体（group=0：robosuite compiler inertiagrouprange="0 0" 只算 group0 惯性；扇区/分界为 group1 纯视觉 → 环体须有 group0 质量体才过 mjMINVAL）。contype=0 不参与碰撞 -->
+            <geom name="ring_mass" type="box" pos="0.37 0 0" size="0.05 0.05 0.004" contype="0" conaffinity="0" group="0" density="1000" />
+            <geom name="ring_sector_0" type="mesh" mesh="ring_sector_0" contype="0" conaffinity="0" group="1" material="mat_s0" rgba="0.620 0.620 0.620 1" />
+            <geom name="ring_sector_1" type="mesh" mesh="ring_sector_1" contype="0" conaffinity="0" group="1" material="mat_s1" rgba="0.420 0.420 0.420 1" />
+            <geom name="ring_sector_2" type="mesh" mesh="ring_sector_2" contype="0" conaffinity="0" group="1" material="mat_s2" rgba="0.450 0.740 0.340 1" />
+            <geom name="ring_sector_3" type="mesh" mesh="ring_sector_3" contype="0" conaffinity="0" group="1" material="mat_s3" rgba="0.160 0.550 0.260 1" />
+            <geom name="ring_sector_4" type="mesh" mesh="ring_sector_4" contype="0" conaffinity="0" group="1" material="mat_s4" rgba="0.520 0.660 0.950 1" />
+            <geom name="ring_sector_5" type="mesh" mesh="ring_sector_5" contype="0" conaffinity="0" group="1" material="mat_s5" rgba="0.120 0.280 0.780 1" />
+            <geom name="ring_sector_6" type="mesh" mesh="ring_sector_6" contype="0" conaffinity="0" group="1" material="mat_s6" rgba="0.820 0.160 0.120 1" />
+            <geom name="ring_sector_7" type="mesh" mesh="ring_sector_7" contype="0" conaffinity="0" group="1" material="mat_s7" rgba="0.930 0.720 0.100 1" />
+            <geom name="ring_sector_8" type="mesh" mesh="ring_sector_8" contype="0" conaffinity="0" group="1" material="mat_s8" rgba="0.820 0.160 0.120 1" />
+            <geom name="ring_sector_9" type="mesh" mesh="ring_sector_9" contype="0" conaffinity="0" group="1" material="mat_s9" rgba="0.120 0.280 0.780 1" />
+            <geom name="ring_sector_10" type="mesh" mesh="ring_sector_10" contype="0" conaffinity="0" group="1" material="mat_s10" rgba="0.520 0.660 0.950 1" />
+            <geom name="ring_sector_11" type="mesh" mesh="ring_sector_11" contype="0" conaffinity="0" group="1" material="mat_s11" rgba="0.160 0.550 0.260 1" />
+            <geom name="ring_sector_12" type="mesh" mesh="ring_sector_12" contype="0" conaffinity="0" group="1" material="mat_s12" rgba="0.450 0.740 0.340 1" />
+            <geom name="ring_sector_13" type="mesh" mesh="ring_sector_13" contype="0" conaffinity="0" group="1" material="mat_s13" rgba="0.420 0.420 0.420 1" />
+            <geom name="ring_sector_14" type="mesh" mesh="ring_sector_14" contype="0" conaffinity="0" group="1" material="mat_s14" rgba="0.620 0.620 0.620 1" />
+            <geom name="ring_sector_15" type="mesh" mesh="ring_sector_15" contype="0" conaffinity="0" group="1" material="mat_s15" rgba="0.620 0.620 0.620 1" />
+            <geom name="ring_div_0" type="box" pos="0.3700 0.0000 0" size="0.00100 0.0700 0.004" euler="0 0 0.0000" contype="0" conaffinity="0" group="1" material="mat_div" rgba="0.06 0.06 0.06 1.0" />
+            <geom name="ring_div_1" type="box" pos="0.3418 0.1416 0" size="0.00100 0.0700 0.004" euler="0 0 0.3927" contype="0" conaffinity="0" group="1" material="mat_div" rgba="0.06 0.06 0.06 1.0" />
+            <geom name="ring_div_2" type="box" pos="0.2616 0.2616 0" size="0.00100 0.0700 0.004" euler="0 0 0.7854" contype="0" conaffinity="0" group="1" material="mat_div" rgba="0.06 0.06 0.06 1.0" />
+            <geom name="ring_div_3" type="box" pos="0.1416 0.3418 0" size="0.00100 0.0700 0.004" euler="0 0 1.1781" contype="0" conaffinity="0" group="1" material="mat_div" rgba="0.06 0.06 0.06 1.0" />
+            <geom name="ring_div_4" type="box" pos="0.0000 0.3700 0" size="0.00100 0.0700 0.004" euler="0 0 1.5708" contype="0" conaffinity="0" group="1" material="mat_div" rgba="0.06 0.06 0.06 1.0" />
+            <geom name="ring_div_5" type="box" pos="-0.1416 0.3418 0" size="0.00100 0.0700 0.004" euler="0 0 1.9635" contype="0" conaffinity="0" group="1" material="mat_div" rgba="0.06 0.06 0.06 1.0" />
+            <geom name="ring_div_6" type="box" pos="-0.2616 0.2616 0" size="0.00100 0.0700 0.004" euler="0 0 2.3562" contype="0" conaffinity="0" group="1" material="mat_div" rgba="0.06 0.06 0.06 1.0" />
+            <geom name="ring_div_7" type="box" pos="-0.3418 0.1416 0" size="0.00100 0.0700 0.004" euler="0 0 2.7489" contype="0" conaffinity="0" group="1" material="mat_div" rgba="0.06 0.06 0.06 1.0" />
+            <geom name="ring_div_8" type="box" pos="-0.3700 0.0000 0" size="0.00100 0.0700 0.004" euler="0 0 3.1416" contype="0" conaffinity="0" group="1" material="mat_div" rgba="0.06 0.06 0.06 1.0" />
+            <geom name="ring_div_9" type="box" pos="-0.3418 -0.1416 0" size="0.00100 0.0700 0.004" euler="0 0 3.5343" contype="0" conaffinity="0" group="1" material="mat_div" rgba="0.06 0.06 0.06 1.0" />
+            <geom name="ring_div_10" type="box" pos="-0.2616 -0.2616 0" size="0.00100 0.0700 0.004" euler="0 0 3.9270" contype="0" conaffinity="0" group="1" material="mat_div" rgba="0.06 0.06 0.06 1.0" />
+            <geom name="ring_div_11" type="box" pos="-0.1416 -0.3418 0" size="0.00100 0.0700 0.004" euler="0 0 4.3197" contype="0" conaffinity="0" group="1" material="mat_div" rgba="0.06 0.06 0.06 1.0" />
+            <geom name="ring_div_12" type="box" pos="-0.0000 -0.3700 0" size="0.00100 0.0700 0.004" euler="0 0 4.7124" contype="0" conaffinity="0" group="1" material="mat_div" rgba="0.06 0.06 0.06 1.0" />
+            <geom name="ring_div_13" type="box" pos="0.1416 -0.3418 0" size="0.00100 0.0700 0.004" euler="0 0 5.1051" contype="0" conaffinity="0" group="1" material="mat_div" rgba="0.06 0.06 0.06 1.0" />
+            <geom name="ring_div_14" type="box" pos="0.2616 -0.2616 0" size="0.00100 0.0700 0.004" euler="0 0 5.4978" contype="0" conaffinity="0" group="1" material="mat_div" rgba="0.06 0.06 0.06 1.0" />
+            <geom name="ring_div_15" type="box" pos="0.3418 -0.1416 0" size="0.00100 0.0700 0.004" euler="0 0 5.8905" contype="0" conaffinity="0" group="1" material="mat_div" rgba="0.06 0.06 0.06 1.0" />
+        </body>
+        <!-- 相机（3/4 俯视 + 正俯视；外参每回合加抖） -->
+        <camera name="agentview" pos="0.85 -1.10 1.55" xyaxes="0.7913 0.6114 -0.0000  -0.3594 0.4651 0.8090" />
+        <camera name="topview" pos="-0.05 0 2.9" xyaxes="0.0000 -1.0000 0.0000  0.9998 0.0000 0.0212" />
+    </worldbody>
+</mujoco>

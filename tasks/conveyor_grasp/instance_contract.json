@@ -1,0 +1,240 @@
+{
+  "schema_version": "cl-manip.instance-contract.v1",
+  "status": "pilot",
+  "robot_id": "dual_piperx",
+  "time": {
+    "clock": "synchronous_simulation",
+    "policy_wait_advances_physics": false
+  },
+  "observation": {
+    "public": [
+      "proprio",
+      "visual",
+      "current_instruction",
+      "task_feedback"
+    ],
+    "private": [
+      "resolved_parameters",
+      "initial_state_file",
+      "future_round_plan"
+    ]
+  },
+  "action": {
+    "frame": "world",
+    "bounds": [
+      -1,
+      1
+    ],
+    "layout": "runtime.action_layout",
+    "invalid_action": "invalid_run",
+    "left_arm": "allowed_by_existing_task_controller",
+    "layout_note": "dual_piperx has 14 arm/gripper controls; runtime.action_layout is authoritative."
+  },
+  "reset": {
+    "format": "mujoco.integration.v1",
+    "time": 0,
+    "task_counters": "zero; queue IDs 6..N-1; targets 0..5 on belt; return cache empty; basket assignments from fixed examples; collision/visibility masks restored",
+    "initialization_noise": null,
+    "state_restore_during_step": false,
+    "variation": "Explicit Episode variation applied before compilation; reset repeats that Episode exactly.",
+    "round_plan": null
+  },
+  "evaluation": {
+    "practice": 10,
+    "exam": 5,
+    "primary": "mean_exam_task_score",
+    "invalid": "abort_group_without_official_score",
+    "exam_adaptation": "online",
+    "score_key": "total_score"
+  },
+  "task_id": "conveyor_grasp",
+  "contract_version": "2.1-reachable-dual-piper",
+  "control_hz": 20,
+  "horizon_sec": 300,
+  "ownership": {
+    "spec": [
+      "single-row initial X=linspace(1.15,3.75,6), Y=0; first feed X=0.65,Y=0",
+      "basket geometry and embodiment-specific layout",
+      "category/asset domains and distributions",
+      "queue transport, scoring, stability, 20Hz/300s",
+      "Fixed dual-PiPER-X base at (2.0,.70,0.0), with both arms reset to [0,.2,-1.1,1.2,0,0] so the belt and every basket opening are inside the public action workspace",
+      "Fixed dual-PiPER-X baskets at (1.25,.48,.76), (2.75,.48,.76), (1.37,.82,.76), (2.63,.82,.76), truncated to category_count; widened detached side tables support the staggered rows while preserving the central stand aisle",
+      "Legacy ALOHA baskets remain at (1.25,.50,.76), (2.75,.50,.76), (1.25,.90,.76), (2.75,.90,.76), truncated to category_count"
+    ],
+    "task_instance": [
+      "task.n_objects (baseline; Episode may override fields listed in episode_randomization)",
+      "task.category_count (baseline; Episode may override fields listed in episode_randomization)",
+      "belt.speed (baseline; Episode may override fields listed in episode_randomization)",
+      "belt.friction (baseline; Episode may override fields listed in episode_randomization)",
+      "object.mass_scale (baseline; Episode may override fields listed in episode_randomization)",
+      "inventory.categories (baseline; Episode may override fields listed in episode_randomization)",
+      "inventory.targets in target-ID/initial-queue order (baseline; Episode may override fields listed in episode_randomization)",
+      "inventory.examples with basket and slot (baseline; Episode may override fields listed in episode_randomization)",
+      "inventory.fixed_categories (baseline; Episode may override fields listed in episode_randomization)",
+      "inventory.target_yaws (baseline; Episode may override fields listed in episode_randomization)",
+      "room textures (baseline; Episode may override fields listed in episode_randomization)",
+      "lighting (baseline; Episode may override fields listed in episode_randomization)"
+    ],
+    "episode_instance": [
+      "belt speed",
+      "one isotropic size scale per target; mass/inertia derived at unchanged density",
+      "explicit integration initial_state",
+      "compiled Episode runtime identity",
+      "round_plan=null"
+    ]
+  },
+  "rules": {
+    "in_bin": "body center: abs(local_x)<=0.243, abs(local_y)<=0.143, -0.01<=local_z<=0.24; same for examples",
+    "ready": "same basket as preceding sample AND inside AND no robot contact AND linear speed<0.04 m/s AND angular speed<0.3 rad/s; increment stable ticks, else zero; ready at ceil(0.5*Hz)=10 ticks (first in-bin detection is tick zero)",
+    "ownership": "fixed example categories persist; nonfixed basket clears ownership only when no targets or examples inside; ready targets claim unassigned category in ascending target ID order",
+    "mixed": "more than one category among all present targets, examples and fixed category; readiness not required",
+    "counted": "(ready OR previously_counted) AND inside basket AND basket pure AND assigned category matches; leaving, mixing or mismatch removes points",
+    "score": "100*counted_targets/N, recomputed each control tick; examples excluded; use final total_score at timeout, not peak or accumulated reward",
+    "reward": "score_delta; may be negative",
+    "success": "all targets counted AND all currently ready AND every example in original basket AND no mixed basket; hold ceil(Hz)=20 consecutive qualifying ticks",
+    "completion": "all_objects_sorted is terminal success; intermediate recycling/placement/removal events do not alone imply success",
+    "horizon": "6000 control steps=300 simulated seconds; keep partial score at timeout",
+    "rounds": false,
+    "initial_state_variation": "none",
+    "transport": "only untouched belt objects recycle; preserve pose and velocity except X translation -4 m; hidden dynamics frozen; interacted/dropped targets not auto-returned",
+    "nonfinite": "unified replay marks group invalid, not ordinary zero-score failure",
+    "certification": "Every saved Episode must replay exactly; all three saved Scenarios must reset without robot penetration; public bounded actions must reach both conveyor pickup regions and every basket opening within 0.04 m. This is a geometric reachability certificate, not a policy success-rate claim."
+  },
+  "sampling_profile": {
+    "schema_version": "1.0",
+    "profile_id": "default",
+    "task_id": "conveyor_grasp",
+    "fixed": {},
+    "physics": {
+      "task.n_objects": {
+        "distribution": "choice",
+        "values": [
+          10,
+          12,
+          15,
+          18,
+          20,
+          24,
+          27,
+          30
+        ]
+      },
+      "task.category_count": {
+        "distribution": "choice",
+        "values": [
+          2,
+          3,
+          4
+        ]
+      },
+      "belt.speed": {
+        "distribution": "uniform",
+        "low": 0.08,
+        "high": 0.2
+      },
+      "belt.friction": {
+        "distribution": "uniform",
+        "low": 0.3,
+        "high": 0.8
+      },
+      "object.mass_scale": {
+        "distribution": "uniform",
+        "low": 0.7,
+        "high": 1.3
+      }
+    },
+    "appearance": {
+      "room.floor_texture": {
+        "distribution": "choice",
+        "values": [
+          "light-gray-floor-tile",
+          "wood-tiles",
+          "light-wood-parquet",
+          "dark-wood-parquet",
+          "slate-stone",
+          "sandstone",
+          "terrazzo",
+          "rubber-mat",
+          "blue-carpet",
+          "cream-linoleum",
+          "realistic-tiles",
+          "realistic-wood",
+          "oak-wood-realistic",
+          "walnut-wood-realistic",
+          "gray-woodgrain-realistic",
+          "varnished-wood-realistic",
+          "ceramic-realistic",
+          "concrete-realistic",
+          "gray-carpet-realistic"
+        ]
+      },
+      "room.wall_texture": {
+        "distribution": "choice",
+        "values": [
+          "white-plaster",
+          "cool-white-paint",
+          "gray-plaster",
+          "industrial-concrete",
+          "blue-plaster",
+          "sage-plaster",
+          "warm-plaster",
+          "sand-plaster",
+          "muted-yellow-paint",
+          "soft-pink-paint",
+          "brick-accent",
+          "realistic-tile-wall",
+          "realistic-wood-panel",
+          "white-brick-realistic",
+          "cream-plaster-realistic",
+          "concrete-realistic"
+        ]
+      }
+    },
+    "assets": {
+      "texture_source": "ambientCG-CC0+robosuite-1.5.2"
+    },
+    "runtime": {
+      "lighting.layout": {
+        "distribution": "choice",
+        "values": [
+          "overcast",
+          "warm_indoor",
+          "daylight_side",
+          "cool_office",
+          "hard_sun",
+          "backlit",
+          "mixed_daylight"
+        ]
+      },
+      "lighting.intensity_scale": {
+        "distribution": "uniform",
+        "low": 0.8,
+        "high": 1.6
+      },
+      "lighting.azimuth_deg": {
+        "distribution": "uniform",
+        "low": -180,
+        "high": 180
+      }
+    }
+  },
+  "publication_status": "development_only",
+  "episode_randomization": {
+    "version": 1,
+    "domains": {
+      "belt_speed_m_s": [
+        0.08,
+        0.2
+      ],
+      "target_size_scale": [
+        0.8,
+        1.15
+      ]
+    },
+    "sampler": "react_manip.instances.variation.sample_variation",
+    "storage": "Episode variation + runtime + initial_state; Task scenario is the baseline",
+    "schedule": "independently shuffled five-stratum batches; two practice batches and one exam batch use the same domain; phone small count alternates 2/3",
+    "replay": "rebuild resolved Episode model; verify full runtime identity; restore exact initial state; no resampling during reset/step",
+    "policy_visibility": "qualitative runtime English instructions only; sampled values, solution axes, small-support names and files remain private"
+  }
+}

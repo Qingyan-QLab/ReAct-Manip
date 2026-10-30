@@ -1,0 +1,92 @@
+{
+  "task_id": "car_drive2",
+  "task_version": "1.2",
+  "task_type": "one_shot",
+  "required_arms": 2,
+  "required_gripper": "parallel",
+  "supported_robots": [
+    "dual_piperx"
+  ],
+  "control_hz": 20,
+  "horizon_sec": 180,
+  "description": "双臂操控实体摇杆，从道路起点驶至另一端；180 秒内到达得 100 分，超时未到达得 0 分并失败。",
+  "metadata": {
+    "score_max": 100.0,
+    "score_min": 0.0,
+    "evaluation": {
+      "success": "vehicle_y >= road_length_m - 1.2",
+      "score": "100 if reached the far end within the time limit, otherwise 0",
+      "collision_penalty": 0
+    },
+    "camera_contract": {
+      "version": "3.0",
+      "policy_cameras": [
+        "robot0_head_camera",
+        "robot0_wrist_right",
+        "robot0_wrist_left"
+      ],
+      "policy_mounting": "robot_main_and_wrists",
+      "default_resolution": [
+        640,
+        480
+      ]
+    },
+    "episode_randomization": {
+      "version": 1,
+      "domains": {
+        "nominal_speed_m_s": [
+          0.9,
+          1.15
+        ]
+      },
+      "sampler": "react_manip.instances.variation.sample_variation",
+      "storage": "Episode variation + runtime + initial_state; Task scenario is the baseline",
+      "schedule": "independently shuffled five-stratum batches; two practice batches and one exam batch use the same domain; phone small count alternates 2/3",
+      "replay": "rebuild resolved Episode model; verify full runtime identity; restore exact initial state; no resampling during reset/step",
+      "policy_visibility": "qualitative runtime English instructions only; sampled values, solution axes, small-support names and files remain private"
+    }
+  },
+  "api_version": "2.0",
+  "done_behavior": "stop",
+  "success": {
+    "min_occupancy": 0,
+    "min_events": 1,
+    "max_failures": 0,
+    "require_terminal_success": true
+  },
+  "action": {
+    "type": "cartesian_gripper",
+    "shape": [
+      14
+    ],
+    "frame": "base",
+    "bounds": [
+      -1,
+      1
+    ]
+  },
+  "feedback": {
+    "success_signals": [
+      "success_state",
+      "terminal_success"
+    ],
+    "fields": [
+      "score",
+      "total_score",
+      "blocked",
+      "timed_out",
+      "elapsed_time_s",
+      "time_limit_s"
+    ]
+  },
+  "evaluation": {
+    "protocol": "practice_exam",
+    "practice_episodes": 10,
+    "exam_episodes": 5,
+    "exam_adaptation": "online",
+    "scoring": {
+      "primary": "mean_exam_task_score",
+      "score_key": "total_score"
+    }
+  }
+}

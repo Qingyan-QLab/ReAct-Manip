@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "car_drive2_obstacle_course_v1",
+  "task_id": "car_drive2",
+  "fixed": {
+    "road": {"half_width_m": 4.2, "length_m": 18.0, "surface_friction": [0.8, 0.01, 0.001]},
+    "vehicle": {"start_y_m": 1.5, "nominal_speed_m_s": 1.05, "steering_gain": 0.08},
+    "joysticks": {"count": 2, "slide_range_m": [-0.18, 0.18], "damping": 8.0, "stiffness": 3.0},
+    "obstacles": {"count": 3, "longitudinal_positions_m": [4.5, 10.0, 15.0], "extension_range_m": [0.25, 0.40], "half_width_range_m": [0.32, 0.42]},
+    "fences": {"count": 2}
+  },
+  "geometry": {
+    "road.half_width_m": {"distribution": "uniform", "low": 3.8, "high": 4.2},
+    "obstacle.extension_m": {"distribution": "uniform", "low": 0.25, "high": 0.40},
+    "obstacle.half_width_m": {"distribution": "uniform", "low": 0.32, "high": 0.42},
+    "obstacle.longitudinal_positions_m": {"distribution": "choice", "values": [[4.5, 10.0, 15.0]]}
+  },
+  "physics": {
+    "vehicle.nominal_speed_m_s": {"distribution": "uniform", "low": 0.90, "high": 1.15},
+    "vehicle.steering_gain": {"distribution": "uniform", "low": 0.06, "high": 0.10},
+    "joystick.damping": {"distribution": "uniform", "low": 6.0, "high": 10.0}
+  },
+  "randomization": {"seed_source": "environment_seed", "obstacles": ["extension", "half_width", "alternating_side"]},
+  "assets": {"asset_version": "car_drive2_obstacle_course_v1"}
+}

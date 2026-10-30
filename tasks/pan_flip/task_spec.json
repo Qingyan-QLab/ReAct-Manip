@@ -1,0 +1,119 @@
+{
+  "metadata": {
+    "camera_contract": {
+      "version": "3.0",
+      "fixed": [
+        "workspace_oblique",
+        "workspace_top",
+        "room_overview"
+      ],
+      "mounted": "query get_camera_specs(); only physical embodiment sensors",
+      "observation_key": "images",
+      "default_resolution": [
+        640,
+        480
+      ],
+      "room_and_debug_opt_in": true,
+      "policy_cameras": [
+        "robot0_head_camera",
+        "robot0_wrist_right"
+      ],
+      "policy_mounting": "robot_main_and_wrists"
+    },
+    "robot_control_mode": "eef_delta",
+    "embodiment_mode": "physical",
+    "score_max": 100,
+    "demo_controller": "tasks.pan_flip.operation:PanFlipController",
+    "tool_attachment": "fixed",
+    "randomization": [
+      "pie.radius_m",
+      "pie.thickness_m",
+      "pie.mass_kg",
+      "pie.mass_uniformity",
+      "pie.density_direction_deg",
+      "room",
+      "lighting",
+      "pan.handle_length_m",
+      "pan.grip_fraction",
+      "pan.mass_kg"
+    ],
+    "mass_distribution_model": "linear_in_plane_density_gradient.v1",
+    "pan_inertia_model": "calibrated_head_uniform_handle.v1",
+    "reference_runtime": {
+      "environment": "bcm",
+      "mujoco": "3.3.1"
+    }
+  },
+  "api_version": "2.0",
+  "task_id": "pan_flip",
+  "task_version": "1.5",
+  "task_type": "one_shot",
+  "required_arms": 1,
+  "required_gripper": "parallel",
+  "supported_robots": [
+    "piperx"
+  ],
+  "horizon_sec": 10,
+  "control_hz": 50,
+  "done_behavior": "stop",
+  "success": {
+    "min_occupancy": 0,
+    "min_events": 1,
+    "max_failures": 0,
+    "require_terminal_success": true
+  },
+  "observation": {
+    "modalities": [
+      "proprio",
+      "visual",
+      "geometry"
+    ],
+    "default_policy_view": [
+      "proprio",
+      "visual"
+    ],
+    "geometry_view": "internal",
+    "fields": {
+      "geometry": [
+        "pan.pose",
+        "pie.pose",
+        "pie.velocity",
+        "pie.angular_velocity",
+        "pie_in_pan_frame",
+        "face_normal_in_pan",
+        "phase"
+      ]
+    },
+    "visibility": {
+      "policy": "proprio+visual",
+      "oracle": "all",
+      "benchmark_log": "all"
+    }
+  },
+  "required_eef_dof": 6,
+  "action": {
+    "type": "eef_delta",
+    "shape": [
+      7
+    ],
+    "bounds": [
+      -1,
+      1
+    ],
+    "frame": "world",
+    "fields": [
+      "position_delta_3d",
+      "rotation_delta_3d",
+      "gripper"
+    ]
+  },
+  "feedback": {
+    "events": [
+      "pie_flipped_and_settled"
+    ],
+    "success_signals": [
+      "success_state",
+      "terminal_success"
+    ]
+  }
+}

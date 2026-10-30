@@ -1,0 +1,113 @@
+{
+  "api_version": "2.0",
+  "task_id": "turntable_gamble1",
+  "task_version": "0.5",
+  "task_type": "one_shot",
+  "required_arms": 1,
+  "required_gripper": "parallel",
+  "supported_robots": [
+    "piperx"
+  ],
+  "control_hz": 20,
+  "horizon_sec": 200,
+  "done_behavior": "stop",
+  "success": {
+    "min_occupancy": 0,
+    "min_events": 0,
+    "max_failures": 0,
+    "require_terminal_success": true
+  },
+  "action": {
+    "type": "cartesian_gripper",
+    "shape": [
+      7
+    ],
+    "fields": [
+      "dx",
+      "dy",
+      "dz",
+      "droll",
+      "dpitch",
+      "dyaw",
+      "gripper"
+    ]
+  },
+  "feedback": {
+    "success_signals": [
+      "success_state",
+      "terminal_success"
+    ],
+    "fields": [
+      "angle_deg",
+      "angular_speed",
+      "current_score",
+      "score",
+      "phase",
+      "initial_score",
+      "ring_yaw_deg",
+      "radius_m",
+      "arm_contact",
+      "settled_now",
+      "free_coast_deg",
+      "free_coast_time",
+      "last_round_valid",
+      "episode_finished",
+      "termination_reason"
+    ]
+  },
+  "metadata": {
+    "score_max": 100,
+    "evaluation": {
+      "success": "episode_finished and last_score==100 after qualified free coast"
+    },
+    "score_values": [
+      0,
+      8,
+      12,
+      20,
+      32,
+      48,
+      80,
+      100,
+      80,
+      48,
+      32,
+      20,
+      12,
+      8,
+      8,
+      4
+    ],
+    "score_scope": "one score per episode, 0-100; no cumulative score or averaging",
+    "reward": "on settlement step only: round_score / 100; otherwise zero",
+    "initialization": {
+      "pointer_angle_rad": -1.5707963267948966,
+      "initial_score_choices": [
+        0,
+        4,
+        8,
+        12
+      ],
+      "score_ring_yaw": "seeded; pointer stays facing the unchanged robot",
+      "radius_m": [
+        0.42,
+        0.45
+      ]
+    },
+    "invalid_round": "0 points if release/coast requirement is not met, even on the 100-point sector",
+    "termination": "First settlement ends the episode at any score. Timeout before settlement yields 0. Reset required to retry.",
+    "action_layout": "Per-arm shape is 7; fixed ALOHA runtime uses 14 controls, both arms enabled.",
+    "camera_contract": {
+      "version": "3.0",
+      "policy_cameras": [
+        "robot0_head_camera",
+        "robot0_wrist_right"
+      ],
+      "policy_mounting": "robot_main_and_wrists",
+      "default_resolution": [
+        640,
+        480
+      ]
+    }
+  }
+}

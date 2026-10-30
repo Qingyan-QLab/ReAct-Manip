@@ -1,0 +1,16 @@
+{
+  "protocol": "practice_exam",
+  "practice_episodes": 10,
+  "exam_episodes": 5,
+  "exam_adaptation": "online",
+  "scoring": {
+    "primary": "mean_exam_task_score",
+    "score_key": "score",
+    "pass_k": [
+      1,
+      2,
+      3,
+      5
+    ]
+  }
+}

@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mujoco model="box_insertion">
+  <option timestep="0.002" gravity="0 0 -9.81" integrator="implicitfast" />
+  <asset>
+    <material name="table_mat" rgba="0.42 0.25 0.12 1" />
+    <material name="box_mat" rgba="0.12 0.15 0.18 1" />
+    <material name="block_mat" rgba="0.72 0.42 0.16 1" />
+  </asset>
+  <worldbody>
+    <geom name="floor" type="plane" pos="0 0 0" size="3 3 0.1" friction="0.6 0.01 0.001" />
+    <!-- Worktable spans x=[-0.20, 0.70] and y=[-0.80, 0.80]. The extra
+         lateral room supports the sampled 0.60 to 1.00 m block and its
+         width-plus-0.05 m slot opening. The arena resizes these geoms per
+         Scenario before MuJoCo compilation. -->
+    <geom name="table" type="box" pos="0.25 0 0.755" size="0.45 0.80 0.025" material="table_mat" group="1" friction="0.005 0.01 0.001" />
+    <geom name="table_leg_nx_py" type="box" pos="-0.14 0.74 0.3775" size="0.035 0.035 0.3775" material="table_mat" group="1" />
+    <geom name="table_leg_nx_ny" type="box" pos="-0.14 -0.74 0.3775" size="0.035 0.035 0.3775" material="table_mat" group="1" />
+    <geom name="table_leg_px_py" type="box" pos="0.64 0.74 0.3775" size="0.035 0.035 0.3775" material="table_mat" group="1" />
+    <geom name="table_leg_px_ny" type="box" pos="0.64 -0.74 0.3775" size="0.035 0.035 0.3775" material="table_mat" group="1" />
+    <!-- A joint-free body is welded to the world at the tabletop. There is
+         intentionally no slot floor: the same table geom supports the block
+         both outside and inside the fixture, so no threshold step exists. -->
+    <body name="slot_fixture" pos="0.26 0 0.78">
+      <!-- Slot walls override block friction. Values below are legacy
+           fallbacks; the arena applies sampled side/back wall coefficients. -->
+      <geom name="box_back" type="box" pos="0.15 0 0.035" size="0.01 0.545 0.035" material="box_mat" group="1" rgba="0.10 0.16 0.24 1" priority="1" friction="0.02 0.002 0.0001" />
+      <geom name="box_left" type="box" pos="0 -0.535 0.035" size="0.16 0.01 0.035" material="box_mat" group="1" rgba="0.10 0.16 0.24 1" priority="1" friction="3.0 0.02 0.001" />
+      <geom name="box_right" type="box" pos="0 0.535 0.035" size="0.16 0.01 0.035" material="box_mat" group="1" rgba="0.10 0.16 0.24 1" priority="1" friction="3.0 0.02 0.001" />
+    </body>
+    <!-- Invisible reference site used by geometry observations; it is not a
+         physical object and must not look like a second insertion block. -->
+    <site name="box_entry" type="box" pos="0.10 0 0.80" size="0.008 0.525 0.045" rgba="0 0 0 0" />
+    <site name="box_bottom_target" type="sphere" pos="0.334125 0 0.802107" size="0.004" rgba="0 0 0 0" />
+    <camera name="overview" pos="-1.00 -1.80 1.50" fovy="55" xyaxes="0.843 -0.538 0 0.172 0.270 0.949" />
+    <camera name="boxview" pos="-0.45 -1.50 1.05" fovy="55" xyaxes="0.917 -0.398 0 0.060 0.139 0.989" />
+    <body name="wood_block" pos="-0.02587494622388665 0.0 0.8021071570474048">
+      <!-- At reset the block spans x=[-0.092, 0.040], leaving 0.06 m before
+           the slot entrance at x=0.10. A free joint lets gravity generate the
+           table normal load and therefore genuine Coulomb friction. -->
+      <freejoint name="block_free" />
+      <!-- One rigid body with two collision regions across local Y. Their
+           shared boundary is resized from the sampled Scenario before model
+           compilation. Sampled regional densities determine the body's
+           total mass, center of mass and inertia; defaults below are legacy. -->
+      <geom name="block_contact_left" type="box" pos="0 -0.25 0" size="0.065875 0.25 0.022107" density="650" group="0" rgba="0 0 0 0" friction="0.10 0.01 0.001" />
+      <geom name="block_contact_right" type="box" pos="0 0.25 0" size="0.065875 0.25 0.022107" density="650" group="0" rgba="0 0 0 0" friction="0.10 0.01 0.001" />
+      <geom name="block_visual" type="box" size="0.065875 0.50 0.022107" material="block_mat" group="1" contype="0" conaffinity="0" mass="0" />
+    </body>
+  </worldbody>
+</mujoco>

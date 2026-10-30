@@ -1,0 +1,196 @@
+{
+  "schema_version": "cl-manip.instance-contract.v1",
+  "status": "pilot",
+  "robot_id": "piperx",
+  "time": {
+    "clock": "synchronous_simulation",
+    "policy_wait_advances_physics": false
+  },
+  "observation": {
+    "public": [
+      "proprio",
+      "visual",
+      "current_instruction",
+      "task_feedback"
+    ],
+    "private": [
+      "resolved_parameters",
+      "initial_state_file",
+      "future_round_plan"
+    ]
+  },
+  "action": {
+    "frame": "world",
+    "bounds": [
+      -1,
+      1
+    ],
+    "layout": "runtime.action_layout",
+    "invalid_action": "invalid_run",
+    "left_arm": "not_present",
+    "layout_note": "piperx has 7 arm/gripper controls; runtime.action_layout is authoritative."
+  },
+  "reset": {
+    "format": "mujoco.integration.v1",
+    "time": 0,
+    "task_counters": "zero",
+    "initialization_noise": null,
+    "state_restore_during_step": false,
+    "variation": "none; seed is provenance only, not a reset randomization input",
+    "round_plan": null
+  },
+  "evaluation": {
+    "practice": 10,
+    "exam": 5,
+    "primary": "mean_exam_task_score",
+    "invalid": "abort_group_without_official_score",
+    "exam_adaptation": "online",
+    "score_key": "score"
+  },
+  "task_id": "turntable_gamble1",
+  "contract_version": "1.0",
+  "control_hz": 20,
+  "horizon_sec": 200,
+  "ownership": {
+    "spec": [
+      "16 fixed equal sectors, score values, mass=2.5 kg, gravity and contact friction",
+      "pointer world angle=-pi/2, angular velocity=0",
+      "fixed ALOHA complete floor stand, no initialization noise",
+      "20 Hz, 200 s, first settlement ends Episode",
+      "sampling domains and conditional selection rules"
+    ],
+    "task_instance": [
+      "turntable.inertia (base I0)",
+      "turntable.frictionloss",
+      "turntable.damping",
+      "turntable.radius_m",
+      "initialization.score",
+      "initialization.sector",
+      "initialization.fraction"
+    ],
+    "derived": [
+      "scale=radius/.30",
+      "inertia_diagonal=(.6I,.6I,I), I=I0*scale^2",
+      "center_y=.446*(scale-1)",
+      "ring_yaw=-pi/2-(sector+fraction)*2*pi/16"
+    ],
+    "episode_instance": [
+      "episode_id",
+      "identical explicit initial_state; no scene randomization or round plan"
+    ],
+    "policy_decision": [
+      "contact, push and release actions"
+    ]
+  },
+  "rules": {
+    "start": "not spinning AND robot contact AND abs(angular_speed)>0.10 rad/s",
+    "contact": "includes any physics-substep contact in the control tick; either arm counts",
+    "free_coast": "after last contact: time>=1 s AND abs(unwrapped angle minus first no-contact sample angle)>=pi/3; recontact clears coast, does not fail immediately",
+    "settle": "spinning AND no contact AND abs(angular_speed)<0.01 continuously >=1 s; interruption resets timer",
+    "score": "first settlement yields sector value if valid coast, else 0; terminal at every score",
+    "sectors": "phi=(angle-ring_yaw) mod 2pi; left closed right open; 100 at local [157.5,180) degrees",
+    "success": "episode_finished and score==100",
+    "timeout": "4000 ticks; if no settlement score=0, truncated; settlement on final tick takes precedence",
+    "reward": "settlement tick score/100 only; otherwise 0",
+    "nonfinite": "unified replay aborts invalid run, not a zero score",
+    "rounds": false,
+    "feasibility": "three-layer and interface checks only; no ALOHA controller success certification"
+  },
+  "sampling_profile": {
+    "schema_version": "1.0",
+    "profile_id": "turntable_gamble1_v3_push_coast",
+    "task_id": "turntable_gamble1",
+    "fixed": {
+      "turntable": {
+        "sector_count": 16,
+        "score_values": [
+          0,
+          8,
+          12,
+          20,
+          32,
+          48,
+          80,
+          100,
+          80,
+          48,
+          32,
+          20,
+          12,
+          8,
+          8,
+          4
+        ],
+        "success_score": 100
+      },
+      "task": {
+        "required_action": "push_handle_then_release",
+        "success": "released free coast of at least 60 degrees, then settled on 100",
+        "minimum_free_coast_deg": 60.0,
+        "minimum_free_coast_sec": 1.0,
+        "scoring_mode": "single_settlement_per_episode",
+        "timeout_score": 0
+      },
+      "controller": {
+        "translation_delta_max_m": 0.06,
+        "rotation_delta_max_rad": 0.08
+      }
+    },
+    "physics": {
+      "turntable.inertia": {
+        "distribution": "uniform",
+        "low": 0.08,
+        "high": 0.15
+      },
+      "turntable.frictionloss": {
+        "distribution": "uniform",
+        "low": 0.002,
+        "high": 0.004
+      },
+      "turntable.damping": {
+        "distribution": "uniform",
+        "low": 0.002,
+        "high": 0.004
+      }
+    },
+    "geometry": {
+      "turntable.radius_m": {
+        "distribution": "uniform",
+        "low": 0.42,
+        "high": 0.45
+      }
+    },
+    "assets": {
+      "scene": "tasks/turntable_gamble1/assets/turntable_gamble_arena.xml",
+      "asset_version": "turntable_gamble1_runtime_v3"
+    },
+    "implementation_status": {
+      "runtime_profile_loaded": true,
+      "random_draws": [
+        "base_inertia",
+        "frictionloss",
+        "damping",
+        "turntable.radius_m",
+        "initial_score",
+        "initial_sector",
+        "initial_sector_fraction"
+      ],
+      "note": "Initial sector depends on selected score. Geometry uses uniform XY scale. Actual inertia = base inertia * scale squared. Score ring rotates; pointer starts facing unchanged arm."
+    },
+    "initialization": {
+      "pointer_angle_rad": -1.5707963267948966,
+      "allowed_scores": [
+        0,
+        4,
+        8,
+        12
+      ],
+      "sector_fraction_range": [
+        0.2,
+        0.8
+      ],
+      "selection": "uniform score, then uniform matching sector, then uniform position within sector"
+    }
+  },
+  "publication_status": "development_only"
+}

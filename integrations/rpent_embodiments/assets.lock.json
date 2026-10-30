@@ -1,0 +1,187 @@
+{
+  "schema": 1,
+  "robotwin_commit": "ea8b21121ebb3cd201ff5b3fe361944ac94eda3f",
+  "robodojo_commit": "6d76a0c4a49a7a47bf5ee3924de2ccd7ecb8a8b7",
+  "robosuite_version": "1.5.2",
+  "files": {
+    "robodojo/robot_config.yml": {
+      "sha256": "9de4f63b84c0f730623c09af7a2d530d84973981397280b6e4b626b50ba6f1c9",
+      "url": "https://huggingface.co/datasets/RoboDojo-Benchmark/RoboDojo/resolve/main/Assets/Robots/x5/robot_config.yml"
+    },
+    "robodojo/X5A.urdf": {
+      "sha256": "7aaa308a1a5b6a213d914db86ba09ddd6252f25cb498ac9a148bfa6c7166a423",
+      "url": "https://huggingface.co/datasets/RoboDojo-Benchmark/RoboDojo/resolve/main/Assets/Robots/x5/X5A.urdf"
+    },
+    "robodojo/meshes/link8.STL": {
+      "sha256": "29f7a8379cad81797e82e4ba099455cc275ac6ac5bb9e264ce46719fd7d2bb60",
+      "url": "https://huggingface.co/datasets/RoboDojo-Benchmark/RoboDojo/resolve/main/Assets/Robots/x5/meshes/link8.STL"
+    },
+    "robodojo/meshes/link3.STL": {
+      "sha256": "3ac2411b0cbffcf4808cae4c215cfeab607f240cd124eeba209ac7986ac047c0",
+      "url": "https://huggingface.co/datasets/RoboDojo-Benchmark/RoboDojo/resolve/main/Assets/Robots/x5/meshes/link3.STL"
+    },
+    "robodojo/meshes/base_link.STL": {
+      "sha256": "898dbe3af3a98857358ac5a3d74e085ec9c69946737e767dad139776761cbd92",
+      "url": "https://huggingface.co/datasets/RoboDojo-Benchmark/RoboDojo/resolve/main/Assets/Robots/x5/meshes/base_link.STL"
+    },
+    "robodojo/meshes/link2.STL": {
+      "sha256": "2865da6a962c814abaf9251497bcf5f5e3b67610e3b657ddcaa9de8b3d45e83e",
+      "url": "https://huggingface.co/datasets/RoboDojo-Benchmark/RoboDojo/resolve/main/Assets/Robots/x5/meshes/link2.STL"
+    },
+    "robodojo/meshes/link1.STL": {
+      "sha256": "04a52b86a5b28c847377a9167e7effab0478fa591052e83b0b32cf8709bb3885",
+      "url": "https://huggingface.co/datasets/RoboDojo-Benchmark/RoboDojo/resolve/main/Assets/Robots/x5/meshes/link1.STL"
+    },
+    "robodojo/meshes/link5.STL": {
+      "sha256": "934b3e70ce2987f8de999de29d8ef72c8370dced8e9fdf6f9ddd3e7e24c1e464",
+      "url": "https://huggingface.co/datasets/RoboDojo-Benchmark/RoboDojo/resolve/main/Assets/Robots/x5/meshes/link5.STL"
+    },
+    "robodojo/meshes/link4.STL": {
+      "sha256": "3447ddef920c22e4607b887e1cc588037dfb51c37825c4cac86a5391425469c4",
+      "url": "https://huggingface.co/datasets/RoboDojo-Benchmark/RoboDojo/resolve/main/Assets/Robots/x5/meshes/link4.STL"
+    },
+    "robodojo/meshes/link6.STL": {
+      "sha256": "32dca4ededcf3215163207b9aea1046114ae59921555d1e068ee46fa6e53915e",
+      "url": "https://huggingface.co/datasets/RoboDojo-Benchmark/RoboDojo/resolve/main/Assets/Robots/x5/meshes/link6.STL"
+    },
+    "robodojo/meshes/link7.STL": {
+      "sha256": "ec3d40b39cccde0075ca3d16603f14f180fce41a46b446473d384def7a1b0be0",
+      "url": "https://huggingface.co/datasets/RoboDojo-Benchmark/RoboDojo/resolve/main/Assets/Robots/x5/meshes/link7.STL"
+    },
+    "robotwin/config.yml": {
+      "sha256": "a4f043d2d4b44cca5ec47fb498a3194da3f87ff9530dcbfdcee1539a44423d57",
+      "url": "https://huggingface.co/datasets/TianxingChen/RoboTwin2.0/resolve/main/embodiments.zip",
+      "zip_entry": "embodiments/aloha-agilex/config.yml",
+      "offset": 6504,
+      "compressed_size": 500,
+      "method": 8
+    },
+    "robotwin/urdf/arx5_description_isaac.urdf": {
+      "sha256": "097c59fb19a7b482249c6097df8319586ea7cfd268c015516f103b289a7e761a",
+      "url": "https://huggingface.co/datasets/TianxingChen/RoboTwin2.0/resolve/main/embodiments.zip",
+      "zip_entry": "embodiments/aloha-agilex/urdf/arx5_description_isaac.urdf",
+      "offset": 33831,
+      "compressed_size": 6028,
+      "method": 8
+    },
+    "robotwin/urdf/aloha_maniskill_sim/meshes/box1_Link.STL": {
+      "sha256": "e48fbe760dc7c1d98c3e655ca5788dd09a1c1c6544b1ad3f0aeaaaa2c8121917",
+      "url": "https://huggingface.co/datasets/TianxingChen/RoboTwin2.0/resolve/main/embodiments.zip",
+      "zip_entry": "embodiments/aloha-agilex/urdf/aloha_maniskill_sim/meshes/box1_Link.STL",
+      "offset": 101344570,
+      "compressed_size": 16151,
+      "method": 8
+    },
+    "robotwin/urdf/aloha_maniskill_sim/meshes/link8.STL": {
+      "sha256": "29f7a8379cad81797e82e4ba099455cc275ac6ac5bb9e264ce46719fd7d2bb60",
+      "url": "https://huggingface.co/datasets/TianxingChen/RoboTwin2.0/resolve/main/embodiments.zip",
+      "zip_entry": "embodiments/aloha-agilex/urdf/aloha_maniskill_sim/meshes/link8.STL",
+      "offset": 152290350,
+      "compressed_size": 13123,
+      "method": 8
+    },
+    "robotwin/urdf/aloha_maniskill_sim/meshes/base_arm.STL": {
+      "sha256": "3d6524754df3c5b50ea4196c473b447cd7dc0c00afb9a31e7db3bb6d1cd52c60",
+      "url": "https://huggingface.co/datasets/TianxingChen/RoboTwin2.0/resolve/main/embodiments.zip",
+      "zip_entry": "embodiments/aloha-agilex/urdf/aloha_maniskill_sim/meshes/base_arm.STL",
+      "offset": 156445416,
+      "compressed_size": 20797,
+      "method": 8
+    },
+    "robotwin/urdf/aloha_maniskill_sim/meshes/link3.STL": {
+      "sha256": "76ded14e5f919e7a77ae7501883d55fb349be5c3c16499f59c1de5b552cad842",
+      "url": "https://huggingface.co/datasets/TianxingChen/RoboTwin2.0/resolve/main/embodiments.zip",
+      "zip_entry": "embodiments/aloha-agilex/urdf/aloha_maniskill_sim/meshes/link3.STL",
+      "offset": 188269870,
+      "compressed_size": 356170,
+      "method": 8
+    },
+    "robotwin/urdf/aloha_maniskill_sim/meshes/link2.STL": {
+      "sha256": "87e1386ed2533e68743f50f448e8cbdc366c2b37f0df3ede1fa2de340666786c",
+      "url": "https://huggingface.co/datasets/TianxingChen/RoboTwin2.0/resolve/main/embodiments.zip",
+      "zip_entry": "embodiments/aloha-agilex/urdf/aloha_maniskill_sim/meshes/link2.STL",
+      "offset": 195828995,
+      "compressed_size": 312892,
+      "method": 8
+    },
+    "robotwin/urdf/aloha_maniskill_sim/meshes/camera_base_link.STL": {
+      "sha256": "d4cf9f1b01727e55283b7ac1c311eca1e807908e2d2c8e9e43bf7f6936b6e847",
+      "url": "https://huggingface.co/datasets/TianxingChen/RoboTwin2.0/resolve/main/embodiments.zip",
+      "zip_entry": "embodiments/aloha-agilex/urdf/aloha_maniskill_sim/meshes/camera_base_link.STL",
+      "offset": 199421959,
+      "compressed_size": 12130,
+      "method": 8
+    },
+    "robotwin/urdf/aloha_maniskill_sim/meshes/back_link7.STL": {
+      "sha256": "baea38e3edf22c80d6cbe813bfdc01439dc51406fa176c1f62732fba380267c5",
+      "url": "https://huggingface.co/datasets/TianxingChen/RoboTwin2.0/resolve/main/embodiments.zip",
+      "zip_entry": "embodiments/aloha-agilex/urdf/aloha_maniskill_sim/meshes/back_link7.STL",
+      "offset": 199434461,
+      "compressed_size": 422151,
+      "method": 8
+    },
+    "robotwin/urdf/aloha_maniskill_sim/meshes/link1.STL": {
+      "sha256": "079a59fd0a94237c5042d6c7542b79bdc4c8db396758fdb7860f7b464e3c25ed",
+      "url": "https://huggingface.co/datasets/TianxingChen/RoboTwin2.0/resolve/main/embodiments.zip",
+      "zip_entry": "embodiments/aloha-agilex/urdf/aloha_maniskill_sim/meshes/link1.STL",
+      "offset": 199856972,
+      "compressed_size": 28322,
+      "method": 8
+    },
+    "robotwin/urdf/aloha_maniskill_sim/meshes/link5.STL": {
+      "sha256": "dc58ea92599295aaa980e090a034c68397e505b79b681a223cd98ba7f10bab03",
+      "url": "https://huggingface.co/datasets/TianxingChen/RoboTwin2.0/resolve/main/embodiments.zip",
+      "zip_entry": "embodiments/aloha-agilex/urdf/aloha_maniskill_sim/meshes/link5.STL",
+      "offset": 199885644,
+      "compressed_size": 129202,
+      "method": 8
+    },
+    "robotwin/urdf/aloha_maniskill_sim/meshes/link4.STL": {
+      "sha256": "d234f4b96822ecf8a2f62219031053f7950d685faa15b4d23f8115c1b434cbbd",
+      "url": "https://huggingface.co/datasets/TianxingChen/RoboTwin2.0/resolve/main/embodiments.zip",
+      "zip_entry": "embodiments/aloha-agilex/urdf/aloha_maniskill_sim/meshes/link4.STL",
+      "offset": 200041787,
+      "compressed_size": 50749,
+      "method": 8
+    },
+    "robotwin/urdf/aloha_maniskill_sim/meshes/link6.STL": {
+      "sha256": "ffb2de0357066957db00fd7599dd4a7fbc147c8ef5916a492aa9070fdbdf5740",
+      "url": "https://huggingface.co/datasets/TianxingChen/RoboTwin2.0/resolve/main/embodiments.zip",
+      "zip_entry": "embodiments/aloha-agilex/urdf/aloha_maniskill_sim/meshes/link6.STL",
+      "offset": 200092886,
+      "compressed_size": 109015,
+      "method": 8
+    },
+    "robotwin/urdf/aloha_maniskill_sim/meshes/link7.STL": {
+      "sha256": "ec3d40b39cccde0075ca3d16603f14f180fce41a46b446473d384def7a1b0be0",
+      "url": "https://huggingface.co/datasets/TianxingChen/RoboTwin2.0/resolve/main/embodiments.zip",
+      "zip_entry": "embodiments/aloha-agilex/urdf/aloha_maniskill_sim/meshes/link7.STL",
+      "offset": 200202251,
+      "compressed_size": 13352,
+      "method": 8
+    },
+    "robodojo/dual_x5.yml": {
+      "url": "https://raw.githubusercontent.com/RLinf/RoboDojo/6d76a0c4a49a7a47bf5ee3924de2ccd7ecb8a8b7/robodojo_runtime/_source/env_cfg/robot/dual_x5.yml",
+      "sha256": "4eefaccc75c5f83443b7bb85ef1de68ee7a3772e27af2b04a5e8d8769ab9baa1"
+    },
+    "libero/mounted_panda.py": {
+      "url": "https://raw.githubusercontent.com/RLinf/LIBERO/rpent/libero/libero/envs/robots/mounted_panda.py",
+      "sha256": "667f002f08c31bf158e39e4bbe31d952821f91041f03198522e86fcdc107af98"
+    },
+    "robocasa/camera_utils.py": {
+      "url": "https://raw.githubusercontent.com/RLinf/robocasa/2692d8fc5fd86708a1b2028dcbce892ec418a9e7/robocasa/utils/camera_utils.py",
+      "sha256": "e0f839e85548d962caa6cab70a7eb9a56a8d1eab7f3cc071a20edff51d013669"
+    },
+    "robodojo/x5_config.py": {
+      "url": "https://raw.githubusercontent.com/RLinf/RoboDojo/6d76a0c4a49a7a47bf5ee3924de2ccd7ecb8a8b7/robodojo_runtime/_source/env/robot_manager/robot_config/x5.py",
+      "sha256": "13d35630f833d1b0a1e3df0bea05f843e88aae1248b59af8aadfefa9cad29bbb"
+    },
+    "robotwin/robot.py": {
+      "url": "https://raw.githubusercontent.com/RoboTwin-Platform/RoboTwin/ea8b21121ebb3cd201ff5b3fe361944ac94eda3f/envs/robot/robot.py",
+      "sha256": "3dcd80acc8cab489a4c5edb507cc460dab1724be0226b8d5c4c1b218dee605cb"
+    }
+  },
+  "libero_source": "RLinf/LIBERO@rpent (content hash locked)",
+  "robocasa_commit": "2692d8fc5fd86708a1b2028dcbce892ec418a9e7",
+  "libero_upstream_reference_commit": "8f1084e3132a39270c3a13ebe37270a43ece2a01"
+}

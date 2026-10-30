@@ -1,0 +1,106 @@
+{
+  "api_version": "2.0",
+  "task_id": "curling_push",
+  "task_version": "1.0",
+  "evaluation": {
+    "config": "evaluation.json"
+  },
+  "task_type": "one_shot",
+  "required_arms": 1,
+  "required_gripper": "parallel",
+  "supported_robots": [
+    "piperx"
+  ],
+  "required_eef_dof": 6,
+  "horizon_sec": 60,
+  "control_hz": 50,
+  "done_behavior": "stop",
+  "success": {
+    "min_occupancy": 0,
+    "min_events": 1,
+    "max_failures": 0,
+    "require_terminal_success": true
+  },
+  "observation": {
+    "modalities": [
+      "proprio",
+      "visual",
+      "geometry"
+    ],
+    "default_policy_view": [
+      "proprio",
+      "visual"
+    ],
+    "geometry_view": "internal",
+    "fields": {
+      "geometry": [
+        "stone.pose",
+        "stone.velocity",
+        "target.pose",
+        "stone_to_target",
+        "phase"
+      ]
+    },
+    "visibility": {
+      "policy": "proprio+visual",
+      "oracle": "all",
+      "benchmark_log": "all"
+    }
+  },
+  "action": {
+    "type": "eef_delta",
+    "shape": [
+      7
+    ],
+    "bounds": [
+      -1,
+      1
+    ],
+    "frame": "world",
+    "fields": [
+      "position_delta_3d",
+      "rotation_delta_3d",
+      "gripper"
+    ]
+  },
+  "feedback": {
+    "events": [
+      "stone_settled_in_target"
+    ],
+    "success_signals": [
+      "success_state",
+      "terminal_success"
+    ]
+  },
+  "metadata": {
+    "robot_control_mode": "eef_delta",
+    "embodiment_mode": "physical",
+    "score_max": 100,
+    "demo_controller": "tasks.curling_push.embodiment_demo:EmbodimentPushController",
+    "hidden_parameters": [
+      "stone.mass_kg",
+      "target.distance_m"
+    ],
+    "retry_semantics": "reset preserves Scenario; construct another environment to resample",
+    "camera_contract": {
+      "version": "3.0",
+      "fixed": [
+        "workspace_oblique",
+        "workspace_top",
+        "room_overview"
+      ],
+      "mounted": "query get_camera_specs(); only physical embodiment sensors",
+      "observation_key": "images",
+      "default_resolution": [
+        640,
+        480
+      ],
+      "room_and_debug_opt_in": true,
+      "policy_cameras": [
+        "robot0_head_camera",
+        "robot0_wrist_right"
+      ],
+      "policy_mounting": "robot_main_and_wrists"
+    }
+  }
+}

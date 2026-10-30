@@ -1,0 +1,211 @@
+{
+  "panda": {
+    "parameters": {},
+    "motion": {}
+  },
+  "sawyer": {
+    "parameters": {
+      "pot": {
+        "distance_m": 0.297,
+        "y_m": 0.138
+      },
+      "tray": {
+        "half_width_m": 0.04,
+        "rimless": true
+      },
+      "embodiment": {
+        "controller": {
+          "approach_tolerance": 0.02,
+          "grasp_tolerance": 0.02
+        }
+      }
+    },
+    "motion": {
+      "lift_y": 0.16
+    }
+  },
+  "piperx": {
+    "base_pos": [0.0, 0.0, 0.0],
+    "parameters": {
+      "tray": {
+          "position_m": [
+            0.6,
+            0.22,
+            0.65
+        ],
+        "pickup_height_m": 0.09,
+        "half_width_m": 0.04
+      },
+      "ball": {
+        "start_xy_m": [
+          0.6,
+          0.22
+        ],
+        "mass_kg": 0.1,
+        "friction": 0.8
+      },
+      "pot": {
+        "distance_m": 1.28,
+        "y_m": 0.22
+      },
+      "embodiment": {
+        "base_pos": [0.1, 0.0, 0.0],
+        "controller": {
+          "orientation": [
+            [0.0, 0.573576436351046, 0.8191520442889919],
+            [1.0, 0.0, 0.0],
+            [0.0, 0.8191520442889919, -0.573576436351046]
+          ],
+          "grasp_offset": [0.0, 0.0, 0.0],
+          "approach_height": 0.12,
+          "position_limit": 0.05,
+          "position_gain": 3.0,
+          "rotation_limit": 0.08,
+          "arm_kp": 700.0,
+          "closed_command": 1.0,
+          "grasp_tolerance": 0.01,
+          "close_seconds": 1.0
+        }
+      }
+    },
+    "motion": {
+      "swing_duration": 0.18,
+      "open_at": 0.14,
+      "swing_dx": 1.0,
+      "swing_dz": 0.5,
+      "lift_x": 0.48,
+      "lift_y": 0.22,
+      "lift_z": 1.10,
+      "swing_pitch": 0.55,
+      "swing_dy": -0.02
+    }
+  },
+  "aloha": {
+    "parameters": {
+      "tray": {
+        "position_m": [
+          0.65,
+          -0.12,
+          0.75
+        ],
+        "pickup_height_m": 0.09,
+        "half_width_m": 0.1
+      },
+      "ball": {
+        "start_xy_m": [
+          0.65,
+          -0.12
+        ]
+      },
+      "pot": {
+        "distance_m": 0.28,
+        "y_m": -0.262
+      },
+      "embodiment": {
+        "controller": {
+          "orientation": [
+            [
+              0.0,
+              0.34202014332566877,
+              0.9396926207859083
+            ],
+            [
+              0.9999999999999999,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.9396926207859083,
+              -0.34202014332566877
+            ]
+          ],
+          "grasp_offset": [
+            0.042286167935365875,
+            0,
+            -0.015390906449655097
+          ],
+          "approach_height": 0.15,
+          "clearance_height": 0.12,
+          "position_limit": 0.012,
+          "closed_command": 1.0,
+          "grasp_tolerance": 0.012
+        }
+      }
+    },
+    "motion": {
+      "swing_duration": 0.78,
+      "open_at": 0.22,
+      "swing_dx": 0.435,
+      "swing_dz": 0.12,
+      "lift_x": 0.5700000000000001,
+      "lift_y": -0.3,
+      "lift_z": 1.0,
+      "swing_dy": 0.125
+    }
+  },
+  "aloha_mobile": {
+    "parameters": {
+      "tray": {
+        "position_m": [
+          0.65,
+          -0.12,
+          0.875
+        ],
+        "pickup_height_m": 0.09,
+        "half_width_m": 0.1
+      },
+      "ball": {
+        "start_xy_m": [
+          0.65,
+          -0.12
+        ]
+      },
+      "pot": {
+        "distance_m": 0.235,
+        "y_m": -0.283
+      },
+      "embodiment": {
+        "controller": {
+          "orientation": [
+            [
+              0.0,
+              0.34202014332566877,
+              0.9396926207859083
+            ],
+            [
+              0.9999999999999999,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.9396926207859083,
+              -0.34202014332566877
+            ]
+          ],
+          "grasp_offset": [
+            0.042286167935365875,
+            0,
+            -0.015390906449655097
+          ],
+          "approach_height": 0.15,
+          "clearance_height": 0.12,
+          "position_limit": 0.012,
+          "closed_command": 1.0,
+          "grasp_tolerance": 0.012
+        }
+      }
+    },
+    "motion": {
+      "swing_duration": 0.78,
+      "open_at": 0.22,
+      "swing_dx": 0.38,
+      "swing_dz": 0.12,
+      "lift_x": 0.5700000000000001,
+      "lift_y": -0.3,
+      "lift_z": 1.125,
+      "swing_dy": 0.017
+    }
+  }
+}

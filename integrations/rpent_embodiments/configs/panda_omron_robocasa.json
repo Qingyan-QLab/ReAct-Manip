@@ -1,0 +1,15 @@
+{
+  "rpent_root": null,
+  "planner_model": null,
+  "planner_timeout_s": 1200,
+  "max_turns": 100,
+  "vla_factory": "integrations.rpent_embodiments.policy:build",
+  "vla": {
+    "robot_id": "panda_omron_robocasa",
+    "checkpoint_id": null,
+    "weights_frozen": true,
+    "n_action_steps": 8,
+    "endpoint": "socket://127.0.0.1:9001",
+    "control_hz": null
+  }
+}

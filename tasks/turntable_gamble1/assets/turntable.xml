@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 转盘（designs/转盘赌.md §2.1 + 用户设计变更）：水平圆盘 φ600×20mm + 凸起侧边（轮缘薄环立壁 30mm）
+     + 盘面棍子（径向 φ12，r 0.10→0.38，离盘面 60mm，末端高对比色标 = 位置指示器 + 夹爪推动点）
+     density 由 env 每回合按隐藏 J 重写（编译期，质量矩阵一致）；棍/壁 mass=1e-8 纯推动体（J 不受影响）；
+     frictionloss/damping（τ_c, b）由 env 运行时写入 dof 数组（纯力项） -->
+<mujoco model="turntable">
+    <asset>
+        <material name="m_disk" rgba="0.55 0.58 0.62 1" reflectance="0.08" specular="0.08" shininess="0.1" />
+        <material name="m_arrow" rgba="0.95 0.45 0.05 1" reflectance="0.08" specular="0.08" shininess="0.1" />
+        <material name="m_tip" rgba="0.95 0.10 0.35 1" reflectance="0.08" specular="0.08" shininess="0.1" />
+    </asset>
+    <worldbody>
+        <body>
+            <body name="object" pos="0 0 0.540">
+                <joint name="turntable_hinge" type="hinge" axis="0 0 1" />
+                <geom name="disk" type="cylinder" size="0.30 0.01" pos="0 0 0"
+                      group="0" material="m_disk" rgba="0.55 0.58 0.62 1" density="__DENSITY__" condim="6" friction="1.5 0.005 0.0005" />
+                <!-- 平滑碰撞柱（隐形，mass=1e-8）：轮缘凸起侧壁的接触面（分段盒接触弱 → 用整柱保证
+                     平滑摩擦拖动；视觉仍显示分段立壁） -->
+                <geom name="wall_smooth" type="cylinder" size="0.30 0.015" pos="0 0 0.025"
+                      group="0" rgba="0.9 0.9 0.9 1" mass="1e-8" condim="6" friction="1.5 0.005 0.0005" />
+<geom name="rim_wall_0" type="box" size="0.005 0.0567 0.015" pos="0.2942 0.0585 0.025" euler="0 0 0.1963" group="0" material="m_disk" rgba="0.50 0.53 0.58 1" mass="1e-8" contype="0" conaffinity="0" />
+<geom name="rim_wall_1" type="box" size="0.005 0.0567 0.015" pos="0.2494 0.1667 0.025" euler="0 0 0.5890" group="0" material="m_disk" rgba="0.50 0.53 0.58 1" mass="1e-8" contype="0" conaffinity="0" />
+<geom name="rim_wall_2" type="box" size="0.005 0.0567 0.015" pos="0.1667 0.2494 0.025" euler="0 0 0.9817" group="0" material="m_disk" rgba="0.50 0.53 0.58 1" mass="1e-8" contype="0" conaffinity="0" />
+<geom name="rim_wall_3" type="box" size="0.005 0.0567 0.015" pos="0.0585 0.2942 0.025" euler="0 0 1.3744" group="0" material="m_disk" rgba="0.50 0.53 0.58 1" mass="1e-8" contype="0" conaffinity="0" />
+<geom name="rim_wall_4" type="box" size="0.005 0.0567 0.015" pos="-0.0585 0.2942 0.025" euler="0 0 1.7671" group="0" material="m_disk" rgba="0.50 0.53 0.58 1" mass="1e-8" contype="0" conaffinity="0" />
+<geom name="rim_wall_5" type="box" size="0.005 0.0567 0.015" pos="-0.1667 0.2494 0.025" euler="0 0 2.1598" group="0" material="m_disk" rgba="0.50 0.53 0.58 1" mass="1e-8" contype="0" conaffinity="0" />
+<geom name="rim_wall_6" type="box" size="0.005 0.0567 0.015" pos="-0.2494 0.1667 0.025" euler="0 0 2.5525" group="0" material="m_disk" rgba="0.50 0.53 0.58 1" mass="1e-8" contype="0" conaffinity="0" />
+<geom name="rim_wall_7" type="box" size="0.005 0.0567 0.015" pos="-0.2942 0.0585 0.025" euler="0 0 2.9452" group="0" material="m_disk" rgba="0.50 0.53 0.58 1" mass="1e-8" contype="0" conaffinity="0" />
+<geom name="rim_wall_8" type="box" size="0.005 0.0567 0.015" pos="-0.2942 -0.0585 0.025" euler="0 0 3.3379" group="0" material="m_disk" rgba="0.50 0.53 0.58 1" mass="1e-8" contype="0" conaffinity="0" />
+<geom name="rim_wall_9" type="box" size="0.005 0.0567 0.015" pos="-0.2494 -0.1667 0.025" euler="0 0 3.7306" group="0" material="m_disk" rgba="0.50 0.53 0.58 1" mass="1e-8" contype="0" conaffinity="0" />
+<geom name="rim_wall_10" type="box" size="0.005 0.0567 0.015" pos="-0.1667 -0.2494 0.025" euler="0 0 4.1233" group="0" material="m_disk" rgba="0.50 0.53 0.58 1" mass="1e-8" contype="0" conaffinity="0" />
+<geom name="rim_wall_11" type="box" size="0.005 0.0567 0.015" pos="-0.0585 -0.2942 0.025" euler="0 0 4.5160" group="0" material="m_disk" rgba="0.50 0.53 0.58 1" mass="1e-8" contype="0" conaffinity="0" />
+<geom name="rim_wall_12" type="box" size="0.005 0.0567 0.015" pos="0.0585 -0.2942 0.025" euler="0 0 4.9087" group="0" material="m_disk" rgba="0.50 0.53 0.58 1" mass="1e-8" contype="0" conaffinity="0" />
+<geom name="rim_wall_13" type="box" size="0.005 0.0567 0.015" pos="0.1667 -0.2494 0.025" euler="0 0 5.3014" group="0" material="m_disk" rgba="0.50 0.53 0.58 1" mass="1e-8" contype="0" conaffinity="0" />
+<geom name="rim_wall_14" type="box" size="0.005 0.0567 0.015" pos="0.2494 -0.1667 0.025" euler="0 0 5.6941" group="0" material="m_disk" rgba="0.50 0.53 0.58 1" mass="1e-8" contype="0" conaffinity="0" />
+<geom name="rim_wall_15" type="box" size="0.005 0.0567 0.015" pos="0.2942 -0.0585 0.025" euler="0 0 6.0868" group="0" material="m_disk" rgba="0.50 0.53 0.58 1" mass="1e-8" contype="0" conaffinity="0" />
+                <!-- 盘面棍子（位置指示器 + 夹爪推动点）：水平径向杆 φ12，r 0.10→0.38，离盘面 60mm；
+                     末端高对比色标（俯视清晰可读）；mass=1e-8 纯视觉/推动体（J 仍由盘密度决定） -->
+                <geom name="stick" type="cylinder" size="0.006 0.14" pos="0.24 0 0.061"
+                      euler="0 1.5708 0" group="0" material="m_disk" rgba="0.55 0.30 0.12 1" mass="1e-8"
+                      condim="4" friction="1.6 0.005 0.0001" />
+                <geom name="stick_tip" type="box" size="0.008 0.008 0.015" pos="0.38 0 0.061"
+                      group="0" material="m_tip" rgba="0.95 0.10 0.35 1" mass="1e-8"
+                      condim="4" friction="1.6 0.005 0.0001" />
+                <!-- 夹持平板（棍上 r=0.30 处，面朝切向）：夹爪指面正压平板面（闭合无切向扫掠 → 无扰动，
+                     物理夹持力直接传递切向拖动）；mass=1e-8 纯推动体 -->
+                <geom name="stick_plate" type="box" size="0.020 0.030 0.020" pos="0.30 0 0.061"
+                      group="0" material="m_disk" rgba="0.40 0.42 0.46 1" mass="1e-8"
+                      condim="4" friction="1.6 0.005 0.0001" />
+                <!-- 下指指针（轮缘，尖端距评分环 2mm，尖端角 = 读数角；contype=0 纯视觉） -->
+                <geom name="arrow_board" type="box" size="0.001 0.015 0.006" pos="0.36 0 -0.012"
+                      group="0" material="m_arrow" rgba="0.95 0.45 0.05 1" mass="1e-8" contype="0" conaffinity="0" />
+                <geom name="arrow_tip" type="box" size="0.0012 0.004 0.0015" pos="0.36 0 -0.0145"
+                      group="0" material="m_tip" rgba="0.95 0.10 0.35 1" mass="1e-8" contype="0" conaffinity="0" />
+            </body>
+        </body>
+    </worldbody>
+</mujoco>

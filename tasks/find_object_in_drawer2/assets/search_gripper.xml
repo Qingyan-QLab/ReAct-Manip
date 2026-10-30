@@ -1,0 +1,43 @@
+<mujoco model="PiperGripper">
+  <compiler angle="radian" />
+  <asset>
+    <mesh name="finger7_mesh0" file="../../../assets/robots/agilex/source/aloha_new_description/meshes/piper_slave_meshes/link7.STL" scale="1 1 1" />
+    <mesh name="finger8_mesh0" file="../../../assets/robots/agilex/source/aloha_new_description/meshes/piper_slave_meshes/link8.STL" scale="1 1 1" />
+  </asset>
+  <worldbody>
+    <body name="gripper_base">
+      <body name="finger7" pos="0 0 0.13503" quat="0.4999981633974483 0.49999999999662686 0.5000018366025516 0.49999999999662686">
+        <inertial pos="-0.000277778383727112 -0.0467673043650824 -0.00921029491873201" mass="0.02648229234527" fullinertia="9.99787479924589E-06 6.1795212293655E-06 1.42102717246564E-05 -1.57548495096104E-07 -2.71342775003487E-08 -1.58939803580081E-06" />
+        <geom name="finger7_collision0" group="0" friction="0.8 0.005 0.0001" type="mesh" mesh="finger7_mesh0" pos="0 0 0" quat="1.0 0.0 0.0 0.0" contype="1" conaffinity="1" />
+        <geom name="finger7_visual0" group="1" contype="0" conaffinity="0" rgba="0.75 0.78 0.82 1" type="mesh" mesh="finger7_mesh0" pos="0 0 0" quat="1.0 0.0 0.0 0.0" />
+        <joint name="finger_joint7" type="slide" axis="0 0 -1" limited="true" range="0 0.04" damping="1" />
+      </body>
+      <body name="finger8" pos="0 0 0.13503" quat="0.4999981633974483 -0.49999999999662686 -0.5000018366025516 0.49999999999662686">
+        <inertial pos="0.000277816920932317 0.0467673824063769 -0.00921030054508036" mass="0.0264822021416248" fullinertia="9.99779119357223E-06 6.17952441557932E-06 1.4210192754512E-05 -1.57542283433504E-07 2.71367446701359E-08 1.58939319453383E-06" />
+        <geom name="finger8_collision0" group="0" friction="0.8 0.005 0.0001" type="mesh" mesh="finger8_mesh0" pos="0 0 0" quat="1.0 0.0 0.0 0.0" contype="1" conaffinity="1" />
+        <geom name="finger8_visual0" group="1" contype="0" conaffinity="0" rgba="0.75 0.78 0.82 1" type="mesh" mesh="finger8_mesh0" pos="0 0 0" quat="1.0 0.0 0.0 0.0" />
+        <joint name="finger_joint8" type="slide" axis="0 0 1" limited="true" range="-0.04 0" damping="1" />
+      </body>
+      <body name="eef" pos="0 0 0.135">
+        <site name="grip_site" size="0.002" rgba="0 0 0 0" group="1" />
+        <site name="grip_site_cylinder" size="0.002" rgba="0 0 0 0" group="1" />
+        <site name="ee" size="0.002" rgba="0 0 0 0" group="1" />
+        <site name="ee_x" size="0.002" rgba="0 0 0 0" group="1" />
+        <site name="ee_y" size="0.002" rgba="0 0 0 0" group="1" />
+        <site name="ee_z" size="0.002" rgba="0 0 0 0" group="1" />
+        <camera name="eye_in_hand" pos="0 0.06 -0.08" xyaxes="-1 0 0  0 .919145030018 .393919298579" fovy="65" />
+      </body>
+    </body>
+  </worldbody>
+  <actuator>
+    <position name="finger_actuator7" joint="finger_joint7" kp="300" ctrllimited="true" ctrlrange="0 0.04" forcelimited="true" forcerange="-10.0 10.0" />
+    <position name="finger_actuator8" joint="finger_joint8" kp="300" ctrllimited="true" ctrlrange="-0.04 0" forcelimited="true" forcerange="-10.0 10.0" />
+  </actuator>
+  <contact>
+    <exclude body1="finger7" body2="finger8" />
+  </contact>
+  <sensor>
+    <force name="force_ee" site="ee" />
+    <torque name="torque_ee" site="ee" />
+  </sensor>
+</mujoco>

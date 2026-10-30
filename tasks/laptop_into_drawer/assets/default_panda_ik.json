@@ -1,0 +1,19 @@
+{
+    "type": "BASIC",
+    "body_parts": {
+        "arms": {
+            "right": {
+                "type": "OSC_POSE",
+          "kp": 60,
+          "damping": 10,
+                "impedance_mode": "fixed",
+                "goal_update_mode": "achieved",
+                "interpolation": null,
+          "ramp_ratio": 0.18,
+                "gripper": {
+                    "type": "GRIP"
+                }
+            }
+        }
+    }
+}

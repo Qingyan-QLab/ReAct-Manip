@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "random_distance_1_2_2m",
+  "task_id": "pitch_pot",
+  "appearance": {
+    "room.floor_texture": {
+      "distribution": "choice",
+      "values": [
+        "light-gray-floor-tile",
+        "wood-tiles",
+        "light-wood-parquet",
+        "dark-wood-parquet",
+        "slate-stone",
+        "sandstone",
+        "terrazzo",
+        "rubber-mat",
+        "blue-carpet",
+        "cream-linoleum",
+        "realistic-tiles",
+        "realistic-wood",
+        "oak-wood-realistic",
+        "walnut-wood-realistic",
+        "gray-woodgrain-realistic",
+        "varnished-wood-realistic",
+        "ceramic-realistic",
+        "concrete-realistic",
+        "gray-carpet-realistic"
+      ]
+    },
+    "room.wall_texture": {
+      "distribution": "choice",
+      "values": [
+        "white-plaster",
+        "cool-white-paint",
+        "gray-plaster",
+        "industrial-concrete",
+        "blue-plaster",
+        "sage-plaster",
+        "warm-plaster",
+        "sand-plaster",
+        "muted-yellow-paint",
+        "soft-pink-paint",
+        "brick-accent",
+        "realistic-tile-wall",
+        "realistic-wood-panel",
+        "white-brick-realistic",
+        "cream-plaster-realistic",
+        "concrete-realistic"
+      ]
+    },
+    "desk.texture": {
+      "distribution": "choice",
+      "values": [
+        "light-wood",
+        "dark-wood",
+        "maple-wood",
+        "walnut-wood",
+        "white-laminate",
+        "black-laminate",
+        "brushed-metal",
+        "oak-wood-realistic",
+        "walnut-wood-realistic",
+        "gray-woodgrain-realistic",
+        "varnished-wood-realistic",
+        "brushed-steel-realistic"
+      ]
+    }
+  },
+  "assets": {
+    "texture_source": "ambientCG-CC0+robosuite-1.5.2"
+  },
+  "runtime": {
+    "lighting.layout": {
+      "distribution": "choice",
+      "values": [
+        "overcast",
+        "warm_indoor",
+        "daylight_side",
+        "cool_office",
+        "hard_sun",
+        "backlit",
+        "mixed_daylight"
+      ]
+    },
+    "lighting.intensity_scale": {
+      "distribution": "uniform",
+      "low": 0.8,
+      "high": 1.6
+    },
+    "lighting.azimuth_deg": {
+      "distribution": "uniform",
+      "low": -180,
+      "high": 180
+    }
+  },
+  "fixed": {
+    "pot": {
+      "y_m": 0.0
+    },
+    "ball": {
+      "radius_m": 0.025,
+      "mass_kg": 0.1,
+      "friction": 0.8,
+      "start_xy_m": [
+        0.6,
+        0.22
+      ]
+    }
+  },
+  "geometry": {
+    "pot.base_distance_m": {
+      "distribution": "uniform",
+      "low": 1.0,
+      "high": 2.2
+    }
+  }
+}

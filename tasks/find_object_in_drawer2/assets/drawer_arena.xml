@@ -1,0 +1,64 @@
+<mujoco model="grounded_desk"><option timestep="0.002" gravity="0 0 -9.81" />
+<visual><headlight active="0" ambient="0.08 0.08 0.08" diffuse="0.08 0.08 0.08" specular="0 0 0" /></visual>
+<asset>
+  <texture type="skybox" builtin="gradient" rgb1="0.45 0.55 0.65" rgb2="0.2 0.25 0.3" width="128" height="128" />
+  <texture name="room_floor_tex" type="2d" file="../../laptop_into_drawer/assets/textures/light-gray-floor-tile.png" />
+  <texture name="room_floor_alt_tex" type="2d" file="../../laptop_into_drawer/assets/textures/wood-tiles.png" />
+  <texture name="room_plaster_tex" type="2d" file="../../laptop_into_drawer/assets/textures/white-plaster.png" />
+  <texture name="room_plaster_alt_tex" type="2d" file="../../laptop_into_drawer/assets/textures/gray-plaster.png" />
+  <texture name="desk_wood_tex" type="2d" file="../../laptop_into_drawer/assets/textures/light-wood.png" />
+  <texture name="desk_wood_alt_tex" type="2d" file="../../laptop_into_drawer/assets/textures/dark-wood.png" />
+  <material name="floor_mat" texture="room_floor_tex" texuniform="true" texrepeat="2 2" reflectance="0" specular="0.05" shininess="0.1" />
+  <material name="wall_mat" texture="room_plaster_tex" texuniform="true" texrepeat="1 1" rgba="0.88 0.9 0.92 1" specular="0" />
+  <material name="ceiling_mat" texture="room_plaster_tex" texuniform="true" texrepeat="1 1" specular="0" emission="0.45" />
+  <material name="wood_mat" texture="desk_wood_tex" texuniform="true" texrepeat="2 2" specular="0.1" shininess="0.15" />
+  <material name="metal_mat" rgba="0.42 0.46 0.51 1" />
+</asset>
+<worldbody>
+<light name="room_key" pos="-1 -1 2.8" dir="0.2 0.2 -1" directional="false" cutoff="100" attenuation="1 0.08 0.01" diffuse="0.55 0.55 0.55" ambient="0.35 0.35 0.35" />
+<light name="room_fill" pos="2 1.5 2.4" dir="-0.3 -0.2 -1" directional="false" cutoff="110" attenuation="1 0.06 0.01" diffuse="0.45 0.48 0.55" ambient="0.25 0.25 0.25" castshadow="false" />
+<light name="room_rim" pos="-2 2 1.8" dir="0.3 -0.4 -0.8" directional="false" cutoff="120" attenuation="1 0.05 0.01" diffuse="0.35 0.4 0.5" ambient="0.18 0.18 0.2" castshadow="false" />
+<light name="room_soft" pos="0 0 2.9" dir="0 0 -1" directional="true" diffuse="0.3 0.3 0.3" ambient="0.2 0.2 0.2" castshadow="false" />
+
+<geom name="floor" type="plane" size="5 5 0.05" material="floor_mat" friction="0.8" />
+<geom name="floor_visual" type="plane" size="5 5 0.05" material="floor_mat" group="1" contype="0" conaffinity="0" />
+<geom name="room_wall_xneg" type="box" pos="-5.05 0 1.6" size="1.6 5.1 0.05" quat="0.70710678 0 0.70710678 0" material="wall_mat" />
+<geom name="room_wall_xneg_vis" type="box" pos="-5.05 0 1.6" size="1.6 5.1 0.05" quat="0.70710678 0 0.70710678 0" material="wall_mat" group="1" contype="0" conaffinity="0" />
+<geom name="room_wall_xpos" type="box" pos="5.05 0 1.6" size="1.6 5.1 0.05" quat="0.70710678 0 0.70710678 0" material="wall_mat" />
+<geom name="room_wall_xpos_vis" type="box" pos="5.05 0 1.6" size="1.6 5.1 0.05" quat="0.70710678 0 0.70710678 0" material="wall_mat" group="1" contype="0" conaffinity="0" />
+<geom name="room_wall_yneg" type="box" pos="0 -5.05 1.6" size="5 1.6 0.05" quat="0.70710678 0.70710678 0 0" material="wall_mat" />
+<geom name="room_wall_yneg_vis" type="box" pos="0 -5.05 1.6" size="5 1.6 0.05" quat="0.70710678 0.70710678 0 0" material="wall_mat" group="1" contype="0" conaffinity="0" />
+<geom name="room_wall_ypos" type="box" pos="0 5.05 1.6" size="5 1.6 0.05" quat="0.70710678 0.70710678 0 0" material="wall_mat" />
+<geom name="room_wall_ypos_vis" type="box" pos="0 5.05 1.6" size="5 1.6 0.05" quat="0.70710678 0.70710678 0 0" material="wall_mat" group="1" contype="0" conaffinity="0" />
+
+<body name="drawer" pos="-0.07 0 -0.15">
+
+            <joint name="drawer_slide" type="slide" axis="1 0 0" range="-0.32 0" damping="1.0" armature="0.03" frictionloss="0.5" />
+
+            <geom name="drawer_front" type="box" pos="0.024 0 0.855" size="0.004 0.168 0.055" material="metal_mat" friction="0.5" />
+            <geom name="drawer_front_vis" type="box" pos="0.024 0 0.855" size="0.004 0.168 0.055" material="metal_mat" conaffinity="0" contype="0" group="1" />
+
+            <geom name="drawer_back" type="box" pos="0.424 0 0.849" size="0.008 0.168 0.045" material="metal_mat" friction="0.5" />
+            <geom name="drawer_back_vis" type="box" pos="0.424 0 0.849" size="0.008 0.168 0.045" material="metal_mat" conaffinity="0" contype="0" group="1" />
+
+            <geom name="drawer_floor" type="box" pos="0.23 0 0.804" size="0.202 0.168 0.004" material="metal_mat" friction="0.5" />
+            <geom name="drawer_floor_vis" type="box" pos="0.23 0 0.804" size="0.202 0.168 0.004" material="metal_mat" conaffinity="0" contype="0" group="1" />
+
+            <geom name="drawer_side_pos" type="box" pos="0.23 0.168 0.849" size="0.202 0.004 0.045" material="metal_mat" friction="0.5" />
+            <geom name="drawer_side_pos_vis" type="box" pos="0.23 0.168 0.849" size="0.202 0.004 0.045" material="metal_mat" conaffinity="0" contype="0" group="1" />
+            <geom name="drawer_side_neg" type="box" pos="0.23 -0.168 0.849" size="0.202 0.004 0.045" material="metal_mat" friction="0.5" />
+            <geom name="drawer_side_neg_vis" type="box" pos="0.23 -0.168 0.849" size="0.202 0.004 0.045" material="metal_mat" conaffinity="0" contype="0" group="1" />
+
+            <geom name="drawer_handle" type="cylinder" pos="-0.050 0 0.865" size="0.010 0.110" euler="1.5708 0 0" material="metal_mat" friction="2.0" />
+            <geom name="drawer_handle_vis" type="cylinder" pos="-0.050 0 0.865" size="0.010 0.110" euler="1.5708 0 0" material="metal_mat" conaffinity="0" contype="0" group="1" />
+            <geom name="drawer_handle_post_neg" type="cylinder" pos="-0.015 -0.090 0.865" size="0.006 0.035" euler="0 1.5708 0" material="metal_mat" friction="2.0" />
+            <geom name="drawer_handle_post_neg_vis" type="cylinder" pos="-0.015 -0.090 0.865" size="0.006 0.035" euler="0 1.5708 0" material="metal_mat" conaffinity="0" contype="0" group="1" />
+            <geom name="drawer_handle_post_pos" type="cylinder" pos="-0.015 0.090 0.865" size="0.006 0.035" euler="0 1.5708 0" material="metal_mat" friction="2.0" />
+            <geom name="drawer_handle_post_pos_vis" type="cylinder" pos="-0.015 0.090 0.865" size="0.006 0.035" euler="0 1.5708 0" material="metal_mat" conaffinity="0" contype="0" group="1" />
+            <site name="drawer_handle_site" pos="-0.050 0 0.865" size="0.01" />
+        </body>
+<camera name="frontview" pos="-1.8 -2.3 1.9" xyaxes="0.85 -0.53 0 0.22 0.35 0.91" />
+<camera name="agentview" pos="-1.5 2.2 1.9" xyaxes="-0.85 -0.53 0 0.22 -0.35 0.91" />
+<camera name="sideview" pos="-1.8 0 1.6" xyaxes="0 -1 0 0.4 0 0.9165" />
+<camera name="roomview" pos="-4.4 -4.4 2.3" xyaxes="0.7071 -0.7071 0 0.125 0.125 0.9843" fovy="70" />
+</worldbody></mujoco>

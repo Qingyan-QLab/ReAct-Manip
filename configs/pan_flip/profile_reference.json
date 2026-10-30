@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "uniform_reference",
+  "task_id": "pan_flip",
+  "fixed": {
+    "pan": {
+      "radius_m": 0.15,
+      "mass_kg": 0.35,
+      "handle_length_m": 0.17,
+      "grip_fraction": 0.6470588235294118
+    },
+    "pie": {
+      "radius_m": 0.065,
+      "thickness_m": 0.018,
+      "mass_kg": 0.08,
+      "start_xy_m": [
+        0.065,
+        0
+      ],
+      "mass_uniformity": 1.0,
+      "density_direction_deg": 0.0
+    },
+    "contact": {
+      "friction": 0.45
+    }
+  },
+  "appearance": {
+    "room.floor_texture": {
+      "distribution": "choice",
+      "values": [
+        "oak-wood-realistic",
+        "ceramic-realistic",
+        "concrete-realistic"
+      ]
+    },
+    "room.wall_texture": {
+      "distribution": "choice",
+      "values": [
+        "cream-plaster-realistic",
+        "white-brick-realistic"
+      ]
+    }
+  },
+  "runtime": {
+    "lighting.layout": {
+      "distribution": "choice",
+      "values": [
+        "overcast",
+        "warm_indoor",
+        "daylight_side"
+      ]
+    },
+    "lighting.intensity_scale": {
+      "distribution": "uniform",
+      "low": 0.8,
+      "high": 1.2
+    },
+    "lighting.azimuth_deg": {
+      "distribution": "uniform",
+      "low": -30,
+      "high": 30
+    }
+  }
+}

@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mujoco model="ring_toss1">
+  <option timestep=".002" gravity="0 0 -9.81" />
+  <visual>
+    <global offwidth="720" offheight="540" />
+  </visual>
+  <worldbody>
+    <light pos="1 -1.3 2.4" dir="-.3 .4 -1" />
+    <body name="ring_0" pos="0 -0.43 0.738">
+      <geom name="ring0_00" type="capsule" fromto="0.0875 0 0 0.0858187 0.0170704 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_01" type="capsule" fromto="0.0858187 0.0170704 0 0.0808395 0.0334848 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_02" type="capsule" fromto="0.0808395 0.0334848 0 0.0727536 0.0486124 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_03" type="capsule" fromto="0.0727536 0.0486124 0 0.0618718 0.0618718 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_04" type="capsule" fromto="0.0618718 0.0618718 0 0.0486124 0.0727536 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_05" type="capsule" fromto="0.0486124 0.0727536 0 0.0334848 0.0808395 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_06" type="capsule" fromto="0.0334848 0.0808395 0 0.0170704 0.0858187 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_07" type="capsule" fromto="0.0170704 0.0858187 0 5.35783e-18 0.0875 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_08" type="capsule" fromto="5.35783e-18 0.0875 0 -0.0170704 0.0858187 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_09" type="capsule" fromto="-0.0170704 0.0858187 0 -0.0334848 0.0808395 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_10" type="capsule" fromto="-0.0334848 0.0808395 0 -0.0486124 0.0727536 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_11" type="capsule" fromto="-0.0486124 0.0727536 0 -0.0618718 0.0618718 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_12" type="capsule" fromto="-0.0618718 0.0618718 0 -0.0727536 0.0486124 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_13" type="capsule" fromto="-0.0727536 0.0486124 0 -0.0808395 0.0334848 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_14" type="capsule" fromto="-0.0808395 0.0334848 0 -0.0858187 0.0170704 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_15" type="capsule" fromto="-0.0858187 0.0170704 0 -0.0875 1.07157e-17 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_16" type="capsule" fromto="-0.0875 1.07157e-17 0 -0.0858187 -0.0170704 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_17" type="capsule" fromto="-0.0858187 -0.0170704 0 -0.0808395 -0.0334848 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_18" type="capsule" fromto="-0.0808395 -0.0334848 0 -0.0727536 -0.0486124 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_19" type="capsule" fromto="-0.0727536 -0.0486124 0 -0.0618718 -0.0618718 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_20" type="capsule" fromto="-0.0618718 -0.0618718 0 -0.0486124 -0.0727536 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_21" type="capsule" fromto="-0.0486124 -0.0727536 0 -0.0334848 -0.0808395 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_22" type="capsule" fromto="-0.0334848 -0.0808395 0 -0.0170704 -0.0858187 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_23" type="capsule" fromto="-0.0170704 -0.0858187 0 -1.60735e-17 -0.0875 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_24" type="capsule" fromto="-1.60735e-17 -0.0875 0 0.0170704 -0.0858187 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_25" type="capsule" fromto="0.0170704 -0.0858187 0 0.0334848 -0.0808395 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_26" type="capsule" fromto="0.0334848 -0.0808395 0 0.0486124 -0.0727536 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_27" type="capsule" fromto="0.0486124 -0.0727536 0 0.0618718 -0.0618718 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_28" type="capsule" fromto="0.0618718 -0.0618718 0 0.0727536 -0.0486124 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_29" type="capsule" fromto="0.0727536 -0.0486124 0 0.0808395 -0.0334848 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_30" type="capsule" fromto="0.0808395 -0.0334848 0 0.0858187 -0.0170704 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+      <geom name="ring0_31" type="capsule" fromto="0.0858187 -0.0170704 0 0.0875 -2.14313e-17 0" size="0.008" rgba="0.9 0.35 0.08 1" />
+    </body>
+  </worldbody>
+</mujoco>

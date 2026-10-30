@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 投壶场景（designs/投壶.md §2.1）：壶（视觉网格 + 凸环碰撞）+ 5x5m 地面 + 相机 -->
+<!-- 由 tasks/pitch_pot/assets/gen_assets.py 生成；壶位姿由 env 每回合 set_origin 随机化 -->
+<mujoco model="pitch_pot_arena">
+    <compiler angle="radian" />
+    <option timestep="0.002" density="1.225" viscosity="0" gravity="0 0 -9.81" />
+    <asset>
+        <texture type="skybox" builtin="gradient" rgb1="0.55 0.60 0.65" rgb2="0.12 0.14 0.18" width="512" height="512" />
+        <texture type="2d" name="wood" builtin="checker" rgb1="0.58 0.45 0.33" rgb2="0.45 0.35 0.25" width="128" height="128" />
+        <material name="wood_mat" texture="wood" texrepeat="3 3" reflectance="0.1" />
+        <material name="pot_mat" rgba="0.62 0.36 0.18 1" reflectance="0.25" specular="0.35" />
+        <mesh name="pot_mesh" file="pot.stl" />
+    </asset>
+    <worldbody>
+        <!-- 光源（robosuite 无头渲染默认无灯，场景会全黑） -->
+        <light name="sun" directional="true" pos="0 -1.5 3" dir="0 0.45 -0.9" diffuse="0.85 0.85 0.85" ambient="0.45 0.45 0.45" specular="0.2 0.2 0.2" />
+        <!-- 地面（group=1 视觉组，robosuite render_collision_mesh=False 时 group0 不渲染） -->
+        <geom name="floor" type="plane" size="8 8 0.05" material="wood_mat" condim="6" friction="0.4 0.005 0.05" group="1" />
+        <body name="pot" pos="0 0 0">
+            <!-- 视觉：精确旋转体（group1 渲染；contype=0 不参与碰撞） -->
+            <geom name="pot_visual" type="mesh" mesh="pot_mesh" material="pot_mat" contype="0" conaffinity="0" group="1" />
+            <!-- 碰撞：凸分解（各层八边形环 + 唇缘环），group0 隐形仅碰撞；无底（地面即壶底） -->
+            <geom name="pot_wall_-0.060_0" type="box" pos="0.0952 0.0125 0.0475" size="0.00400 0.02572 0.10750" euler="0 0 0.1309" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_-0.060_1" type="box" pos="0.0762 0.0584 0.0475" size="0.00400 0.02572 0.10750" euler="0 0 0.6545" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_-0.060_2" type="box" pos="0.0367 0.0887 0.0475" size="0.00400 0.02572 0.10750" euler="0 0 1.1781" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_-0.060_3" type="box" pos="-0.0125 0.0952 0.0475" size="0.00400 0.02572 0.10750" euler="0 0 1.7017" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_-0.060_4" type="box" pos="-0.0584 0.0762 0.0475" size="0.00400 0.02572 0.10750" euler="0 0 2.2253" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_-0.060_5" type="box" pos="-0.0887 0.0367 0.0475" size="0.00400 0.02572 0.10750" euler="0 0 2.7489" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_-0.060_6" type="box" pos="-0.0952 -0.0125 0.0475" size="0.00400 0.02572 0.10750" euler="0 0 3.2725" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_-0.060_7" type="box" pos="-0.0762 -0.0584 0.0475" size="0.00400 0.02572 0.10750" euler="0 0 3.7961" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_-0.060_8" type="box" pos="-0.0367 -0.0887 0.0475" size="0.00400 0.02572 0.10750" euler="0 0 4.3197" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_-0.060_9" type="box" pos="0.0125 -0.0952 0.0475" size="0.00400 0.02572 0.10750" euler="0 0 4.8433" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_-0.060_10" type="box" pos="0.0584 -0.0762 0.0475" size="0.00400 0.02572 0.10750" euler="0 0 5.3669" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_-0.060_11" type="box" pos="0.0887 -0.0367 0.0475" size="0.00400 0.02572 0.10750" euler="0 0 5.8905" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.155_0" type="box" pos="0.0872 0.0115 0.1700" size="0.00400 0.02358 0.01500" euler="0 0 0.1309" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.155_1" type="box" pos="0.0698 0.0536 0.1700" size="0.00400 0.02358 0.01500" euler="0 0 0.6545" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.155_2" type="box" pos="0.0337 0.0813 0.1700" size="0.00400 0.02358 0.01500" euler="0 0 1.1781" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.155_3" type="box" pos="-0.0115 0.0872 0.1700" size="0.00400 0.02358 0.01500" euler="0 0 1.7017" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.155_4" type="box" pos="-0.0536 0.0698 0.1700" size="0.00400 0.02358 0.01500" euler="0 0 2.2253" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.155_5" type="box" pos="-0.0813 0.0337 0.1700" size="0.00400 0.02358 0.01500" euler="0 0 2.7489" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.155_6" type="box" pos="-0.0872 -0.0115 0.1700" size="0.00400 0.02358 0.01500" euler="0 0 3.2725" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.155_7" type="box" pos="-0.0698 -0.0536 0.1700" size="0.00400 0.02358 0.01500" euler="0 0 3.7961" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.155_8" type="box" pos="-0.0337 -0.0813 0.1700" size="0.00400 0.02358 0.01500" euler="0 0 4.3197" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.155_9" type="box" pos="0.0115 -0.0872 0.1700" size="0.00400 0.02358 0.01500" euler="0 0 4.8433" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.155_10" type="box" pos="0.0536 -0.0698 0.1700" size="0.00400 0.02358 0.01500" euler="0 0 5.3669" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.155_11" type="box" pos="0.0813 -0.0337 0.1700" size="0.00400 0.02358 0.01500" euler="0 0 5.8905" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.185_0" type="box" pos="0.0734 0.0097 0.2000" size="0.00400 0.01983 0.01500" euler="0 0 0.1309" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.185_1" type="box" pos="0.0587 0.0450 0.2000" size="0.00400 0.01983 0.01500" euler="0 0 0.6545" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.185_2" type="box" pos="0.0283 0.0684 0.2000" size="0.00400 0.01983 0.01500" euler="0 0 1.1781" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.185_3" type="box" pos="-0.0097 0.0734 0.2000" size="0.00400 0.01983 0.01500" euler="0 0 1.7017" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.185_4" type="box" pos="-0.0450 0.0587 0.2000" size="0.00400 0.01983 0.01500" euler="0 0 2.2253" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.185_5" type="box" pos="-0.0684 0.0283 0.2000" size="0.00400 0.01983 0.01500" euler="0 0 2.7489" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.185_6" type="box" pos="-0.0734 -0.0097 0.2000" size="0.00400 0.01983 0.01500" euler="0 0 3.2725" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.185_7" type="box" pos="-0.0587 -0.0450 0.2000" size="0.00400 0.01983 0.01500" euler="0 0 3.7961" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.185_8" type="box" pos="-0.0283 -0.0684 0.2000" size="0.00400 0.01983 0.01500" euler="0 0 4.3197" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.185_9" type="box" pos="0.0097 -0.0734 0.2000" size="0.00400 0.01983 0.01500" euler="0 0 4.8433" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.185_10" type="box" pos="0.0450 -0.0587 0.2000" size="0.00400 0.01983 0.01500" euler="0 0 5.3669" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.185_11" type="box" pos="0.0684 -0.0283 0.2000" size="0.00400 0.01983 0.01500" euler="0 0 5.8905" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.215_0" type="box" pos="0.0605 0.0080 0.2275" size="0.00400 0.01634 0.01250" euler="0 0 0.1309" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.215_1" type="box" pos="0.0484 0.0371 0.2275" size="0.00400 0.01634 0.01250" euler="0 0 0.6545" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.215_2" type="box" pos="0.0233 0.0564 0.2275" size="0.00400 0.01634 0.01250" euler="0 0 1.1781" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.215_3" type="box" pos="-0.0080 0.0605 0.2275" size="0.00400 0.01634 0.01250" euler="0 0 1.7017" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.215_4" type="box" pos="-0.0371 0.0484 0.2275" size="0.00400 0.01634 0.01250" euler="0 0 2.2253" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.215_5" type="box" pos="-0.0564 0.0233 0.2275" size="0.00400 0.01634 0.01250" euler="0 0 2.7489" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.215_6" type="box" pos="-0.0605 -0.0080 0.2275" size="0.00400 0.01634 0.01250" euler="0 0 3.2725" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.215_7" type="box" pos="-0.0484 -0.0371 0.2275" size="0.00400 0.01634 0.01250" euler="0 0 3.7961" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.215_8" type="box" pos="-0.0233 -0.0564 0.2275" size="0.00400 0.01634 0.01250" euler="0 0 4.3197" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.215_9" type="box" pos="0.0080 -0.0605 0.2275" size="0.00400 0.01634 0.01250" euler="0 0 4.8433" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.215_10" type="box" pos="0.0371 -0.0484 0.2275" size="0.00400 0.01634 0.01250" euler="0 0 5.3669" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.215_11" type="box" pos="0.0564 -0.0233 0.2275" size="0.00400 0.01634 0.01250" euler="0 0 5.8905" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.240_0" type="box" pos="0.0471 0.0062 0.2700" size="0.00375 0.01273 0.03000" euler="0 0 0.1309" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.240_1" type="box" pos="0.0377 0.0289 0.2700" size="0.00375 0.01273 0.03000" euler="0 0 0.6545" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.240_2" type="box" pos="0.0182 0.0439 0.2700" size="0.00375 0.01273 0.03000" euler="0 0 1.1781" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.240_3" type="box" pos="-0.0062 0.0471 0.2700" size="0.00375 0.01273 0.03000" euler="0 0 1.7017" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.240_4" type="box" pos="-0.0289 0.0377 0.2700" size="0.00375 0.01273 0.03000" euler="0 0 2.2253" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.240_5" type="box" pos="-0.0439 0.0182 0.2700" size="0.00375 0.01273 0.03000" euler="0 0 2.7489" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.240_6" type="box" pos="-0.0471 -0.0062 0.2700" size="0.00375 0.01273 0.03000" euler="0 0 3.2725" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.240_7" type="box" pos="-0.0377 -0.0289 0.2700" size="0.00375 0.01273 0.03000" euler="0 0 3.7961" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.240_8" type="box" pos="-0.0182 -0.0439 0.2700" size="0.00375 0.01273 0.03000" euler="0 0 4.3197" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.240_9" type="box" pos="0.0062 -0.0471 0.2700" size="0.00375 0.01273 0.03000" euler="0 0 4.8433" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.240_10" type="box" pos="0.0289 -0.0377 0.2700" size="0.00375 0.01273 0.03000" euler="0 0 5.3669" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.240_11" type="box" pos="0.0439 -0.0182 0.2700" size="0.00375 0.01273 0.03000" euler="0 0 5.8905" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.290_0" type="box" pos="0.0572 0.0056 0.2950" size="0.01750 0.01144 0.00500" euler="0 0 0.0982" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.290_1" type="box" pos="0.0507 0.0271 0.2950" size="0.01750 0.01144 0.00500" euler="0 0 0.4909" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.290_2" type="box" pos="0.0365 0.0444 0.2950" size="0.01750 0.01144 0.00500" euler="0 0 0.8836" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.290_3" type="box" pos="0.0167 0.0550 0.2950" size="0.01750 0.01144 0.00500" euler="0 0 1.2763" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.290_4" type="box" pos="-0.0056 0.0572 0.2950" size="0.01750 0.01144 0.00500" euler="0 0 1.6690" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.290_5" type="box" pos="-0.0271 0.0507 0.2950" size="0.01750 0.01144 0.00500" euler="0 0 2.0617" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.290_6" type="box" pos="-0.0444 0.0365 0.2950" size="0.01750 0.01144 0.00500" euler="0 0 2.4544" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.290_7" type="box" pos="-0.0550 0.0167 0.2950" size="0.01750 0.01144 0.00500" euler="0 0 2.8471" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.290_8" type="box" pos="-0.0572 -0.0056 0.2950" size="0.01750 0.01144 0.00500" euler="0 0 3.2398" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.290_9" type="box" pos="-0.0507 -0.0271 0.2950" size="0.01750 0.01144 0.00500" euler="0 0 3.6325" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.290_10" type="box" pos="-0.0365 -0.0444 0.2950" size="0.01750 0.01144 0.00500" euler="0 0 4.0252" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.290_11" type="box" pos="-0.0167 -0.0550 0.2950" size="0.01750 0.01144 0.00500" euler="0 0 4.4179" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.290_12" type="box" pos="0.0056 -0.0572 0.2950" size="0.01750 0.01144 0.00500" euler="0 0 4.8106" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.290_13" type="box" pos="0.0271 -0.0507 0.2950" size="0.01750 0.01144 0.00500" euler="0 0 5.2033" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.290_14" type="box" pos="0.0444 -0.0365 0.2950" size="0.01750 0.01144 0.00500" euler="0 0 5.5960" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <geom name="pot_wall_0.290_15" type="box" pos="0.0550 -0.0167 0.2950" size="0.01750 0.01144 0.00500" euler="0 0 5.9887" rgba="0 0 0 0" condim="6" friction="0.4 0.005 0.05" group="0"/>
+            <site name="pot_origin" pos="0 0 0" size="0.005" rgba="1 0 0 1" />
+        </body>
+        <!-- 托盘（M4 抓取拓展 2026-08-27：球置托盘，机械臂抓取 → 甩腕投掷；
+             盘面 z=0.65，球心 (0.60, 0, 0.675) 可达（位置-only IK 实测 <1mm）。
+             **body 不带 pos 属性**：Arena.set_origin 平移所有带 pos 的 worldbody 子节点，
+             托盘须固定（随壶平移 → 球下方无托盘 → 悬空坠落）；几何位全部写在子 geom） -->
+        <body name="tray">
+            <geom name="tray_floor" type="box" pos="0.60 0 0.64" size="0.20 0.14 0.01" material="wood_mat" group="1" />
+            <geom name="tray_floor_g0" type="box" pos="0.60 0 0.64" size="0.20 0.14 0.01" rgba="0 0 0 0" condim="6" friction="0.6 0.005 0.1" group="0" />
+            <geom name="tray_rim_px" type="box" pos="0.80 0 0.655" size="0.005 0.14 0.015" material="wood_mat" group="1" />
+            <geom name="tray_rim_nx" type="box" pos="0.40 0 0.655" size="0.005 0.14 0.015" material="wood_mat" group="1" />
+            <geom name="tray_rim_py" type="box" pos="0.60 0.14 0.655" size="0.20 0.005 0.015" material="wood_mat" group="1" />
+            <geom name="tray_rim_ny" type="box" pos="0.60 -0.14 0.655" size="0.20 0.005 0.015" material="wood_mat" group="1" />
+        </body>
+        <!-- 相机（随壶平移，外参每回合加抖）；look-at 壶口 (0,0,0.18) -->
+        <camera name="agentview" pos="-1.7 -1.15 1.15" xyaxes="0.5603 -0.8283 0.0000  0.3539 0.2394 0.9041" />
+        <camera name="sideview" pos="-0.35 2.1 0.95" xyaxes="-0.9864 -0.1644 0.0000  0.0559 -0.3355 0.9404" />
+        <camera name="topview" pos="-0.25 0 2.8" xyaxes="1 0 0 0 1 0" />
+    </worldbody>
+</mujoco>
