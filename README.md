@@ -2,6 +2,8 @@
 
 [简体中文](README.zh-CN.md)
 
+[Project Website](https://qlab-ai.org/react-manip-site)
+
 ReAct-Manip is a MuJoCo environment for testing how robot policies use feedback to adapt across manipulation episodes. It provides 16 task implementations, a common policy interface, task-default evaluation, and replay support for user-supplied manifests.
 
 <p align="center"><img src="docs/imgs/react_demo.gif" alt="Preview of the 16 manipulation tasks" width="600"></p>

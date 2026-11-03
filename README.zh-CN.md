@@ -2,6 +2,8 @@
 
 [English](README.md)
 
+[项目官网](https://qlab-ai.org/react-manip-site)
+
 ReAct-Manip 是基于 MuJoCo 的机器人操作环境，用于检验策略能否利用交互反馈，在多个操作回合中持续适应。项目提供 16 项任务、统一的策略接口、任务默认评测，以及用户外部 manifest 重放能力。
 
 <p align="center"><img src="docs/imgs/react_demo.gif" alt="16 项机器人操作任务预览" width="600"></p>
