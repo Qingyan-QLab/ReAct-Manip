@@ -1,4 +1,4 @@
-"""Optional evaluator UI. Displays the policy's existing RGB, never steps the env."""
+"""Optional evaluator UI for the RGB channel of existing policy RGB-D."""
 from pathlib import Path
 import json
 import re
@@ -74,7 +74,7 @@ class EvaluationViewer:
                 pygame.display.init()
                 pygame.font.init()
                 self.screen = pygame.display.set_mode((1280, 720))
-                pygame.display.set_caption('CL-Manip evaluation | policy RGB')
+                pygame.display.set_caption('ReAct-Manip evaluation | policy RGB-D (RGB view)')
                 self.font = pygame.font.SysFont('Arial', 18)
                 self.clock = pygame.time.Clock()
             except BaseException:
@@ -234,7 +234,7 @@ class EvaluationViewer:
                 'composite_video': self.episode + '.mp4',
                 'camera_videos': {n: self.episode + '.' + n + '.mp4' for n in self.cameras},
                 'fps': self.hz, 'frames': self.frames,
-                'image_source': 'same-tick policy RGB; composite plus separate views; no debug overlay',
+                'image_source': 'RGB channel of same-tick policy RGB-D; composite plus separate views; no debug overlay',
                 'aborted': self.aborted,
                 'skipped': self.skipped,
             }, indent=2) + '\n')

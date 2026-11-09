@@ -86,6 +86,7 @@ class LegacyTaskAdapter:
         self._episode_index = -1
         self.language_prompt: dict[str, Any] = {}
         self._camera_renderers = {}
+        self._rgbd_sensors = {}
         self._camera_observation_ids = ()
         self._camera_resolution = (640, 480)
 
@@ -118,14 +119,37 @@ class LegacyTaskAdapter:
         return self._camera_renderers[key].render(self.sim, camera_id).copy()
 
     def get_camera_observation(self, camera_ids=None, *, width=640, height=480):
+        """Return only the RGB channel for diagnostics and compatibility."""
         if camera_ids is None:
             camera_ids = [s['id'] for s in self.get_camera_specs() if s['policy_default']]
         elif isinstance(camera_ids, str):
             camera_ids = (camera_ids,)
         return {name: self.render_camera(name, width=width, height=height) for name in camera_ids}
 
+    def get_rgbd_observation(self, camera_ids=None, *, width=640, height=480):
+        """Return aligned public RGB-D channels and per-camera calibration."""
+        if camera_ids is None:
+            camera_ids = [s['id'] for s in self.get_camera_specs() if s['policy_default']]
+        elif isinstance(camera_ids, str):
+            camera_ids = (camera_ids,)
+        key = (int(width), int(height))
+        if key not in self._rgbd_sensors:
+            from .rgbd import RGBDSensor
+
+            self._rgbd_sensors[key] = RGBDSensor(*key)
+        sensor = self._rgbd_sensors[key]
+        images, depths, masks, calibrations = {}, {}, {}, {}
+        for name in camera_ids:
+            images[name], depths[name], masks[name], calibrations[name] = sensor.capture(self.sim, name)
+        return {
+            'images': images,
+            'depth_m': depths,
+            'depth_valid': masks,
+            'camera_calibration': calibrations,
+        }
+
     def set_camera_observations(self, camera_ids=(), *, width=640, height=480):
-        """Opt-in RGB under observation['images']; no implicit room/debug input."""
+        """Opt in to aligned RGB-D observations; no room/debug camera input."""
         if isinstance(camera_ids, str):
             camera_ids = (camera_ids,)
         available = {s['id'] for s in self.get_camera_specs()}
@@ -143,8 +167,12 @@ class LegacyTaskAdapter:
         if not isinstance(observation, Mapping):
             observation = {'state': observation}
         width, height = self._camera_resolution
-        return dict(observation, images=self.get_camera_observation(
-            self._camera_observation_ids, width=width, height=height))
+        from .rgbd import OBSERVATION_VERSION
+
+        rgbd = self.get_rgbd_observation(
+            self._camera_observation_ids, width=width, height=height
+        )
+        return dict(observation, **rgbd, observation_schema=OBSERVATION_VERSION)
 
     @property
     def robot_id(self) -> str | None:
@@ -266,6 +294,9 @@ class LegacyTaskAdapter:
         for renderer in self._camera_renderers.values():
             renderer.close()
         self._camera_renderers.clear()
+        for sensor in self._rgbd_sensors.values():
+            sensor.close()
+        self._rgbd_sensors.clear()
         self.env.close()
 
     def render(self, *args: Any, **kwargs: Any) -> Any:

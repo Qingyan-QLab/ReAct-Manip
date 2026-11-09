@@ -2,7 +2,7 @@ from types import SimpleNamespace
 import numpy as np
 import pytest
 
-from integrations.harness_vla.rgbd import RGBDSensor, back_project
+from react_manip.rgbd import RGBDSensor, back_project
 
 
 def test_metric_depth_projection_and_read_only_render():

@@ -4,8 +4,8 @@ from dataclasses import replace
 import numpy as np
 from scipy.spatial.transform import Rotation
 
-from integrations.harness_vla.rgbd import RGBDSensor
 from react_manip.core.protocol import normalize_reset, normalize_step
+from react_manip.rgbd import OBSERVATION_VERSION, RGBDSensor
 from .catalog import EMBODIMENTS, SUPPORTED_TASKS, camera_ids
 
 SCHEMA = 'react-manip.rpent.v1'
@@ -103,7 +103,7 @@ class EmbodimentEnv:
             images[camera],depths[camera],masks[camera],calibrations[camera]=self._sensor.capture(self.env.sim,camera)
         obs=dict(obs,control_contract=contract,proprio=proprio,images=images,
                  depth_m=depths,depth_valid=masks,camera_calibration=calibrations,
-                 observation_schema='react-manip.rgbd.v1',embodiment=self.robot_id)
+                 observation_schema=OBSERVATION_VERSION,embodiment=self.robot_id)
         if len(self._spec.arms)==2:
             offset=self._bundle['gripper']['tcp_offset']
             obs['tcp_offsets']={arm:offset for arm in self._spec.arms}

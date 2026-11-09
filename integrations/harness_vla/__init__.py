@@ -1,3 +1,5 @@
 """HarnessVLA integration, separate from the fixed-bank physics runtime."""
 
-OBSERVATION_VERSION = 'react-manip.rgbd.v1'
+from react_manip.rgbd import OBSERVATION_VERSION
+
+__all__ = ["OBSERVATION_VERSION"]

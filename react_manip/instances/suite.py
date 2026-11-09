@@ -96,12 +96,15 @@ def _evaluate(path, policy_factory, *, cameras=True, runner=None, env_factory=No
                 callback = None
                 if trace_dir is not None:
                     from .trajectory import TrajectoryWriter, RecordingPolicy
+                    from react_manip.rgbd import OBSERVATION_VERSION
                     writer = TrajectoryWriter(trace_dir / episode['episode_id'], {
                         'manifest_digest': manifest['content_digest'], 'task_instance_digest': instance['content_digest'],
                         'episode_digest': episode['content_digest'], 'runtime': episode.get('runtime', instance['runtime']),
                         'phase': phase, 'policy_id': session.policy_id,
                         'policy_provenance': getattr(policy, 'provenance', None),
                         'policy_track': 'public', 'cameras_enabled': cameras,
+                        'observation_mode': 'rgbd' if cameras else 'state_only_smoke',
+                        'observation_schema': OBSERVATION_VERSION if cameras else None,
                         'action_application': 'reject invalid; no clipping',
                         'control_hz': spec.control_hz})
                     session = RecordingPolicy(session, writer)

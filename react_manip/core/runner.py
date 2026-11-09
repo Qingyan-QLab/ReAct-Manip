@@ -362,9 +362,12 @@ class BenchmarkRunner:
             "timeout_scope": "episode" if wall_clock_timeout else None,
         })
         if robot_id in ALL_ROBOT_IDS or robot_id in rpent_embodiments:
+            from ..rgbd import OBSERVATION_VERSION
+
             metrics['camera_contract_version'] = CAMERA_CONTRACT_VERSION
             metrics['camera_ids'] = list(policy_camera_ids(robot_id)) if camera_observations else []
-            metrics['observation_mode'] = 'rgb' if camera_observations else 'state_only_smoke'
+            metrics['observation_mode'] = 'rgbd' if camera_observations else 'state_only_smoke'
+            metrics['observation_schema'] = OBSERVATION_VERSION if camera_observations else None
         scenario = getattr(env, "scenario", None)
         if scenario is not None:
             metrics.update({"scenario_id": scenario.scenario_id, "scenario_digest": scenario.digest})

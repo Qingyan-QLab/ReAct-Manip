@@ -21,7 +21,7 @@ python -m pip install -r requirements.txt
 python scripts/build_agilex_assets.py
 ```
 
-The asset builder downloads checksum-pinned upstream PiPER-X files on its first run. RGB evaluation needs an OpenGL backend; headless Linux systems generally need EGL or OSMesa.
+The asset builder downloads checksum-pinned upstream PiPER-X files on its first run. RGB-D evaluation needs an OpenGL backend; headless Linux systems generally need EGL or OSMesa.
 
 Install the complete package from PyPI with `python -m pip install 'react-manip[assets,demo]'`, then run `react-manip-assets prepare` once to prepare the PiPER-X assets.
 
@@ -100,7 +100,7 @@ def build():
     return ModelPolicy()
 ```
 
-`build()` must return a fresh policy. Actions are finite vectors of length `action_dim` in `[-1, 1]`; invalid actions invalidate the group. Read instructions from `info["language_prompt"]` and policy images from `observation["images"]`. The recorded robot determines the action layout. Instance files and privileged geometry Features are not policy inputs; the public track rejects `requires_geometry_truth=True`.
+`build()` must return a fresh policy. Actions are finite vectors of length `action_dim` in `[-1, 1]`; invalid actions invalidate the group. Read instructions from `info["language_prompt"]`. Each policy camera supplies aligned color in `observation["images"]`, optical-axis depth in metres in `observation["depth_m"]`, a boolean validity mask in `observation["depth_valid"]`, and intrinsics/extrinsics in `observation["camera_calibration"]`. The observation declares `observation["observation_schema"] == "react-manip.rgbd.v1"`; invalid or background depth is `0` with a false validity mask. The recorded robot determines the action layout. Instance files and privileged geometry Features are not policy inputs; the public track rejects `requires_geometry_truth=True`.
 
 ## Tasks
 
@@ -119,9 +119,9 @@ Each task's directory under [`tasks/`](tasks/) contains its rules, score impleme
 
 ## Visualization and manual debugging
 
-PiPER-X policies receive 640×480 RGB images through `observation["images"]`. Camera IDs are `robot0_head_camera` and `robot0_wrist_right`; dual-arm robots also provide `robot0_wrist_left`. The selected robot determines the action layout.
+PiPER-X policies receive aligned 640×480 RGB-D observations. Color arrays are `uint8` HWC in `observation["images"]`; depth arrays are `float32` HW metres in `observation["depth_m"]`. Camera IDs are `robot0_head_camera` and `robot0_wrist_right`; dual-arm robots also provide `robot0_wrist_left`. All four camera dictionaries use these same IDs. The selected robot determines the action layout.
 
-Add `--visualize` to show policy images and `--video-dir outputs/new_videos` to record them. A desktop display is required for the viewer; headless video needs an offscreen OpenGL backend. For manual control or a temporary unscored task-default scene:
+Add `--visualize` to show the RGB channel of policy observations and `--video-dir outputs/new_videos` to record that channel. Depth remains available to the policy but is not encoded into the RGB videos. A desktop display is required for the viewer; headless video needs an offscreen OpenGL backend. For manual control or a temporary unscored task-default scene:
 
 ```bash
 react-manip-demo --task phone_lean --seed 0

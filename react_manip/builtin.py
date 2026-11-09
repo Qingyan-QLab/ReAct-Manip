@@ -134,7 +134,7 @@ def discover_task_definitions(root: str | Path | None = None, *, task_ids=None):
     return tuple(definitions)
 
 def _camera_factory(factory, spec=None):
-    """Uniform opt-in RGB, independent of legacy use_camera_obs support."""
+    """Uniform opt-in RGB-D, independent of legacy use_camera_obs support."""
     from functools import wraps
 
     @wraps(factory)

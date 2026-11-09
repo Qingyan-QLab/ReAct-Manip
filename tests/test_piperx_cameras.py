@@ -1,4 +1,4 @@
-"""Camera mounts, public RGB selection, replay identity and multiview recording."""
+"""Camera mounts, public RGB-D selection, replay identity and recording."""
 import json
 from pathlib import Path
 from types import SimpleNamespace
@@ -82,13 +82,20 @@ def test_mount_following_reset_and_replay_identity(camera_env):
     validate_runtime(runtime)
 
 
-def test_runner_delivers_every_camera_and_can_disable_rgb(monkeypatch):
+def test_runner_delivers_every_rgbd_camera_and_can_disable_cameras(monkeypatch):
     from react_manip.core.runner import BenchmarkRunner
     spec,factory=next((s,f) for s,f in discover_task_definitions() if s.task_id=='box_insertion')
     env=factory(seed=0,has_offscreen_renderer=False)
     names=policy_camera_ids('piperx')
-    monkeypatch.setattr(env,'get_camera_observation',lambda camera_ids,**kw:
-                        {n:np.zeros((8,8,3),np.uint8) for n in camera_ids})
+    def rgbd(camera_ids, **kwargs):
+        return {
+            'images': {n:np.zeros((8,8,3),np.uint8) for n in camera_ids},
+            'depth_m': {n:np.ones((8,8),np.float32) for n in camera_ids},
+            'depth_valid': {n:np.ones((8,8),bool) for n in camera_ids},
+            'camera_calibration': {n:{'intrinsics':np.eye(3),
+                                     'world_from_camera':np.eye(4)} for n in camera_ids},
+        }
+    monkeypatch.setattr(env,'get_rgbd_observation',rgbd)
     class Spy:
         def set_action_dim(self,n):self.n=n
         def act(self,observation,**kw):
@@ -98,9 +105,16 @@ def test_runner_delivers_every_camera_and_can_disable_rgb(monkeypatch):
         policy=Spy();runner=BenchmarkRunner()
         result=runner.evaluate(spec,factory,policy,env=env,horizon_sec=.05)
         assert tuple(policy.observation['images'])==names
+        assert tuple(policy.observation['depth_m'])==names
+        assert tuple(policy.observation['depth_valid'])==names
+        assert tuple(policy.observation['camera_calibration'])==names
+        assert policy.observation['observation_schema']=='react-manip.rgbd.v1'
         assert result.metrics['camera_ids']==list(names)
+        assert result.metrics['observation_mode']=='rgbd'
+        assert result.metrics['observation_schema']=='react-manip.rgbd.v1'
         result=runner.evaluate(spec,factory,policy,env=env,horizon_sec=.05,camera_observations=False)
         assert 'images' not in policy.observation
+        assert 'depth_m' not in policy.observation
         assert result.metrics['observation_mode']=='state_only_smoke'
     finally:env.close()
 

@@ -29,6 +29,7 @@ if str(ROOT) not in sys.path:
 from react_manip.builtin import register_builtin_tasks
 from react_manip.core import BenchmarkRunner, get_task_registry
 from react_manip.policies import CallablePolicy, RandomPolicy
+from react_manip.rgbd import OBSERVATION_VERSION
 from react_manip.robot_registry import register_default_robots
 
 
@@ -46,9 +47,9 @@ def main(argv=None) -> int:
     parser.add_argument("--draw-seed", type=int, help="required candidate-bank selection seed, independent of policy seed")
     parser.add_argument("--selection-out", type=Path, help="new draw directory; defaults beside result")
     parser.add_argument("--manifest", type=Path, help="explicit Task/Episode Instance suite manifest")
-    parser.add_argument("--state-only-smoke", action="store_true", help="disable policy images for smoke checks; not an RGB evaluation")
+    parser.add_argument("--state-only-smoke", action="store_true", help="disable policy RGB-D observations for smoke checks; not an RGB-D evaluation")
     parser.add_argument("--trace-dir", type=Path, help="manifest only: new public trajectory directory")
-    parser.add_argument("--visualize", action="store_true", help="display policy main/wrist RGB; Space pauses, Tab toggles debug view, Esc aborts")
+    parser.add_argument("--visualize", action="store_true", help="display the RGB channel of policy main/wrist RGB-D; Space pauses, Tab toggles debug view, Esc aborts")
     parser.add_argument("--video-dir", type=Path, help="new directory for per-episode composite and per-camera MP4 videos")
     parser.add_argument("--task", help="registered task id")
     parser.add_argument("--scenario", type=Path, help="resolved Scenario JSON to load")
@@ -98,7 +99,7 @@ def main(argv=None) -> int:
     selection = None
     if args.visualize or args.video_dir is not None:
         if not (args.candidate_bank or args.manifest or args.task) or args.state_only_smoke:
-            parser.error('--visualize/--video-dir require an RGB task, candidate-bank or manifest evaluation')
+            parser.error('--visualize/--video-dir require an RGB-D task, candidate-bank or manifest evaluation')
         if args.video_dir is not None and args.video_dir.exists():
             parser.error('video directory already exists; choose a new --video-dir path')
         from react_manip.evaluation.viewer import check_dependencies
@@ -199,6 +200,8 @@ def main(argv=None) -> int:
             "manifest_path": str(args.manifest.resolve()),
             "policy_factory": args.policy,
             "policy_id": rows[0]["policy_id"] if rows else None,
+            "observation_mode": "state_only_smoke" if args.state_only_smoke else "rgbd",
+            "observation_schema": None if args.state_only_smoke else OBSERVATION_VERSION,
             "summary": {"groups": len(evaluation["groups"]), "completed_episodes": len(rows),
                         "invalid_groups": sum(not g["valid"] for g in evaluation["groups"]),
                         "score": evaluation["protocol_score"]},
@@ -267,7 +270,8 @@ def main(argv=None) -> int:
         "task_id": spec.task_id,
         "task_version": spec.task_version,
         "robot_id": args.robot,
-        "observation_mode": "state_only_smoke" if args.state_only_smoke else "rgb",
+        "observation_mode": "state_only_smoke" if args.state_only_smoke else "rgbd",
+        "observation_schema": None if args.state_only_smoke else OBSERVATION_VERSION,
         "scenario_id": scenario.scenario_id if scenario else None,
         "scenario_digest": scenario.digest if scenario else None,
         "policy_id": results[0]["policy_id"] if results else None,

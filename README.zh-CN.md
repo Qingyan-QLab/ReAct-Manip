@@ -21,7 +21,7 @@ python -m pip install -r requirements.txt
 python scripts/build_agilex_assets.py
 ```
 
-资产构建器首次运行时会下载经过摘要校验的上游 PiPER-X 文件。RGB 评测需要 OpenGL 后端；无显示器的 Linux 环境通常需要 EGL 或 OSMesa。
+资产构建器首次运行时会下载经过摘要校验的上游 PiPER-X 文件。RGB-D 评测需要 OpenGL 后端；无显示器的 Linux 环境通常需要 EGL 或 OSMesa。
 
 通过 PyPI 安装完整包时，执行 `python -m pip install 'react-manip[assets,demo]'`，然后首次使用前运行一次 `react-manip-assets prepare` 以准备 PiPER-X 资产。
 
@@ -100,7 +100,7 @@ def build():
     return ModelPolicy()
 ```
 
-`build()` 必须返回新的策略对象。动作须为长度 `action_dim` 的有限数值向量，范围 `[-1, 1]`；不合法动作使该组无效。任务指令来自 `info["language_prompt"]`，策略图像来自 `observation["images"]`。动作布局由记录中的机器人确定。实例文件和特权几何 Feature 不属于策略输入；公开赛道拒绝 `requires_geometry_truth=True`。
+`build()` 必须返回新的策略对象。动作须为长度 `action_dim` 的有限数值向量，范围 `[-1, 1]`；不合法动作使该组无效。任务指令来自 `info["language_prompt"]`。每个策略相机都提供对齐的彩色图 `observation["images"]`、以米为单位的光轴深度 `observation["depth_m"]`、布尔有效掩码 `observation["depth_valid"]`，以及包含内外参的 `observation["camera_calibration"]`。观测会声明 `observation["observation_schema"] == "react-manip.rgbd.v1"`；无效或背景深度为 `0`，对应有效掩码为 false。动作布局由记录中的机器人确定。实例文件和特权几何 Feature 不属于策略输入；公开赛道拒绝 `requires_geometry_truth=True`。
 
 ## 任务
 
@@ -119,9 +119,9 @@ def build():
 
 ## 可视化与手动调试
 
-PiPER-X 策略通过 `observation["images"]` 接收 640×480 RGB 图像。相机 ID 为 `robot0_head_camera` 和 `robot0_wrist_right`；双臂另有 `robot0_wrist_left`。动作布局由所选机器人确定。
+PiPER-X 策略接收对齐的 640×480 RGB-D 观测。彩色图是 `observation["images"]` 中的 `uint8` HWC 数组，深度图是 `observation["depth_m"]` 中以米为单位的 `float32` HW 数组。相机 ID 为 `robot0_head_camera` 和 `robot0_wrist_right`；双臂另有 `robot0_wrist_left`。四个相机字典使用相同的相机 ID。动作布局由所选机器人确定。
 
-评测命令加 `--visualize` 可显示策略图像，加 `--video-dir outputs/new_videos` 可录像。窗口需要桌面显示；无显示器录像需要离屏 OpenGL 后端。手动控制和临时不计分任务默认场景：
+评测命令加 `--visualize` 可显示策略 RGB-D 观测中的 RGB 通道，加 `--video-dir outputs/new_videos` 可录制该通道。深度仍会提供给策略，但不会编码到 RGB 视频中。窗口需要桌面显示；无显示器录像需要离屏 OpenGL 后端。手动控制和临时不计分任务默认场景：
 
 ```bash
 react-manip-demo --task phone_lean --seed 0
