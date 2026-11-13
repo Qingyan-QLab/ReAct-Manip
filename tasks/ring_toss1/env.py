@@ -140,7 +140,7 @@ class RingToss1(ManipulationEnv):
             f"<{self.instance['task']['stable_angular_speed_rad_s']:g} rad/s. "
             "The near, middle, and far rows score 60, 80, and 100 points. "
             "Any score is success; each ring scores once, with no revocation or upgrade. "
-            f"The episode continues until {self.horizon / self.control_freq:g} seconds."
+            f"The episode ends on the first score or after {self.horizon / self.control_freq:g} seconds."
         )
 
     def get_episode_language_prompt(self):
@@ -223,12 +223,14 @@ class RingToss1(ManipulationEnv):
                 self.awarded[i]=target;delta+=self.points[target];self.last_target=target
                 events.append(f'ring_{i}_target_{target}')
         self.total_score+=delta
+        success=bool(self.awarded)
+        done=bool(done or success)
         info.update(score=self.total_score,total_score=self.total_score,score_delta=delta,
                     hits=len(self.awarded),last_target=self.last_target,events=events,
                     ring_states=["scored" if i in self.awarded else "airborne/landed"
                                  if self.flight[i]>=task["flight_sec"] else "lifted"
                                  if self.lifted[i] else "ready" for i in range(self.num_rings)],
                     task_seed=self.instance["seed"],
-                    success_state=bool(self.awarded),terminal_success=bool(self.awarded))
-        info["termination_reason"] = "timeout" if done else None
+                    success_state=success,terminal_success=success)
+        info["termination_reason"] = "success" if success else "timeout" if done else None
         return float(delta),done,info

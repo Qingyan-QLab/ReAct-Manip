@@ -6,8 +6,8 @@ from .env import RingToss1
 class RingTossAdapter(LegacyTaskAdapter):
     def step(self, action):
         obs, reward, terminated, truncated, info = super().step(action)
-        # LegacyTaskAdapter synthesizes a 'score' event every positive-score
-        # tick. This task latches points until timeout; keep only actual awards.
+        # LegacyTaskAdapter synthesizes a 'score' event for positive reward.
+        # Keep only the task's target-specific award event.
         info['events'] = [event for event in info.get('events', []) if event != 'score']
         if info.get('termination_reason') == 'timeout':
             terminated, truncated = False, True
