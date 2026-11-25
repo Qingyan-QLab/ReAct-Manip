@@ -154,3 +154,11 @@ python scripts/pygame_demo.py --task phone_lean --seed 0
 ## 许可证
 
 本项目原创代码、记录、文档和原创资产采用 [PolyForm Noncommercial License 1.0.0](LICENSE)。这是限制商用的源码可见许可证，不是 OSI 认可的开源许可证。第三方依赖和资产遵循各自的许可证。
+
+## 微信交流群
+
+欢迎扫描下方二维码加入 ReAct-Manip 微信交流群。
+
+联系邮箱: [weikeming@qlab.team](mailto:weikeming@qlab.team)
+
+<img src="docs/imgs/wechat-group.png" alt="ReAct-Manip 微信交流群二维码" width="360" />

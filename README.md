@@ -154,3 +154,11 @@ The active robots are `piperx`, `dual_piperx`, and `mobile_dual_piperx`, built f
 ## License
 
 Project-authored code, records, documentation, and original assets use the [PolyForm Noncommercial License 1.0.0](LICENSE). This is a noncommercial, source-available license, not an OSI-approved open-source license. Third-party dependencies and assets retain their own licenses.
+
+## WeChat Community
+
+Scan the QR code below to join the ReAct-Manip WeChat group.
+
+Contact: [weikeming@qlab.team](mailto:weikeming@qlab.team)
+
+<img src="docs/imgs/wechat-group.png" alt="ReAct-Manip WeChat group QR code" width="360" />
